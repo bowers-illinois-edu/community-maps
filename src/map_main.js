@@ -19,6 +19,7 @@ var homePoint;
 $(document).ready(function() {
   map = new GMap2($("#map_canvas")[0]);
   map.setUIToDefault();
+  map.disableScrollWheelZoom();
   
   neighborhood = []; // collection of polygons that forms the neighborhood/community
   
