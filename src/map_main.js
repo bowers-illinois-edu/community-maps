@@ -106,19 +106,40 @@ $(document).ready(function() {
   }
 
   var setupTraining = function() {
+
+    var iconOptions = {};
+    iconOptions.primaryColor = "#ee7700";
+    iconOptions.strokeColor = "#000000";
+    iconOptions.labelColor = "#000000";
+    iconOptions.addStar = false;
+    iconOptions.starPrimaryColor = "#FFFF00";
+    iconOptions.starStrokeColor = "#0000FF";
+
+    iconOptions.label = "1";
+    var icon1 = MapIconMaker.createLabeledMarkerIcon(iconOptions);
+    
+    iconOptions.label = "2";
+    var icon2 = MapIconMaker.createLabeledMarkerIcon(iconOptions);
+    
+        iconOptions.label = "3";
+    var icon3 = MapIconMaker.createLabeledMarkerIcon(iconOptions);
+
+    iconOptions.label = "4";
+    var icon4 = MapIconMaker.createLabeledMarkerIcon(iconOptions);
+    
     map.clearOverlays();
     map.setCenter(new GLatLng(42.94, -122.10), 12);
     
     var mopts = {clickable: false};
 
     // 12 o'clock
-    map.addOverlay(new GMarker(new GLatLng(42.975, -122.10), mopts));
+    map.addOverlay(new GMarker(new GLatLng(42.975, -122.10), icon1, true));
     // 9 o'clock
-    map.addOverlay(new GMarker(new GLatLng(42.94, -122.165), mopts));
+    map.addOverlay(new GMarker(new GLatLng(42.94, -122.165), icon2, true));
     // 6 o'clock
-    map.addOverlay(new GMarker(new GLatLng(42.90, -122.10), mopts));
+    map.addOverlay(new GMarker(new GLatLng(42.90, -122.10), icon3, true));
     // 3 o'clock
-    map.addOverlay(new GMarker(new GLatLng(42.94, -122.055), mopts));
+    map.addOverlay(new GMarker(new GLatLng(42.94, -122.055), icon4, true));
   }
 
   setupTraining();
