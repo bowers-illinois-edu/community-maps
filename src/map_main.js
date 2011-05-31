@@ -18,7 +18,8 @@ var homePoint;
 
 $(document).ready(function() {
   map = new google.maps.Map($("#map_canvas")[0],
-    {mapTypeId: google.maps.MapTypeId.ROADMAP});
+    {mapTypeId: google.maps.MapTypeId.ROADMAP,
+     scrollwheel: false});
   //map.setUIToDefault();
   
   neighborhood = []; // collection of polygons that forms the neighborhood/community
