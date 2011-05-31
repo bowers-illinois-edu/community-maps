@@ -19,6 +19,7 @@ var homePoint;
 $(document).ready(function() {
   map = new GMap2($("#map_canvas")[0]);
   map.setUIToDefault();
+  map.disableScrollWheelZoom();
   
   neighborhood = []; // collection of polygons that forms the neighborhood/community
   
@@ -67,31 +68,7 @@ $(document).ready(function() {
 
  questions.hide();
   
-  // for the special block showing question, add a fake block group to the map.
-  // the id is place on the question _before_ the block group
-  // similarly, the block group question is responsible for hiding the group
-  var block;
-  $("#next-question-show-block-group a.next-link").click(function() {
-    var mapBounds = map.getBounds();
-    var ne = mapBounds.getNorthEast();
-    var sw = mapBounds.getSouthWest();
-    var width = Math.abs(ne.lng() - sw.lng());
-    var height = Math.abs(ne.lat() - sw.lat());
-    var a = new GLatLng(ne.lat() - .9 * height, ne.lng() - .9 * width);
-    var b = new GLatLng(ne.lat() - .9 * height, sw.lng() + .9 * width);
-    var c = new GLatLng(sw.lat() + .9 * height, ne.lng() - .9 * width);
-    var d = new GLatLng(sw.lat() + .9 * height, sw.lng() + .9 * width);
-
-    block = new GPolygon([a,b,d,c,a], "#0000FF", 5, .5, "#1010ff", .1);
-    for (o in neighborhood) { map.removeOverlay(neighborhood[o]); }
-    map.addOverlay(block);
-  });
-
-  $("#previous-question-hide-block-group a.prev-link").click(function() {
-    for (o in neighborhood) { map.addOverlay(neighborhood[o]); }    
-    map.removeOverlay(block);    
-  })
-
+ 
   // region drawing function
   var addRegion = function(save) {
     var region = new GPolygon([], "#FF0000", 10, 1, "#ff1010", 0.1);
@@ -106,19 +83,40 @@ $(document).ready(function() {
   }
 
   var setupTraining = function() {
+
+    var iconOptions = {};
+    iconOptions.primaryColor = "#ee7700";
+    iconOptions.strokeColor = "#000000";
+    iconOptions.labelColor = "#000000";
+    iconOptions.addStar = false;
+    iconOptions.starPrimaryColor = "#FFFF00";
+    iconOptions.starStrokeColor = "#0000FF";
+
+    iconOptions.label = "1";
+    var icon1 = MapIconMaker.createLabeledMarkerIcon(iconOptions);
+    
+    iconOptions.label = "2";
+    var icon2 = MapIconMaker.createLabeledMarkerIcon(iconOptions);
+    
+        iconOptions.label = "3";
+    var icon3 = MapIconMaker.createLabeledMarkerIcon(iconOptions);
+
+    iconOptions.label = "4";
+    var icon4 = MapIconMaker.createLabeledMarkerIcon(iconOptions);
+    
     map.clearOverlays();
     map.setCenter(new GLatLng(42.94, -122.10), 12);
     
     var mopts = {clickable: false};
 
     // 12 o'clock
-    map.addOverlay(new GMarker(new GLatLng(42.975, -122.10), mopts));
+    map.addOverlay(new GMarker(new GLatLng(42.975, -122.10), icon1, true));
     // 9 o'clock
-    map.addOverlay(new GMarker(new GLatLng(42.94, -122.165), mopts));
+    map.addOverlay(new GMarker(new GLatLng(42.94, -122.165), icon2, true));
     // 6 o'clock
-    map.addOverlay(new GMarker(new GLatLng(42.90, -122.10), mopts));
+    map.addOverlay(new GMarker(new GLatLng(42.90, -122.10), icon3, true));
     // 3 o'clock
-    map.addOverlay(new GMarker(new GLatLng(42.94, -122.055), mopts));
+    map.addOverlay(new GMarker(new GLatLng(42.94, -122.055), icon4, true));
   }
 
   setupTraining();

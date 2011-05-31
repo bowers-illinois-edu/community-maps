@@ -1,8 +1,0 @@
-- put training before address look up
-- bug with layers staying place after zooming
-- change text of "look up" for starting dialog to something else.
-- more directions (e.g. "You will see an "X" for your curosr...")
-- better explanation when the address is correct people should hit continue/done
-- "continue" instead of done
-- trackpad zooming. arg.
-
