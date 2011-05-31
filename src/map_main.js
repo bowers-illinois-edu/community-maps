@@ -17,8 +17,9 @@ var homeMarker; // name the home marker so we can grab it later
 var homePoint;
 
 $(document).ready(function() {
-  map = new GMap2($("#map_canvas")[0]);
-  map.setUIToDefault();
+  map = new google.maps.Map($("#map_canvas")[0],
+    {mapTypeId: google.maps.MapTypeId.ROADMAP});
+  //map.setUIToDefault();
   
   neighborhood = []; // collection of polygons that forms the neighborhood/community
   
@@ -106,19 +107,18 @@ $(document).ready(function() {
   }
 
   var setupTraining = function() {
-    map.clearOverlays();
-    map.setCenter(new GLatLng(42.94, -122.10), 12);
+    // map.clearOverlays();
+    map.setCenter(new google.maps.LatLng(42.94, -122.10));
+    map.setZoom(12);
     
-    var mopts = {clickable: false};
-
     // 12 o'clock
-    map.addOverlay(new GMarker(new GLatLng(42.975, -122.10), mopts));
+    new google.maps.Marker({map: map, position: new google.maps.LatLng(42.975, -122.10), clickable: false});
     // 9 o'clock
-    map.addOverlay(new GMarker(new GLatLng(42.94, -122.165), mopts));
+    new google.maps.Marker({map: map, position: new google.maps.LatLng(42.94, -122.165), clickable: false});
     // 6 o'clock
-    map.addOverlay(new GMarker(new GLatLng(42.90, -122.10), mopts));
+    new google.maps.Marker({map: map, position: new google.maps.LatLng(42.90, -122.10),  clickable: false});
     // 3 o'clock
-    map.addOverlay(new GMarker(new GLatLng(42.94, -122.055), mopts));
+    new google.maps.Marker({map: map, position: new google.maps.LatLng(42.94, -122.055), clickable: false});
   }
 
   setupTraining();
@@ -186,35 +186,33 @@ $(document).ready(function() {
 
   // TODO hide the check box to close the dialog (as it is not an option)
   // TODO hitting enter should submit the form like the lookup button
-  $("#geocoder-controls").dialog({
-    width: 500,
-    modal: true,
-    draggable: false,
-    resizeable: false,
-    title: "Enter your address",
-    buttons: {"Look up my address": function() {
-      var dialog = this;
-      var geocoder = new GClientGeocoder();
-      var address = $("#geocoder").val();
-      geocoder.getLatLng(
-        address,
-        function(point) {
-          if (!point) {
-            // TODO use diaglog for alerting the user it is not found
-            alert(address + " not found");
-          } else {
-            homePoint = point;
-            $(dialog).dialog("close");
-            
-          }    
-        });
-      }
-    }
-  });
+  // $("#geocoder-controls").dialog({
+  //   width: 500,
+  //   modal: true,
+  //   draggable: false,
+  //   resizeable: false,
+  //   title: "Enter your address",
+  //   buttons: {"Look up my address": function() {
+  //     var dialog = this;
+  //     var geocoder = new GClientGeocoder();
+  //     var address = $("#geocoder").val();
+  //     geocoder.getLatLng(
+  //       address,
+  //       function(point) {
+  //         if (!point) {
+  //           // TODO use diaglog for alerting the user it is not found
+  //           alert(address + " not found");
+  //         } else {
+  //           homePoint = point;
+  //           $(dialog).dialog("close");
+  //           
+  //         }    
+  //       });
+  //     }
+  //   }
+  // });
 });
 
-GEvent.addDomListener(window,"unload",function(){
-	GUnload();
-});
+
 
 
