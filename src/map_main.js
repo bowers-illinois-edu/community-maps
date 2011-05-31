@@ -68,31 +68,7 @@ $(document).ready(function() {
 
  questions.hide();
   
-  // for the special block showing question, add a fake block group to the map.
-  // the id is place on the question _before_ the block group
-  // similarly, the block group question is responsible for hiding the group
-  var block;
-  $("#next-question-show-block-group a.next-link").click(function() {
-    var mapBounds = map.getBounds();
-    var ne = mapBounds.getNorthEast();
-    var sw = mapBounds.getSouthWest();
-    var width = Math.abs(ne.lng() - sw.lng());
-    var height = Math.abs(ne.lat() - sw.lat());
-    var a = new GLatLng(ne.lat() - .9 * height, ne.lng() - .9 * width);
-    var b = new GLatLng(ne.lat() - .9 * height, sw.lng() + .9 * width);
-    var c = new GLatLng(sw.lat() + .9 * height, ne.lng() - .9 * width);
-    var d = new GLatLng(sw.lat() + .9 * height, sw.lng() + .9 * width);
-
-    block = new GPolygon([a,b,d,c,a], "#0000FF", 5, .5, "#1010ff", .1);
-    for (o in neighborhood) { map.removeOverlay(neighborhood[o]); }
-    map.addOverlay(block);
-  });
-
-  $("#previous-question-hide-block-group a.prev-link").click(function() {
-    for (o in neighborhood) { map.addOverlay(neighborhood[o]); }    
-    map.removeOverlay(block);    
-  })
-
+ 
   // region drawing function
   var addRegion = function(save) {
     var region = new GPolygon([], "#FF0000", 10, 1, "#ff1010", 0.1);
