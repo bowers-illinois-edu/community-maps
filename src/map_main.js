@@ -96,13 +96,18 @@ $(document).ready(function() {
 
   // region drawing function
   var addRegion = function(save) {
-    var region = new GPolygon([], "#FF0000", 10, 1, "#ff1010", 0.1);
+    var region = new google.maps.Polygon(
+        {map: map,
+         fillColor: "#ff1010",
+         fillOpacity: 0.1,
+         strokeColor: "#FF0000",
+         strokeWeight: 10
+        })
     
     if(save) {
       neighborhood.push(region);
     }
 
-    map.addOverlay(region);
     //region.setFillStyle({color: "#0000FF", opacity: .5});
     region.enableDrawing();
   }
