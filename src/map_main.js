@@ -144,7 +144,16 @@ $(document).ready(function() {
     $("#move-marker").fadeOut("slow", function() { $("#draw-community").fadeIn("slow"); });     
   });
 
-  // the user can also try to update the map location with a new addr
+  // continuing from this screen is not an option until a valid point has been found
+  $("#done-moving").hide();
+  // make the "Find my location" button the result of hitting enter
+  $("#geocoder-update").keypress(function(e) {
+    if(e.which == 13) {
+      //$(this).blur();
+      $('#address-update').click();
+    }
+  });
+ 
   $("#address-update").click(function() {
       // TODO lock the screen
       var geocoder = new GClientGeocoder();
@@ -160,6 +169,7 @@ $(document).ready(function() {
             if (homeMarker) {
               map.removeOverlay(homeMarker);              
             }
+            $("#done-moving").show();
             centerOnHome();
           }    
      });
