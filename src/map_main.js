@@ -132,7 +132,7 @@ $(document).ready(function() {
 
   $("#done-training").click(function() {
     $("#training").fadeOut("slow", function() { 
-      centerOnHome();
+      //centerOnHome();
       $("#move-marker").fadeIn("slow"); });     
   });
 
@@ -144,7 +144,16 @@ $(document).ready(function() {
     $("#move-marker").fadeOut("slow", function() { $("#draw-community").fadeIn("slow"); });     
   });
 
-  // the user can also try to update the map location with a new addr
+  // continuing from this screen is not an option until a valid point has been found
+  $("#done-moving").hide();
+  // make the "Find my location" button the result of hitting enter
+  $("#geocoder-update").keypress(function(e) {
+    if(e.which == 13) {
+      //$(this).blur();
+      $('#address-update').click();
+    }
+  });
+ 
   $("#address-update").click(function() {
       // TODO lock the screen
       var geocoder = new GClientGeocoder();
@@ -154,10 +163,13 @@ $(document).ready(function() {
         function(point) {
           if (!point) {
             // TODO use diaglog for alerting the user it is not found
-            alert(address + " not found");
+            alert("No location matching '" + address + "' found");
           } else {
             homePoint = point;
-            map.removeOverlay(homeMarker);
+            if (homeMarker) {
+              map.removeOverlay(homeMarker);              
+            }
+            $("#done-moving").show();
             centerOnHome();
           }    
      });
@@ -182,33 +194,6 @@ $(document).ready(function() {
     $("#draw-community").fadeOut("slow", function() { questions.first().fadeIn("slow"); });     
   })
 
-  // TODO hide the check box to close the dialog (as it is not an option)
-  // TODO hitting enter should submit the form like the lookup button
-  $("#geocoder-controls").dialog({
-    width: 500,
-    modal: true,
-    draggable: false,
-    resizeable: false,
-    title: "Enter your address",
-    buttons: {"Look up my address": function() {
-      var dialog = this;
-      var geocoder = new GClientGeocoder();
-      var address = $("#geocoder").val();
-      geocoder.getLatLng(
-        address,
-        function(point) {
-          if (!point) {
-            // TODO use diaglog for alerting the user it is not found
-            alert(address + " not found");
-          } else {
-            homePoint = point;
-            $(dialog).dialog("close");
-            
-          }    
-        });
-      }
-    }
-  });
 });
 
 GEvent.addDomListener(window,"unload",function(){

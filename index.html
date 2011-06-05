@@ -44,7 +44,7 @@
             "Start drawing" button to begin drawing again.
             You may also wish to trace the lake more closely by
             adding additional points to your shape. Feel free to practice
-            several times. When you are done practicing click the "Done" button.
+            several times. When you are done practicing click the "Continue" button.
             </p>
           </div>
           <div class = "yui-u">
@@ -57,26 +57,25 @@
             </button>
 
             <button id="done-training" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
-              <span class="ui-button-text">Done</span>
+              <span class="ui-button-text">Continue</span>
             </button>
           </div>
         </div>
 
         <div class = "yui-g" id = "move-marker" style = "display: none;">
           <div class = "yui-u first">
-            <p>This marker indicates where we think you live. If we are incorrect, you may drag the marker until it sits over your home.</p>
-            <p>If this marker is far from your home, try entering your address again.
+            <p>We now need to know your home address. Please enter it in the box to the right and click "Find my location". If the marker is incorrect, you may drag the marker until it sits over your home.</p>
+            <p>If this marker is far from your home, try entering your address again and clicking "Find my location." When you have found your home on the map, click "Continue." 
             </p>
             
           </div>
           <div class = "yui-u">
-                        <input type = "text" id = "geocoder-update"/>
+            <input type = "text" id = "geocoder-update"/> <br/>
             <button id = "address-update" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
-              <span class="ui-button-text">Try Again</span>
+              <span class="ui-button-text">Find my location</span>
             </button>
-            <br />
             <button id="done-moving" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
-              <span class="ui-button-text">Done</span>
+              <span class="ui-button-text">Continue</span>
             </button>
           </div>
         </div>
@@ -84,7 +83,7 @@
         <div class = "yui-g" id = "draw-community" style = "display: none;">
           <div class = "yui-u first">
             <p>
-             Now it is time to draw your community. You may zoom in or out by using the bar at the far left. You can drag the map around. Once you can see your community, click the "Add Community" button to start drawing on the map. Either connect your shape or double click to finalize your community drawing. You may add as many shapes as you wish to describe your community by clicking "Add Community." When you are done drawing your community, click the "Done" button.
+             Now it is time to draw your community. You may zoom in or out by using the bar at the far left. You can drag the map around. Once you can see your community, click the "Add Community" button to start drawing on the map. Either connect your shape or double click to finalize your community drawing. You may add as many shapes as you wish to describe your community by clicking "Add Community." When you are done drawing your community, click the "Continue" button.
             </p>
           </div>
           <div class = "yui-u">
@@ -98,7 +97,7 @@
 
 
             <button id="done-drawing" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
-              <span class="ui-button-text">Done</span>
+              <span class="ui-button-text">Continue</span>
             </button>
           </div>
         </div>
@@ -276,11 +275,6 @@
 
        
       </div>
-      <div id = "geocoder-controls">
-        <p>This is a demo of an online survey mapping tool under development by Cara Wong, Jake Bowers, and Mark Fredrickson.
-        Enter your address (street, city and zip) to try out the demo. Your address and the answers to your questions <em>will not</em> be stored anywhere.
-        </p>
-        <input type = "text" id = "geocoder"/></div>
       <div id="ft" role="contentinfo"><p>&copy; 2010 Jake Bowers, Cara Wong, and Mark Fredrickson. For inquiries, contact mark dot m dot fredrickson /@/ gmail dot com</p></div>
     </div>
   </body>

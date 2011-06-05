@@ -59,3 +59,5 @@ em {
 	.fg-toolbar .fg-buttonset { margin-right:1.5em; padding-left: 1px; }
 	.fg-toolbar .fg-button { font-size: 1em;  }
 
+
+#geocoder-update { width: 100%; margin-bottom: 1em;}
