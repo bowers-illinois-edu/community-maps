@@ -184,33 +184,6 @@ $(document).ready(function() {
     $("#draw-community").fadeOut("slow", function() { questions.first().fadeIn("slow"); });     
   })
 
-  // TODO hide the check box to close the dialog (as it is not an option)
-  // TODO hitting enter should submit the form like the lookup button
-  // $("#geocoder-controls").dialog({
-  //   width: 500,
-  //   modal: true,
-  //   draggable: false,
-  //   resizeable: false,
-  //   title: "Enter your address",
-  //   buttons: {"Look up my address": function() {
-  //     var dialog = this;
-  //     var geocoder = new GClientGeocoder();
-  //     var address = $("#geocoder").val();
-  //     geocoder.getLatLng(
-  //       address,
-  //       function(point) {
-  //         if (!point) {
-  //           // TODO use diaglog for alerting the user it is not found
-  //           alert(address + " not found");
-  //         } else {
-  //           homePoint = point;
-  //           $(dialog).dialog("close");
-  //           
-  //         }    
-  //       });
-  //     }
-  //   }
-  // });
 });
 
 GEvent.addDomListener(window,"unload",function(){
