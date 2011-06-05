@@ -132,7 +132,7 @@ $(document).ready(function() {
 
   $("#done-training").click(function() {
     $("#training").fadeOut("slow", function() { 
-      centerOnHome();
+      //centerOnHome();
       $("#move-marker").fadeIn("slow"); });     
   });
 
@@ -154,10 +154,12 @@ $(document).ready(function() {
         function(point) {
           if (!point) {
             // TODO use diaglog for alerting the user it is not found
-            alert(address + " not found");
+            alert("No location matching '" + address + "' found");
           } else {
             homePoint = point;
-            map.removeOverlay(homeMarker);
+            if (homeMarker) {
+              map.removeOverlay(homeMarker);              
+            }
             centerOnHome();
           }    
      });
@@ -184,31 +186,31 @@ $(document).ready(function() {
 
   // TODO hide the check box to close the dialog (as it is not an option)
   // TODO hitting enter should submit the form like the lookup button
-  $("#geocoder-controls").dialog({
-    width: 500,
-    modal: true,
-    draggable: false,
-    resizeable: false,
-    title: "Enter your address",
-    buttons: {"Look up my address": function() {
-      var dialog = this;
-      var geocoder = new GClientGeocoder();
-      var address = $("#geocoder").val();
-      geocoder.getLatLng(
-        address,
-        function(point) {
-          if (!point) {
-            // TODO use diaglog for alerting the user it is not found
-            alert(address + " not found");
-          } else {
-            homePoint = point;
-            $(dialog).dialog("close");
-            
-          }    
-        });
-      }
-    }
-  });
+  // $("#geocoder-controls").dialog({
+  //   width: 500,
+  //   modal: true,
+  //   draggable: false,
+  //   resizeable: false,
+  //   title: "Enter your address",
+  //   buttons: {"Look up my address": function() {
+  //     var dialog = this;
+  //     var geocoder = new GClientGeocoder();
+  //     var address = $("#geocoder").val();
+  //     geocoder.getLatLng(
+  //       address,
+  //       function(point) {
+  //         if (!point) {
+  //           // TODO use diaglog for alerting the user it is not found
+  //           alert(address + " not found");
+  //         } else {
+  //           homePoint = point;
+  //           $(dialog).dialog("close");
+  //           
+  //         }    
+  //       });
+  //     }
+  //   }
+  // });
 });
 
 GEvent.addDomListener(window,"unload",function(){
