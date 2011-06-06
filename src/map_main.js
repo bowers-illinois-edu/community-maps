@@ -86,11 +86,31 @@ $(document).ready(function() {
   }
 
   var link = $("<a class='fg-button ui-state-default fg-button-icon-right ui-corner-all next-link' href='#'><span class='ui-icon'/>Done</a>").click(function() {
-        $("#last-question").hide();
-        $("#show-data").show();
-        var data = $("#thedata").serializeObject();
-        data.communities = neighborhood;
-        $("#show-data").append(prettyPrint(data));});
+    $("#last-question").hide();
+    $("#show-data").show();
+    var data = $("#thedata").serializeObject();
+
+    // this is a little thorny. The GOverlay -> KML function is _asyncronous_.
+    // Therefore, for each neighbor/community the user has specified, we have 
+    // save the KML via a call back that also checks if all the data has arrived.
+    // When all the data is available, it should output the data to screen. 
+    // I will assume that no race conditions can happen on the kmlCompleted or 
+    // kmlCount variables.
+    var kmlCount = 0;
+    var kmlCompleted = [];
+
+    $.map(neighborhood, function(n) {
+      n.getKml(function(kml) {
+        kmlCount++;
+        kmlCompleted.push(kml);
+        if (kmlCount == neighborhood.length) {
+          data.communities = kmlCompleted;
+          $("#show-data").append(prettyPrint(data));
+        }
+      });
+    });
+
+  });
   
   $("#last-question").children().first().append(link);
 
