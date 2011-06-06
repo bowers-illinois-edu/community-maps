@@ -28,6 +28,7 @@
         <div class="yui-g" id = "map_canvas" style = "height:380px;">
           <!-- YOUR DATA GOES HERE -->
         </div>
+        <form id = "thedata">
         <div class = "yui-g" id = "training">
           <div class = "yui-u first">
             <p>Later you will be asked to draw your
@@ -48,17 +49,17 @@
             </p>
           </div>
           <div class = "yui-u">
-            <button id="try-training" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
+            <div id="try-training" class="fake-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
               <span class="ui-button-text">Start drawing</span>
-            </button>
+            </div>
 
-            <button id="restart-training" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
+            <div id="restart-training" class="fake-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
               <span class="ui-button-text">Try Again</span>
-            </button>
+            </div>
 
-            <button id="done-training" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
+            <div id="done-training" class="fake-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
               <span class="ui-button-text">Continue</span>
-            </button>
+            </div>
           </div>
         </div>
 
@@ -71,12 +72,12 @@
           </div>
           <div class = "yui-u">
             <input type = "text" id = "geocoder-update"/> <br/>
-            <button id = "address-update" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
+            <div id = "address-update" class="fake-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
               <span class="ui-button-text">Find my location</span>
-            </button>
-            <button id="done-moving" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
+            </div>
+            <div id="done-moving" class="fake-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
               <span class="ui-button-text">Continue</span>
-            </button>
+            </div>
           </div>
         </div>
         
@@ -87,18 +88,18 @@
             </p>
           </div>
           <div class = "yui-u">
-            <button id="add-community" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
+            <div id="add-community" class="fake-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
               <span class="ui-button-text">Add community</span>
-            </button>
+            </div>
 
-            <button id="restart-community" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
+            <div id="restart-community" class="fake-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
               <span class="ui-button-text">Start over</span>
-            </button>
+            </div>
 
 
-            <button id="done-drawing" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
+            <div id="done-drawing" class="fake-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
               <span class="ui-button-text">Continue</span>
-            </button>
+            </div>
           </div>
         </div>
 
@@ -272,8 +273,12 @@
               </div>
             </div>
           </div>
-
-       
+        </form>
+          <div class="yui-g" id = "show-data">
+            data goes here 
+          </div>
+        
+        
       </div>
       <div id="ft" role="contentinfo"><p>&copy; 2010 Jake Bowers, Cara Wong, and Mark Fredrickson. For inquiries, contact mark dot m dot fredrickson /@/ gmail dot com</p></div>
     </div>

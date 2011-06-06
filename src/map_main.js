@@ -46,6 +46,16 @@ $(document).ready(function() {
       });
 
       current.children().first().append(link);
+    }
+    
+    if (i == questions.length) {
+            var link = $("<a class='fg-button ui-state-default fg-button-icon-right ui-corner-all next-link' href='#'><span class='ui-icon'/>Done</a>").click(function() {
+        current.fadeOut("slow", function(){
+          $("#show-data").fadeIn("slow");
+        });
+      });
+
+      current.children().first().append(link);
     }})(j); // work around for JS scoping issue with for loops
   }
 
