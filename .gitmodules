@@ -1,0 +1,3 @@
+[submodule "submodules/prettyPrint.js"]
+	path = submodules/prettyPrint.js
+	url = https://github.com/jamespadolsey/prettyPrint.js.git
