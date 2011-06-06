@@ -1,3 +1,35 @@
+// function to serialize form data to JS object
+// http://stackoverflow.com/questions/1184624/serialize-form-to-json-with-jquery
+
+jQuery.fn.serializeObject = function() {
+  var arrayData, objectData;
+  arrayData = this.serializeArray();
+  objectData = {};
+
+  $.each(arrayData, function() {
+    var value;
+
+    if (this.value != null) {
+      value = this.value;
+    } else {
+      value = '';
+    }
+
+    if (objectData[this.name] != null) {
+      if (!objectData[this.name].push) {
+        objectData[this.name] = [objectData[this.name]];
+      }
+
+      objectData[this.name].push(value);
+    } else {
+      objectData[this.name] = value;
+    }
+  });
+
+  return objectData;
+};
+
+
 /*!
  * Onine map survey demo
  * http://research.markmfredrickson.com
@@ -9,6 +41,8 @@
  * http://jquery.org/license
  *
  */
+
+
 
 var polygonControl;
 var map;
@@ -48,16 +82,17 @@ $(document).ready(function() {
       current.children().first().append(link);
     }
     
-    if (i == questions.length) {
-            var link = $("<a class='fg-button ui-state-default fg-button-icon-right ui-corner-all next-link' href='#'><span class='ui-icon'/>Done</a>").click(function() {
-        current.fadeOut("slow", function(){
-          $("#show-data").fadeIn("slow");
-        });
-      });
-
-      current.children().first().append(link);
-    }})(j); // work around for JS scoping issue with for loops
+    })(j); // work around for JS scoping issue with for loops
   }
+
+  var link = $("<a class='fg-button ui-state-default fg-button-icon-right ui-corner-all next-link' href='#'><span class='ui-icon'/>Done</a>").click(function() {
+        $("#last-question").hide();
+        $("#show-data").show();
+        var data = $("#thedata").serializeObject();
+        data.communities = neighborhood;
+        $("#show-data").append(prettyPrint(data));});
+  
+  $("#last-question").children().first().append(link);
 
   // add fancy sliders questions
   $(".slider-container").each(function() {
