@@ -28,7 +28,7 @@
         <div class="yui-g" id = "map_canvas" style = "height:380px;">
           <!-- YOUR DATA GOES HERE -->
         </div>
-        <form id = "thedata">
+        <form id = "thedata" action = "/" method = "POST">
         <div class = "yui-g" id = "training">
           <div class = "yui-u first">
             <p>Later you will be asked to draw your
@@ -113,7 +113,7 @@
             <div class="yui-u">
               <div class = "form-item slider-container">
                 <label for="percent-black">I think it is about:</label>
-                <input type="text" id="percent-black" style="border:0; color:#f6931f; font-weight:bold;" />
+                <input type="text" name="percent-black" style="border:0; color:#f6931f; font-weight:bold;" />
                 <div class="slider"></div>
               </div>
             </div>
@@ -128,7 +128,7 @@
             <div class="yui-u">
               <div class = "form-item slider-container">
                 <label for="percent-white">I think it is about:</label>
-                <input type="text" id="percent-white" style="border:0; color:#f6931f; font-weight:bold;" />
+                <input type="text" name = "percent-white" style="border:0; color:#f6931f; font-weight:bold;" />
                 <div class="slider"></div>
               </div>
             </div>
@@ -143,7 +143,7 @@
             <div class="yui-u">
               <div class = "form-item slider-container">
                 <label for="percent-democrat">I think it is about:</label>
-                <input type="text" id="percent-democrat" style="border:0; color:#f6931f; font-weight:bold;" />
+                <input type="text" name ="percent-democrat" style="border:0; color:#f6931f; font-weight:bold;" />
                 <div class="slider"></div>
               </div>
             </div>
@@ -158,7 +158,7 @@
             <div class="yui-u">
               <div class = "form-item slider-container">
                 <label for="percent-unemployed">I think it is about:</label>
-                <input type="text" id="percent-unemployed" style="border:0; color:#f6931f; font-weight:bold;" />
+                <input type="text" name ="percent-unemployed" style="border:0; color:#f6931f; font-weight:bold;" />
                 <div class="slider"></div>
               </div>
             </div>
