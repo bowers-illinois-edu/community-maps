@@ -211,7 +211,11 @@ $(document).ready(function() {
      homeMarker.disableDragging(false);
      map.setCenter(homeMarker.getPoint(), Math.floor(Math.random() * 5) + 10);
      $("#geocode-time-end").val((new Date().getTime()));
-    $("#geocode").fadeOut("slow", function() { $("#draw-community").fadeIn("slow"); });     
+    $("#geocode").fadeOut("slow", function() { 
+      $("#draw-community").fadeIn("slow", function() {
+        $("#draw-community-time-start").val((new Date()).getTime());
+      }); 
+    });     
   });
 
   // continuing from this screen is not an option until a valid point has been found
@@ -260,6 +264,7 @@ $(document).ready(function() {
   });
 
   $("#done-drawing").click(function(){
+    $("#draw-community-time-end").val((new Date().getTime()));
     homeMarker.disableDragging();
     $("#draw-community").fadeOut("slow", function() { questions.first().fadeIn("slow"); });     
   });
