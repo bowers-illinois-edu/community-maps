@@ -89,6 +89,9 @@ $(document).ready(function() {
     $("#last-question").hide();
     $("#show-data").show();
     var data = $("#thedata").serializeObject();
+    var addressLatLng = homeMarker.getLatLng();
+    data.addressLat = addressLatLng.lat();
+    data.addressLng = addressLatLng.lng();
 
     // this is a little thorny. The GOverlay -> KML function is _asyncronous_.
     // Therefore, for each neighbor/community the user has specified, we have 
@@ -135,7 +138,7 @@ $(document).ready(function() {
   
  
   // region drawing function
-  var addRegion = function(save) {
+  var addRegion = function(save, callback) {
     var region = new GPolygon([], "#FF0000", 10, 1, "#ff1010", 0.1);
     
     if(save) {
@@ -145,6 +148,10 @@ $(document).ready(function() {
     map.addOverlay(region);
     //region.setFillStyle({color: "#0000FF", opacity: .5});
     region.enableDrawing();
+
+    if (callback) {
+      GEvent.addListener(region, "endline", callback);
+    }
   }
 
   var setupTraining = function() {
@@ -186,7 +193,7 @@ $(document).ready(function() {
 
   setupTraining();
 
-  $("#try-training").click(function() { addRegion(false); });
+  $("#try-training").click(function() { addRegion(false, null); });
   $("#restart-training").click(setupTraining);
 
   var centerOnHome = function() {
@@ -195,10 +202,14 @@ $(document).ready(function() {
     map.addOverlay(homeMarker);
   };
 
+  $("#training-time-start").val((new Date().getTime()));
   $("#done-training").click(function() {
+    $("#training-time-end").val((new Date().getTime()));
     $("#training").fadeOut("slow", function() { 
-      //centerOnHome();
-      $("#move-marker").fadeIn("slow"); });     
+      $("#geocode").fadeIn("slow", function() {
+        $("#geocode-time-start").val((new Date().getTime()));
+      }); 
+    });     
   });
 
   // setting up the home marker
@@ -206,13 +217,18 @@ $(document).ready(function() {
   $("#done-moving").click(function() {
      homeMarker.disableDragging(false);
      map.setCenter(homeMarker.getPoint(), Math.floor(Math.random() * 5) + 10);
-    $("#move-marker").fadeOut("slow", function() { $("#draw-community").fadeIn("slow"); });     
+     $("#geocode-time-end").val((new Date().getTime()));
+    $("#geocode").fadeOut("slow", function() { 
+      $("#draw-community").fadeIn("slow", function() {
+        $("#draw-community-time-start").val((new Date()).getTime());
+      }); 
+    });     
   });
 
   // continuing from this screen is not an option until a valid point has been found
   $("#done-moving").hide();
   // make the "Find my location" button the result of hitting enter
-  $("#geocoder-update").keypress(function(e) {
+  $("#address").keypress(function(e) {
     if(e.which == 13) {
       //$(this).blur();
       $('#address-update').click();
@@ -222,7 +238,7 @@ $(document).ready(function() {
   $("#address-update").click(function() {
       // TODO lock the screen
       var geocoder = new GClientGeocoder();
-      var address = $("#geocoder-update").val();
+      var address = $("#address").val();
       geocoder.getLatLng(
         address,
         function(point) {
@@ -240,12 +256,16 @@ $(document).ready(function() {
      });
   });
 
+  $("#done-drawing").hide();
 
   $("#add-community").click(function(){
-    addRegion(true);   
+    addRegion(true, function() {
+      $("#done-drawing").show();      
+    });
   })
 
   $("#restart-community").click(function(){
+    $("#done-drawing").hide();
     for (i in neighborhood ) {
       map.removeOverlay(neighborhood[i]);
       neighborhood = [];
@@ -255,9 +275,13 @@ $(document).ready(function() {
   });
 
   $("#done-drawing").click(function(){
+    $("#draw-community-time-end").val((new Date().getTime()));
     homeMarker.disableDragging();
     $("#draw-community").fadeOut("slow", function() { questions.first().fadeIn("slow"); });     
-  })
+  });
+
+  // make clickable things have a hover state
+  $(".fg-button").hover(function() { $(this).toggleClass("ui-state-hover"); });
 
 });
 
