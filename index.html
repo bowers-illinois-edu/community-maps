@@ -31,6 +31,8 @@
         </div>
         <form id = "thedata" action = "/" method = "POST">
         <div class = "yui-g" id = "training">
+          <input type = "hidden" id = "training-time-start" name = "training-time-start" />
+          <input type = "hidden" id = "training-time-end" name= "training-time-end" />
           <div class = "yui-u first">
             <p>Later you will be asked to draw your
             community, but before that happens you will have an opportunity
@@ -65,6 +67,8 @@
         </div>
 
         <div class = "yui-g" id = "geocode" style = "display: none;">
+          <input type = "hidden" id = "geocode-time-start" name = "geocode-time-start"/>
+          <input type = "hidden" id = "geocode-time-end" name = "geocode-time-end"/>
           <div class = "yui-u first">
             <p>We now need to know your home address. Please enter it in the box to the right and click "Find my location". If the marker is incorrect, you may drag the marker until it sits over your home.</p>
             <p>If this marker is far from your home, try entering your address again and clicking "Find my location." When you have found your home on the map, click "Continue." 

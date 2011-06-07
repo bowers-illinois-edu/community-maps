@@ -198,7 +198,10 @@ $(document).ready(function() {
   $("#done-training").click(function() {
     $("#training").fadeOut("slow", function() { 
       //centerOnHome();
-      $("#geocode").fadeIn("slow"); });     
+      $("#geocode").fadeIn("slow", function() {
+        $("#geocode-time-start").val((new Date().getTime()));
+      }); 
+    });     
   });
 
   // setting up the home marker
@@ -206,6 +209,7 @@ $(document).ready(function() {
   $("#done-moving").click(function() {
      homeMarker.disableDragging(false);
      map.setCenter(homeMarker.getPoint(), Math.floor(Math.random() * 5) + 10);
+     $("#geocode-time-end").val((new Date().getTime()));
     $("#geocode").fadeOut("slow", function() { $("#draw-community").fadeIn("slow"); });     
   });
 
