@@ -89,6 +89,9 @@ $(document).ready(function() {
     $("#last-question").hide();
     $("#show-data").show();
     var data = $("#thedata").serializeObject();
+    var addressLatLng = homeMarker.getLatLng();
+    data.addressLat = addressLatLng.lat();
+    data.addressLng = addressLatLng.lng();
 
     // this is a little thorny. The GOverlay -> KML function is _asyncronous_.
     // Therefore, for each neighbor/community the user has specified, we have 
