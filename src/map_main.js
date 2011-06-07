@@ -195,9 +195,10 @@ $(document).ready(function() {
     map.addOverlay(homeMarker);
   };
 
+  $("#training-time-start").val((new Date().getTime()));
   $("#done-training").click(function() {
+    $("#training-time-end").val((new Date().getTime()));
     $("#training").fadeOut("slow", function() { 
-      //centerOnHome();
       $("#geocode").fadeIn("slow", function() {
         $("#geocode-time-start").val((new Date().getTime()));
       }); 
