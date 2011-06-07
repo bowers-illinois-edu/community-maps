@@ -280,6 +280,9 @@ $(document).ready(function() {
     $("#draw-community").fadeOut("slow", function() { questions.first().fadeIn("slow"); });     
   });
 
+  // make clickable things have a hover state
+  $(".fg-button").hover(function() { $(this).toggleClass("ui-state-hover"); });
+
 });
 
 GEvent.addDomListener(window,"unload",function(){
