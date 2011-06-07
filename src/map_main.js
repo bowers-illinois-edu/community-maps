@@ -138,7 +138,7 @@ $(document).ready(function() {
   
  
   // region drawing function
-  var addRegion = function(save) {
+  var addRegion = function(save, callback) {
     var region = new GPolygon([], "#FF0000", 10, 1, "#ff1010", 0.1);
     
     if(save) {
@@ -148,6 +148,10 @@ $(document).ready(function() {
     map.addOverlay(region);
     //region.setFillStyle({color: "#0000FF", opacity: .5});
     region.enableDrawing();
+
+    if (callback) {
+      GEvent.addListener(region, "endline", callback);
+    }
   }
 
   var setupTraining = function() {
@@ -189,7 +193,7 @@ $(document).ready(function() {
 
   setupTraining();
 
-  $("#try-training").click(function() { addRegion(false); });
+  $("#try-training").click(function() { addRegion(false, null); });
   $("#restart-training").click(setupTraining);
 
   var centerOnHome = function() {
@@ -252,12 +256,16 @@ $(document).ready(function() {
      });
   });
 
+  $("#done-drawing").hide();
 
   $("#add-community").click(function(){
-    addRegion(true);   
+    addRegion(true, function() {
+      $("#done-drawing").show();      
+    });
   })
 
   $("#restart-community").click(function(){
+    $("#done-drawing").hide();
     for (i in neighborhood ) {
       map.removeOverlay(neighborhood[i]);
       neighborhood = [];
