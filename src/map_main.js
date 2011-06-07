@@ -257,7 +257,7 @@ $(document).ready(function() {
   $("#done-drawing").click(function(){
     homeMarker.disableDragging();
     $("#draw-community").fadeOut("slow", function() { questions.first().fadeIn("slow"); });     
-  })
+  });
 
 });
 
