@@ -198,7 +198,7 @@ $(document).ready(function() {
   $("#done-training").click(function() {
     $("#training").fadeOut("slow", function() { 
       //centerOnHome();
-      $("#move-marker").fadeIn("slow"); });     
+      $("#geocode").fadeIn("slow"); });     
   });
 
   // setting up the home marker
@@ -206,13 +206,13 @@ $(document).ready(function() {
   $("#done-moving").click(function() {
      homeMarker.disableDragging(false);
      map.setCenter(homeMarker.getPoint(), Math.floor(Math.random() * 5) + 10);
-    $("#move-marker").fadeOut("slow", function() { $("#draw-community").fadeIn("slow"); });     
+    $("#geocode").fadeOut("slow", function() { $("#draw-community").fadeIn("slow"); });     
   });
 
   // continuing from this screen is not an option until a valid point has been found
   $("#done-moving").hide();
   // make the "Find my location" button the result of hitting enter
-  $("#geocoder-update").keypress(function(e) {
+  $("#address").keypress(function(e) {
     if(e.which == 13) {
       //$(this).blur();
       $('#address-update').click();
@@ -222,7 +222,7 @@ $(document).ready(function() {
   $("#address-update").click(function() {
       // TODO lock the screen
       var geocoder = new GClientGeocoder();
-      var address = $("#geocoder-update").val();
+      var address = $("#address").val();
       geocoder.getLatLng(
         address,
         function(point) {
