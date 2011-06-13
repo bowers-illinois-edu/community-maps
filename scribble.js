@@ -6,6 +6,8 @@ $(document).ready(function() {
     zoom: 8,
     center: myLatlng,
     mapTypeId: google.maps.MapTypeId.ROADMAP,
+    disableDoubleClickZoom: true,
+    scrollwheel: false
   };
 
   map = new google.maps.Map(document.getElementById("map_canvas"), myOptions); 
