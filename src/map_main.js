@@ -53,37 +53,37 @@ var homePoint;
 $(document).ready(function() {
   map = new google.maps.Map($("#map_canvas")[0],
     {mapTypeId: google.maps.MapTypeId.ROADMAP,
-     scrollwheel: false,
-     zoom: 12});
+      scrollwheel: false,
+      zoom: 12});
   //map.setUIToDefault();
-  
+
   neighborhood = []; // collection of polygons that forms the neighborhood/community
-  
+
   var questions = $("#survey-questions").children();
-  
+
   for(j = 0; j < questions.length; j++) {
     (function(i) {
-    var current = $(questions[i]);
-    if (i > 0) {
-      // add previous link
-      var link = $("<a class='fg-button ui-state-default fg-button-icon-left ui-corner-all prev-link' href='#'><span class='ui-icon ui-icon-circle-arrow-w'/>Previous</a>").click(function() {
-        current.fadeOut("slow", function(){
-          $(questions[i - 1]).fadeIn("slow"); 
+      var current = $(questions[i]);
+      if (i > 0) {
+        // add previous link
+        var link = $("<a class='fg-button ui-state-default fg-button-icon-left ui-corner-all prev-link' href='#'><span class='ui-icon ui-icon-circle-arrow-w'/>Previous</a>").click(function() {
+          current.fadeOut("slow", function(){
+            $(questions[i - 1]).fadeIn("slow"); 
+          });
         });
-      });
-      current.children().first().append(link);
-    } 
+        current.children().first().append(link);
+      } 
 
-    if (i < questions.length - 1) {
-      var link = $("<a class='fg-button ui-state-default fg-button-icon-right ui-corner-all next-link' href='#'><span class='ui-icon ui-icon-circle-arrow-e'/>Next</a>").click(function() {
-        current.fadeOut("slow", function(){
-          $(questions[i + 1]).fadeIn("slow");
+      if (i < questions.length - 1) {
+        var link = $("<a class='fg-button ui-state-default fg-button-icon-right ui-corner-all next-link' href='#'><span class='ui-icon ui-icon-circle-arrow-e'/>Next</a>").click(function() {
+          current.fadeOut("slow", function(){
+            $(questions[i + 1]).fadeIn("slow");
+          });
         });
-      });
 
-      current.children().first().append(link);
-    }
-    
+        current.children().first().append(link);
+      }
+
     })(j); // work around for JS scoping issue with for loops
   }
 
@@ -116,7 +116,7 @@ $(document).ready(function() {
     });
 
   });
-  
+
   $("#last-question").children().first().append(link);
 
   // add fancy sliders questions
@@ -136,8 +136,8 @@ $(document).ready(function() {
     txt.val(start + '%');
   });  
 
- questions.hide();
-  
+  questions.hide();
+
   var trainingLocation = new google.maps.LatLng(42.94, -122.10);
   var setupTraining = function() {
     // map.clearOverlays();
@@ -163,16 +163,10 @@ $(document).ready(function() {
     });
   });
 
-  var centerOnHome = function() {
-    map.setCenter(homePoint, 16);
-    homeMarker = new GMarker(homePoint, {draggable: true});
-    map.addOverlay(homeMarker);
-  };
-
   $("#training-time-start").val((new Date().getTime()));
   $("#done-training").click(function() {
     $("#training-time-end").val((new Date().getTime()));
-    
+
     // clear out the training regions
     $.each(trainingRegions, function(i, r) {
       r.setMap(null);
@@ -186,11 +180,21 @@ $(document).ready(function() {
   });
 
   // setting up the home marker
+  var centerOnHome = function() {
+    map.setOptions({center: homePoint, zoom: 16});
+    homeMarker = new google.maps.Marker({
+      map: map,
+      position: homePoint,
+      draggable: true
+    });
+  };
+
   // when the user is done, clikcing the button fixes the marker in place
   $("#done-moving").click(function() {
-     homeMarker.disableDragging(false);
-     map.setCenter(homeMarker.getPoint(), Math.floor(Math.random() * 5) + 10);
-     $("#geocode-time-end").val((new Date().getTime()));
+    homeMarker.setOptions({draggable: false});
+    map.setOptions({center: homeMarker.getPosition(), zoom: Math.floor(Math.random() * 5) + 10});
+
+    $("#geocode-time-end").val((new Date().getTime()));
     $("#geocode").fadeOut("slow", function() { 
       $("#draw-community").fadeIn("slow", function() {
         $("#draw-community-time-start").val((new Date()).getTime());
@@ -207,26 +211,26 @@ $(document).ready(function() {
       $('#address-update').click();
     }
   });
- 
+
   $("#address-update").click(function() {
-      // TODO lock the screen
-      var geocoder = new GClientGeocoder();
-      var address = $("#address").val();
-      geocoder.getLatLng(
-        address,
-        function(point) {
-          if (!point) {
-            // TODO use diaglog for alerting the user it is not found
-            alert("No location matching '" + address + "' found");
-          } else {
-            homePoint = point;
-            if (homeMarker) {
-              map.removeOverlay(homeMarker);              
-            }
-            $("#done-moving").show();
-            centerOnHome();
-          }    
-     });
+    // TODO lock the screen
+    var address = $("#address").val();    
+    var geocoder = new google.maps.Geocoder();
+    
+    geocoder.geocode({address: address}, function(gresult, gstatus) {
+
+      if (gstatus != google.maps.GeocoderStatus.OK) {
+        // TODO use diaglog for alerting the user it is not found
+        alert("No location matching '" + address + "' found");
+      } else {
+        homePoint = gresult[0].geometry.location;
+        if (homeMarker) {
+          homeMarker.setMap(null);
+        }
+        $("#done-moving").show();
+        centerOnHome();
+      } 
+    });
   });
 
   $("#done-drawing").hide();
@@ -244,7 +248,7 @@ $(document).ready(function() {
       neighborhood = [];
     }
 
-     map.setCenter(homeMarker.getPoint(), Math.floor(Math.random() * 5) + 10);
+    map.setCenter(homeMarker.getPoint(), Math.floor(Math.random() * 5) + 10);
   });
 
   $("#done-drawing").click(function(){
