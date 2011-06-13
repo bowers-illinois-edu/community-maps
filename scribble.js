@@ -9,10 +9,12 @@ $(document).ready(function() {
     disableDoubleClickZoom: true,
     scrollwheel: false
   };
-
+  
+  jmap = $("#map_canvas");
   map = new google.maps.Map(document.getElementById("map_canvas"), myOptions); 
   
   var drawing = false;
+  var p; // will hold the current polyline
   regions = [];
   var currentListener;
   var currentTimeOut;
@@ -22,12 +24,12 @@ $(document).ready(function() {
   //  google.maps.event.removeListener(currentListener);
   //};
   
-  google.maps.event.addListener(map, 'click', function(e) {
+  google.maps.event.addListener(map, 'mousedown', function(e) {
     
       map.setOptions({draggable: false});
 
       drawing = false;  
-      var p = new google.maps.Polyline({
+      p = new google.maps.Polyline({
         map: map,
         path: [e.latLng]
       });
@@ -47,17 +49,23 @@ $(document).ready(function() {
 
       currentTimeOut = setTimeout(loop, INTERVAL); 
 
-      google.maps.event.addListener(p, 'click', function(e) {
-        drawing = false;
-        google.maps.event.removeListener(currentListener);       
-        map.setOptions({draggable: true });
-        clearTimeout(currentTimeOut);
-
-        var r = new google.maps.Polygon({map: map, paths: p.getPath().getArray()});
-        p.setMap(null);
-        regions.push(r);
-      });
   });
+
+  jmap.mouseup(function() {
+    if (drawing) {
+      
+      drawing = false;
+      google.maps.event.removeListener(currentListener);       
+      map.setOptions({draggable: true });
+      clearTimeout(currentTimeOut);
+
+      var r = new google.maps.Polygon({map: map, paths: p.getPath().getArray()});
+      p.setMap(null);
+      regions.push(r);
+      return(false);
+    }
+  });
+
     
   // google.maps.event.addListener(map, 'mouseup', function() {
   //   console.log("mouse up");
