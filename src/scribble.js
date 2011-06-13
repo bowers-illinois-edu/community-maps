@@ -72,6 +72,8 @@ scribbleOn = function(map, options) {
 }
 
 scribbleOff = function(scribbleListener) {
-  google.maps.event.removeListener(scribbleListener);
+  if(scribbleListener) {
+    google.maps.event.removeListener(scribbleListener);
+  }
 }
 

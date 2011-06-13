@@ -91,29 +91,23 @@ $(document).ready(function() {
     $("#last-question").hide();
     $("#show-data").show();
     var data = $("#thedata").serializeObject();
-    var addressLatLng = homeMarker.getLatLng();
+    var addressLatLng = homeMarker.getPosition();
     data.addressLat = addressLatLng.lat();
     data.addressLng = addressLatLng.lng();
 
-    // this is a little thorny. The GOverlay -> KML function is _asyncronous_.
-    // Therefore, for each neighbor/community the user has specified, we have 
-    // save the KML via a call back that also checks if all the data has arrived.
-    // When all the data is available, it should output the data to screen. 
-    // I will assume that no race conditions can happen on the kmlCompleted or 
-    // kmlCount variables.
-    var kmlCount = 0;
-    var kmlCompleted = [];
-
-    $.map(neighborhood, function(n) {
-      n.getKml(function(kml) {
-        kmlCount++;
-        kmlCompleted.push(kml);
-        if (kmlCount == neighborhood.length) {
-          data.communities = kmlCompleted;
-          $("#show-data").append(prettyPrint(data));
-        }
+    // in this next code block, the return values are wrapped into extra arrays 
+    // this is because jQuery.map tries to flatten arrays as return values
+    // I would argue this behavior is wrong, but it is what jQuery does, so we can
+    // work around.
+    data.paths = $.map(neighborhood, function(n, i) {
+      var p = n.getPath().getArray();
+      var stuff = $.map(p, function(e, j) {
+        return([[e.lat(), e.lng()]]);
       });
+      return([stuff]);
     });
+
+    $("#show-data").append(prettyPrint(data, {maxDepth: 4}));
 
   });
 
