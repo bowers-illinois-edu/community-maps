@@ -161,12 +161,14 @@ $(document).ready(function() {
     $.each(trainingRegions, function(i, r) {
       r.setMap(null);
     });
+    scribbleOff(scribbler);
   });
 
   $("#training-time-start").val((new Date().getTime()));
   $("#done-training").click(function() {
     $("#training-time-end").val((new Date().getTime()));
-
+    
+    scribbleOff(scribbler);
     // clear out the training regions
     $.each(trainingRegions, function(i, r) {
       r.setMap(null);
@@ -236,24 +238,27 @@ $(document).ready(function() {
   $("#done-drawing").hide();
 
   $("#add-community").click(function(){
-    addRegion(true, function() {
-      $("#done-drawing").show();      
-    });
+    scribbler = scribbleOn(map, {mouseup: function(p) {
+      var r = new google.maps.Polygon({map: map, paths: p.getPath().getArray()});
+      p.setMap(null);
+      neighborhood.push(r);
+      $("#done-drawing").show();
+    }});
   });
 
   $("#restart-community").click(function(){
     $("#done-drawing").hide();
-    for (i in neighborhood ) {
-      map.removeOverlay(neighborhood[i]);
-      neighborhood = [];
-    }
-
-    map.setCenter(homeMarker.getPoint(), Math.floor(Math.random() * 5) + 10);
+    $.each(neighborhood, function(i, r) {
+      r.setMap(null);
+    });
+    neighborhood = [];
+    scribbleOff(scribbler);
+    map.setOptions({center: homeMarker.getPosition(), zoom: Math.floor(Math.random() * 5) + 10});
   });
 
   $("#done-drawing").click(function(){
     $("#draw-community-time-end").val((new Date().getTime()));
-    homeMarker.disableDragging();
+    scribbleOff(scribbler);
     $("#draw-community").fadeOut("slow", function() { questions.first().fadeIn("slow"); });     
   });
 
