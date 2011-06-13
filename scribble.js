@@ -8,7 +8,7 @@ $(document).ready(function() {
     mapTypeId: google.maps.MapTypeId.ROADMAP,
   };
 
-  var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions); 
+  map = new google.maps.Map(document.getElementById("map_canvas"), myOptions); 
   
   var drawing = false;
   scribbles = [];
@@ -19,33 +19,38 @@ $(document).ready(function() {
   //  clearTimeout(currentTimeOut);
   //  google.maps.event.removeListener(currentListener);
   //};
-
-  google.maps.event.addListener(map, 'mousedown', function(e) {
-    console.log("hello");
+  
+  google.maps.event.addListener(map, 'click', function(e) {
     
-    map.setOptions({draggable: false});
+      map.setOptions({draggable: false});
 
-    drawing = true;  
-    console.log(e);
-    var p = new google.maps.Polyline({
-      map: map,
-      path: [e.latLng]
-    });
+      drawing = true;  
+      var p = new google.maps.Polyline({
+        map: map,
+        path: [e.latLng]
+      });
 
-    scribbles.push(p);
-    
-    currentListener = google.maps.event.addListener(map, 'mousemove', function(e) {
-      var path = p.getPath();
-      p.setPath(path.push(e.latLng));
-      clear();
-    });
+      scribbles.push(p);
+      
+      currentListener = google.maps.event.addListener(map, 'mousemove', function(e) {
+        var path = p.getPath();
+        path.push(e.latLng); // pushing to path automatically updates the line
+      });
 
-    // setTimeout(loop, SPEED);
+      google.maps.event.addListener(p, 'click', function(e) {
+        drawing = false;
+        google.maps.event.removeListener(currentListener);       
+        map.setOptions({draggable: true });
+      });
   });
     
-  google.maps.event.addListener(map, 'mouseup', function() {
-    console.log("mouse up");
-    drawing = false; 
-    google.maps.event.removeListener(currentListener);
-  });
+  // google.maps.event.addListener(map, 'mouseup', function() {
+  //   console.log("mouse up");
+  //   drawing = false; 
+  //   if (currentListener) {
+  //     google.maps.event.removeListener(currentListener);
+  //   }
+  // });
+
 });
+
