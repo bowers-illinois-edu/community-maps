@@ -51,37 +51,39 @@ var homeMarker; // name the home marker so we can grab it later
 var homePoint;
 
 $(document).ready(function() {
-  map = new GMap2($("#map_canvas")[0]);
-  map.setUIToDefault();
-  map.disableScrollWheelZoom();
-  
+  map = new google.maps.Map($("#map_canvas")[0],
+    {mapTypeId: google.maps.MapTypeId.ROADMAP,
+      scrollwheel: false,
+      zoom: 12});
+  //map.setUIToDefault();
+
   neighborhood = []; // collection of polygons that forms the neighborhood/community
-  
+
   var questions = $("#survey-questions").children();
-  
+
   for(j = 0; j < questions.length; j++) {
     (function(i) {
-    var current = $(questions[i]);
-    if (i > 0) {
-      // add previous link
-      var link = $("<a class='fg-button ui-state-default fg-button-icon-left ui-corner-all prev-link' href='#'><span class='ui-icon ui-icon-circle-arrow-w'/>Previous</a>").click(function() {
-        current.fadeOut("slow", function(){
-          $(questions[i - 1]).fadeIn("slow"); 
+      var current = $(questions[i]);
+      if (i > 0) {
+        // add previous link
+        var link = $("<a class='fg-button ui-state-default fg-button-icon-left ui-corner-all prev-link' href='#'><span class='ui-icon ui-icon-circle-arrow-w'/>Previous</a>").click(function() {
+          current.fadeOut("slow", function(){
+            $(questions[i - 1]).fadeIn("slow"); 
+          });
         });
-      });
-      current.children().first().append(link);
-    } 
+        current.children().first().append(link);
+      } 
 
-    if (i < questions.length - 1) {
-      var link = $("<a class='fg-button ui-state-default fg-button-icon-right ui-corner-all next-link' href='#'><span class='ui-icon ui-icon-circle-arrow-e'/>Next</a>").click(function() {
-        current.fadeOut("slow", function(){
-          $(questions[i + 1]).fadeIn("slow");
+      if (i < questions.length - 1) {
+        var link = $("<a class='fg-button ui-state-default fg-button-icon-right ui-corner-all next-link' href='#'><span class='ui-icon ui-icon-circle-arrow-e'/>Next</a>").click(function() {
+          current.fadeOut("slow", function(){
+            $(questions[i + 1]).fadeIn("slow");
+          });
         });
-      });
 
-      current.children().first().append(link);
-    }
-    
+        current.children().first().append(link);
+      }
+
     })(j); // work around for JS scoping issue with for loops
   }
 
@@ -89,32 +91,26 @@ $(document).ready(function() {
     $("#last-question").hide();
     $("#show-data").show();
     var data = $("#thedata").serializeObject();
-    var addressLatLng = homeMarker.getLatLng();
+    var addressLatLng = homeMarker.getPosition();
     data.addressLat = addressLatLng.lat();
     data.addressLng = addressLatLng.lng();
 
-    // this is a little thorny. The GOverlay -> KML function is _asyncronous_.
-    // Therefore, for each neighbor/community the user has specified, we have 
-    // save the KML via a call back that also checks if all the data has arrived.
-    // When all the data is available, it should output the data to screen. 
-    // I will assume that no race conditions can happen on the kmlCompleted or 
-    // kmlCount variables.
-    var kmlCount = 0;
-    var kmlCompleted = [];
-
-    $.map(neighborhood, function(n) {
-      n.getKml(function(kml) {
-        kmlCount++;
-        kmlCompleted.push(kml);
-        if (kmlCount == neighborhood.length) {
-          data.communities = kmlCompleted;
-          $("#show-data").append(prettyPrint(data));
-        }
+    // in this next code block, the return values are wrapped into extra arrays 
+    // this is because jQuery.map tries to flatten arrays as return values
+    // I would argue this behavior is wrong, but it is what jQuery does, so we can
+    // work around.
+    data.paths = $.map(neighborhood, function(n, i) {
+      var p = n.getPath().getArray();
+      var stuff = $.map(p, function(e, j) {
+        return([[e.lat(), e.lng()]]);
       });
+      return([stuff]);
     });
 
+    $("#show-data").append(prettyPrint(data, {maxDepth: 4}));
+
   });
-  
+
   $("#last-question").children().first().append(link);
 
   // add fancy sliders questions
@@ -134,77 +130,44 @@ $(document).ready(function() {
     txt.val(start + '%');
   });  
 
- questions.hide();
-  
- 
-  // region drawing function
-  var addRegion = function(save, callback) {
-    var region = new GPolygon([], "#FF0000", 10, 1, "#ff1010", 0.1);
-    
-    if(save) {
-      neighborhood.push(region);
-    }
+  questions.hide();
 
-    map.addOverlay(region);
-    //region.setFillStyle({color: "#0000FF", opacity: .5});
-    region.enableDrawing();
-
-    if (callback) {
-      GEvent.addListener(region, "endline", callback);
-    }
-  }
-
+  var trainingLocation = new google.maps.LatLng(42.94, -122.10);
   var setupTraining = function() {
-
-    var iconOptions = {};
-    iconOptions.primaryColor = "#ee7700";
-    iconOptions.strokeColor = "#000000";
-    iconOptions.labelColor = "#000000";
-    iconOptions.addStar = false;
-    iconOptions.starPrimaryColor = "#FFFF00";
-    iconOptions.starStrokeColor = "#0000FF";
-
-    iconOptions.label = "1";
-    var icon1 = MapIconMaker.createLabeledMarkerIcon(iconOptions);
-    
-    iconOptions.label = "2";
-    var icon2 = MapIconMaker.createLabeledMarkerIcon(iconOptions);
-    
-        iconOptions.label = "3";
-    var icon3 = MapIconMaker.createLabeledMarkerIcon(iconOptions);
-
-    iconOptions.label = "4";
-    var icon4 = MapIconMaker.createLabeledMarkerIcon(iconOptions);
-    
-    map.clearOverlays();
-    map.setCenter(new GLatLng(42.94, -122.10), 12);
-    
-    var mopts = {clickable: false};
-
-    // 12 o'clock
-    map.addOverlay(new GMarker(new GLatLng(42.975, -122.10), icon1, true));
-    // 9 o'clock
-    map.addOverlay(new GMarker(new GLatLng(42.94, -122.165), icon2, true));
-    // 6 o'clock
-    map.addOverlay(new GMarker(new GLatLng(42.90, -122.10), icon3, true));
-    // 3 o'clock
-    map.addOverlay(new GMarker(new GLatLng(42.94, -122.055), icon4, true));
+    // map.clearOverlays();
+    map.setCenter(trainingLocation);
+    map.setZoom(12);
   }
 
   setupTraining();
 
-  $("#try-training").click(function() { addRegion(false, null); });
-  $("#restart-training").click(setupTraining);
-
-  var centerOnHome = function() {
-    map.setCenter(homePoint, 16);
-    homeMarker = new GMarker(homePoint, {draggable: true});
-    map.addOverlay(homeMarker);
-  };
+  var scribbler;
+  var trainingRegions = [];
+  $("#try-training").click(function() { 
+    scribbler = scribbleOn(map, {mouseup: function(p) {
+      var r = new google.maps.Polygon({map: map, paths: p.getPath().getArray()});
+      p.setMap(null);
+      trainingRegions.push(r);
+    }});
+  });
+  $("#restart-training").click(function() {
+    setupTraining();
+    $.each(trainingRegions, function(i, r) {
+      r.setMap(null);
+    });
+    scribbleOff(scribbler);
+  });
 
   $("#training-time-start").val((new Date().getTime()));
   $("#done-training").click(function() {
     $("#training-time-end").val((new Date().getTime()));
+    
+    scribbleOff(scribbler);
+    // clear out the training regions
+    $.each(trainingRegions, function(i, r) {
+      r.setMap(null);
+    });
+
     $("#training").fadeOut("slow", function() { 
       $("#geocode").fadeIn("slow", function() {
         $("#geocode-time-start").val((new Date().getTime()));
@@ -213,11 +176,21 @@ $(document).ready(function() {
   });
 
   // setting up the home marker
+  var centerOnHome = function() {
+    map.setOptions({center: homePoint, zoom: 16});
+    homeMarker = new google.maps.Marker({
+      map: map,
+      position: homePoint,
+      draggable: true
+    });
+  };
+
   // when the user is done, clikcing the button fixes the marker in place
   $("#done-moving").click(function() {
-     homeMarker.disableDragging(false);
-     map.setCenter(homeMarker.getPoint(), Math.floor(Math.random() * 5) + 10);
-     $("#geocode-time-end").val((new Date().getTime()));
+    homeMarker.setOptions({draggable: false});
+    map.setOptions({center: homeMarker.getPosition(), zoom: Math.floor(Math.random() * 5) + 10});
+
+    $("#geocode-time-end").val((new Date().getTime()));
     $("#geocode").fadeOut("slow", function() { 
       $("#draw-community").fadeIn("slow", function() {
         $("#draw-community-time-start").val((new Date()).getTime());
@@ -234,59 +207,59 @@ $(document).ready(function() {
       $('#address-update').click();
     }
   });
- 
+
   $("#address-update").click(function() {
-      // TODO lock the screen
-      var geocoder = new GClientGeocoder();
-      var address = $("#address").val();
-      geocoder.getLatLng(
-        address,
-        function(point) {
-          if (!point) {
-            // TODO use diaglog for alerting the user it is not found
-            alert("No location matching '" + address + "' found");
-          } else {
-            homePoint = point;
-            if (homeMarker) {
-              map.removeOverlay(homeMarker);              
-            }
-            $("#done-moving").show();
-            centerOnHome();
-          }    
-     });
+    // TODO lock the screen
+    var address = $("#address").val();    
+    var geocoder = new google.maps.Geocoder();
+    
+    geocoder.geocode({address: address}, function(gresult, gstatus) {
+
+      if (gstatus != google.maps.GeocoderStatus.OK) {
+        // TODO use diaglog for alerting the user it is not found
+        alert("No location matching '" + address + "' found");
+      } else {
+        homePoint = gresult[0].geometry.location;
+        if (homeMarker) {
+          homeMarker.setMap(null);
+        }
+        $("#done-moving").show();
+        centerOnHome();
+      } 
+    });
   });
 
   $("#done-drawing").hide();
 
   $("#add-community").click(function(){
-    addRegion(true, function() {
-      $("#done-drawing").show();      
-    });
-  })
+    scribbler = scribbleOn(map, {mouseup: function(p) {
+      var r = new google.maps.Polygon({map: map, paths: p.getPath().getArray()});
+      p.setMap(null);
+      neighborhood.push(r);
+      $("#done-drawing").show();
+    }});
+  });
 
   $("#restart-community").click(function(){
     $("#done-drawing").hide();
-    for (i in neighborhood ) {
-      map.removeOverlay(neighborhood[i]);
-      neighborhood = [];
-    }
-
-     map.setCenter(homeMarker.getPoint(), Math.floor(Math.random() * 5) + 10);
+    $.each(neighborhood, function(i, r) {
+      r.setMap(null);
+    });
+    neighborhood = [];
+    scribbleOff(scribbler);
+    map.setOptions({center: homeMarker.getPosition(), zoom: Math.floor(Math.random() * 5) + 10});
   });
 
   $("#done-drawing").click(function(){
     $("#draw-community-time-end").val((new Date().getTime()));
-    homeMarker.disableDragging();
+    scribbleOff(scribbler);
     $("#draw-community").fadeOut("slow", function() { questions.first().fadeIn("slow"); });     
   });
 
   // make clickable things have a hover state
   $(".fg-button").hover(function() { $(this).toggleClass("ui-state-hover"); });
-
 });
 
-GEvent.addDomListener(window,"unload",function(){
-	GUnload();
-});
+
 
 

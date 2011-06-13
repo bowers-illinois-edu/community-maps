@@ -1,6 +1,6 @@
 # Community Maps
 
-This is the HTML and JavaScript to create the community mapping demo hosted at [research.markmfredrickson.com](http://research.markmfredrickson.com).
+This is the HTML and JavaScript to create the community mapping demo hosted at [http://bowers-illinois-edu.github.com/community-maps/](http://bowers-illinois-edu.github.com/community-maps/).
 
 ## Local Development
 
