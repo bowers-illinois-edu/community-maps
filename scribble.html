@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/reset-fonts-grids/reset-fonts-grids.css">
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/base/base-min.css">
+
+
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-lightness/jquery-ui.css" type="text/css" media="all" />
+
+
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
+
+    <script>
+
+scribbleOn = function(map, options) {
+  defaults = {
+    interval: 25,
+    mouseup: null
+  }
+
+  var opts = $.extend({}, defaults, options);
+  var jmap = $(map.getDiv());
+
+  var drawing = false;
+  var p; // will hold the current polyline
+  var currentListener;
+  var currentTimeOut;
+
+  var scribbler = google.maps.event.addListener(map, 'mousedown', function(e) {
+    
+      map.setOptions({draggable: false});
+
+      drawing = false;  
+      p = new google.maps.Polyline({
+        map: map,
+        path: [e.latLng]
+      });
+ 
+      currentListener = google.maps.event.addListener(map, 'mousemove', function(e) {
+        if (drawing) {
+          var path = p.getPath();
+          path.push(e.latLng); // pushing to path automatically updates the line
+          drawing = false;
+        }
+      });
+
+      var loop = function() {
+        drawing = true;
+        currentTimeOut = setTimeout(loop, opts.interval);
+      }
+
+      currentTimeOut = setTimeout(loop, opts.interval); 
+
+  });
+
+  jmap.mouseup(function() {
+    if (drawing) {
+      
+      drawing = false;
+      google.maps.event.removeListener(currentListener);       
+      map.setOptions({draggable: true });
+      clearTimeout(currentTimeOut);
+      
+      if (opts.mouseup) {
+        opts.mouseup(p);
+      }
+    }
+  });
+
+  return(scribbler)
+}
+
+scribbleOff = function(scribbleListener) {
+  google.maps.event.removeListener(scribbleListener);
+}
+
+$(document).ready(function() {
+
+  var myLatlng = new google.maps.LatLng(40, -88);
+  var myOptions = {
+    zoom: 8,
+    center: myLatlng,
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    disableDoubleClickZoom: true,
+    scrollwheel: false
+  };
+  
+  map = new google.maps.Map(document.getElementById("map_canvas"), myOptions); 
+  regions = [];
+  var scribbler;
+
+  $("#scribble-on").click(function() {
+    $(this).hide();
+    $("#scribble-off").show();
+    scribbler = scribbleOn(map, {mouseup: function(p) {
+      var r = new google.maps.Polygon({map: map, paths: p.getPath().getArray()});
+      p.setMap(null);
+      regions.push(r);
+    }});
+  });
+
+  $("#scribble-off").click(function() {
+    $(this).hide();
+    scribbleOff(scribbler);
+    $("#scribble-on").show();
+  }).hide();
+
+});
+
+</script>
+
+    <title>Scribble Demo</title>
+  </head>
+  <body>
+    <div id="doc" class="yui-t7">
+      <div id="hd" role="banner"><h1>Scribble Demo</h1></div>
+      <div id="bd" role="main">
+        <div class="yui-g" id = "map_canvas" style = "height:380px;">
+          <!-- YOUR DATA GOES HERE -->
+        </div>
+        <div class = "yui-g">
+          <a id = "scribble-on"><h2>Start Scribbling</h2></a>
+          <a id = "scribble-off"><h2>Stop Scribbling</h2></a>
+        </div>
+      </div>
+      <div id="ft" role="contentinfo"><p>&copy; 2011</p></div>
+    </div>
+  </body>
+</html>
+
