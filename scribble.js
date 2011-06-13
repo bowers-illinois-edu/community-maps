@@ -1,29 +1,17 @@
-$(document).ready(function() {
-  var INTERVAL = 25;
+scribble = function(map, options) {
+  defaults = {
+    interval: 25,
+    mouseup: null
+  }
 
-  var myLatlng = new google.maps.LatLng(40, -88);
-  var myOptions = {
-    zoom: 8,
-    center: myLatlng,
-    mapTypeId: google.maps.MapTypeId.ROADMAP,
-    disableDoubleClickZoom: true,
-    scrollwheel: false
-  };
-  
-  jmap = $("#map_canvas");
-  map = new google.maps.Map(document.getElementById("map_canvas"), myOptions); 
-  
+  var opts = $.extend({}, defaults, options);
+  var jmap = $(map.getDiv());
+
   var drawing = false;
   var p; // will hold the current polyline
-  regions = [];
   var currentListener;
   var currentTimeOut;
 
-  //var clear = function() { 
-  //  clearTimeout(currentTimeOut);
-  //  google.maps.event.removeListener(currentListener);
-  //};
-  
   google.maps.event.addListener(map, 'mousedown', function(e) {
     
       map.setOptions({draggable: false});
@@ -44,10 +32,10 @@ $(document).ready(function() {
 
       var loop = function() {
         drawing = true;
-        currentTimeOut = setTimeout(loop, INTERVAL);
+        currentTimeOut = setTimeout(loop, opts.interval);
       }
 
-      currentTimeOut = setTimeout(loop, INTERVAL); 
+      currentTimeOut = setTimeout(loop, opts.interval); 
 
   });
 
@@ -58,22 +46,34 @@ $(document).ready(function() {
       google.maps.event.removeListener(currentListener);       
       map.setOptions({draggable: true });
       clearTimeout(currentTimeOut);
-
-      var r = new google.maps.Polygon({map: map, paths: p.getPath().getArray()});
-      p.setMap(null);
-      regions.push(r);
-      return(false);
+      
+      if (opts.mouseup) {
+        opts.mouseup(p);
+      }
     }
   });
 
-    
-  // google.maps.event.addListener(map, 'mouseup', function() {
-  //   console.log("mouse up");
-  //   drawing = false; 
-  //   if (currentListener) {
-  //     google.maps.event.removeListener(currentListener);
-  //   }
-  // });
+}
+
+$(document).ready(function() {
+
+  var myLatlng = new google.maps.LatLng(40, -88);
+  var myOptions = {
+    zoom: 8,
+    center: myLatlng,
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    disableDoubleClickZoom: true,
+    scrollwheel: false
+  };
+  
+  map = new google.maps.Map(document.getElementById("map_canvas"), myOptions); 
+  regions = [];
+
+  scribble(map, {mouseup: function(p) {
+      var r = new google.maps.Polygon({map: map, paths: p.getPath().getArray()});
+      p.setMap(null);
+      regions.push(r);
+  }});
 
 });
 
