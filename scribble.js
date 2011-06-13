@@ -13,7 +13,7 @@ $(document).ready(function() {
   map = new google.maps.Map(document.getElementById("map_canvas"), myOptions); 
   
   var drawing = false;
-  scribbles = [];
+  regions = [];
   var currentListener;
   var currentTimeOut;
 
@@ -31,9 +31,7 @@ $(document).ready(function() {
         map: map,
         path: [e.latLng]
       });
-
-      scribbles.push(p);
-      
+ 
       currentListener = google.maps.event.addListener(map, 'mousemove', function(e) {
         if (drawing) {
           var path = p.getPath();
@@ -54,6 +52,10 @@ $(document).ready(function() {
         google.maps.event.removeListener(currentListener);       
         map.setOptions({draggable: true });
         clearTimeout(currentTimeOut);
+
+        var r = new google.maps.Polygon({map: map, paths: p.getPath().getArray()});
+        p.setMap(null);
+        regions.push(r);
       });
   });
     
