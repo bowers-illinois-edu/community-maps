@@ -53,7 +53,8 @@ var homePoint;
 $(document).ready(function() {
   map = new google.maps.Map($("#map_canvas")[0],
     {mapTypeId: google.maps.MapTypeId.ROADMAP,
-     scrollwheel: false});
+     scrollwheel: false,
+     zoom: 12});
   //map.setUIToDefault();
   
   neighborhood = []; // collection of polygons that forms the neighborhood/community
@@ -137,69 +138,30 @@ $(document).ready(function() {
 
  questions.hide();
   
- 
-  // region drawing function
-  var addRegion = function(save) {
-    var region = new google.maps.Polygon(
-        {map: map,
-         fillColor: "#ff1010",
-         fillOpacity: 0.1,
-         strokeColor: "#FF0000",
-         strokeWeight: 10
-        })
-  var addRegion = function(save, callback) {
-    var region = new GPolygon([], "#FF0000", 10, 1, "#ff1010", 0.1);
-    
-    if(save) {
-      neighborhood.push(region);
-    }
-
-    //region.setFillStyle({color: "#0000FF", opacity: .5});
-    region.enableDrawing();
-
-    if (callback) {
-      GEvent.addListener(region, "endline", callback);
-    }
-  }
-
+  var trainingLocation = new google.maps.LatLng(42.94, -122.10);
   var setupTraining = function() {
     // map.clearOverlays();
-    map.setCenter(new google.maps.LatLng(42.94, -122.10));
+    map.setCenter(trainingLocation);
     map.setZoom(12);
-
-    var iconOptions = {};
-    iconOptions.primaryColor = "#ee7700";
-    iconOptions.strokeColor = "#000000";
-    iconOptions.labelColor = "#000000";
-    iconOptions.addStar = false;
-    iconOptions.starPrimaryColor = "#FFFF00";
-    iconOptions.starStrokeColor = "#0000FF";
-
-    iconOptions.label = "1";
-    var icon1 = MapIconMaker.createLabeledMarkerIcon(iconOptions);
-    
-    iconOptions.label = "2";
-    var icon2 = MapIconMaker.createLabeledMarkerIcon(iconOptions);
-    
-        iconOptions.label = "3";
-    var icon3 = MapIconMaker.createLabeledMarkerIcon(iconOptions);
-
-    iconOptions.label = "4";
-    var icon4 = MapIconMaker.createLabeledMarkerIcon(iconOptions);
-    
-    new google.maps.Marker({map: map, position: new google.maps.LatLng(42.975, -122.10), clickable: false});
-    // 9 o'clock
-    new google.maps.Marker({map: map, position: new google.maps.LatLng(42.94, -122.165), clickable: false});
-    // 6 o'clock
-    new google.maps.Marker({map: map, position: new google.maps.LatLng(42.90, -122.10),  clickable: false});
-    // 3 o'clock
-    new google.maps.Marker({map: map, position: new google.maps.LatLng(42.94, -122.055), clickable: false});
   }
 
   setupTraining();
 
-  $("#try-training").click(function() { addRegion(false, null); });
-  $("#restart-training").click(setupTraining);
+  var scribbler;
+  var trainingRegions = [];
+  $("#try-training").click(function() { 
+    scribbler = scribbleOn(map, {mouseup: function(p) {
+      var r = new google.maps.Polygon({map: map, paths: p.getPath().getArray()});
+      p.setMap(null);
+      trainingRegions.push(r);
+    }});
+  });
+  $("#restart-training").click(function() {
+    setupTraining();
+    $.each(trainingRegions, function(i, r) {
+      r.setMap(null);
+    });
+  });
 
   var centerOnHome = function() {
     map.setCenter(homePoint, 16);
@@ -210,6 +172,12 @@ $(document).ready(function() {
   $("#training-time-start").val((new Date().getTime()));
   $("#done-training").click(function() {
     $("#training-time-end").val((new Date().getTime()));
+    
+    // clear out the training regions
+    $.each(trainingRegions, function(i, r) {
+      r.setMap(null);
+    });
+
     $("#training").fadeOut("slow", function() { 
       $("#geocode").fadeIn("slow", function() {
         $("#geocode-time-start").val((new Date().getTime()));
@@ -267,7 +235,7 @@ $(document).ready(function() {
     addRegion(true, function() {
       $("#done-drawing").show();      
     });
-  })
+  });
 
   $("#restart-community").click(function(){
     $("#done-drawing").hide();
