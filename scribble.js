@@ -1,4 +1,4 @@
-scribble = function(map, options) {
+scribbleOn = function(map, options) {
   defaults = {
     interval: 25,
     mouseup: null
@@ -12,7 +12,7 @@ scribble = function(map, options) {
   var currentListener;
   var currentTimeOut;
 
-  google.maps.event.addListener(map, 'mousedown', function(e) {
+  var scribbler = google.maps.event.addListener(map, 'mousedown', function(e) {
     
       map.setOptions({draggable: false});
 
@@ -53,6 +53,11 @@ scribble = function(map, options) {
     }
   });
 
+  return(scribbler)
+}
+
+scribbleOff = function(scribbleListener) {
+  google.maps.event.removeListener(scribbleListener);
 }
 
 $(document).ready(function() {
@@ -68,12 +73,23 @@ $(document).ready(function() {
   
   map = new google.maps.Map(document.getElementById("map_canvas"), myOptions); 
   regions = [];
+  var scribbler;
 
-  scribble(map, {mouseup: function(p) {
+  $("#scribble-on").click(function() {
+    $(this).hide();
+    $("#scribble-off").show();
+    scribbler = scribbleOn(map, {mouseup: function(p) {
       var r = new google.maps.Polygon({map: map, paths: p.getPath().getArray()});
       p.setMap(null);
       regions.push(r);
-  }});
+    }});
+  });
+
+  $("#scribble-off").click(function() {
+    $(this).hide();
+    scribbleOff(scribbler);
+    $("#scribble-on").show();
+  }).hide();
 
 });
 
