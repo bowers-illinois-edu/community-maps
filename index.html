@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-lightness/jquery-ui.css" type="text/css" media="all" />
 
-    <link rel="stylesheet" href="/styles/demo.css"" type="text/css" media="all" />
+    <link rel="stylesheet" href="styles/demo.css"" type="text/css" media="all" />
 
 
     <script src="http://maps.google.com/maps/api/js?v=3.4&sensor=false" type="text/javascript"></script>
@@ -15,7 +15,8 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
 
-
+    <script src="src/mapiconmaker_packed.js" type="text/javascript"></script>
+    <script src="submodules/prettyPrint.js/prettyprint.js" type = "text/javascript"></script>    
     <script src="src/map_main.js" type="text/javascript"></script>
 
 
@@ -28,7 +29,10 @@
         <div class="yui-g" id = "map_canvas" style = "height:380px;">
           <!-- YOUR DATA GOES HERE -->
         </div>
+        <form id = "thedata" action = "/" method = "POST">
         <div class = "yui-g" id = "training">
+          <input type = "hidden" id = "training-time-start" name = "training-time-start" />
+          <input type = "hidden" id = "training-time-end" name= "training-time-end" />
           <div class = "yui-u first">
             <p>Later you will be asked to draw your
             community, but before that happens you will have an opportunity
@@ -44,62 +48,66 @@
             "Start drawing" button to begin drawing again.
             You may also wish to trace the lake more closely by
             adding additional points to your shape. Feel free to practice
-            several times. When you are done practicing click the "Done" button.
+            several times. When you are done practicing click the "Continue" button.
             </p>
           </div>
           <div class = "yui-u">
-            <button id="try-training" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
+            <a id = "try-training" class="fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
               <span class="ui-button-text">Start drawing</span>
-            </button>
+            </a>
 
-            <button id="restart-training" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
+            <a id="restart-training" class="fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
               <span class="ui-button-text">Try Again</span>
-            </button>
+            </a>
 
-            <button id="done-training" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
-              <span class="ui-button-text">Done</span>
-            </button>
+            <a id="done-training" class="fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
+              <span class="ui-button-text">Continue</span>
+            </a>
           </div>
         </div>
 
-        <div class = "yui-g" id = "move-marker" style = "display: none;">
+        <div class = "yui-g" id = "geocode" style = "display: none;">
+          <input type = "hidden" id = "geocode-time-start" name = "geocode-time-start"/>
+          <input type = "hidden" id = "geocode-time-end" name = "geocode-time-end"/>
           <div class = "yui-u first">
-            <p>This marker indicates where we think you live. If we are incorrect, you may drag the marker until it sits over your home.</p>
-            <p>If this marker is far from your home, try entering your address again.
+            <p>We now need to know your home address. Please enter it in the box to the right and click "Find my location". If the marker is incorrect, you may drag the marker until it sits over your home.</p>
+            <p>If this marker is far from your home, try entering your address again and clicking "Find my location." When you have found your home on the map, click "Continue." 
             </p>
             
           </div>
           <div class = "yui-u">
-                        <input type = "text" id = "geocoder-update"/>
-            <button id = "address-update" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
-              <span class="ui-button-text">Try Again</span>
-            </button>
-            <br />
-            <button id="done-moving" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
-              <span class="ui-button-text">Done</span>
-            </button>
+            <input type = "text" id = "address" name = "address" /> <br/>
+            <a id = "address-update" class="fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
+              <span class="ui-button-text">Find my location</span>
+            </a>
+            <a id="done-moving" class="fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
+              <span class="ui-button-text">Continue</span>
+            </a>
           </div>
         </div>
         
         <div class = "yui-g" id = "draw-community" style = "display: none;">
+          <input type = "hidden" id = "draw-community-time-start" name = "draw-community-time-start" />
+          <input type = "hidden" id = "draw-community-time-end" name= "draw-community-time-end" />
+
           <div class = "yui-u first">
             <p>
-             Now it is time to draw your community. You may zoom in or out by using the bar at the far left. You can drag the map around. Once you can see your community, click the "Add Community" button to start drawing on the map. Either connect your shape or double click to finalize your community drawing. You may add as many shapes as you wish to describe your community by clicking "Add Community." When you are done drawing your community, click the "Done" button.
+             Now it is time to draw your community. You may zoom in or out by using the bar at the far left. You can drag the map around. Once you can see your community, click the "Add Community" button to start drawing on the map. Either connect your shape or double click to finalize your community drawing. You may add as many shapes as you wish to describe your community by clicking "Add Community." When you are done drawing your community, click the "Continue" button.
             </p>
           </div>
           <div class = "yui-u">
-            <button id="add-community" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
+            <a id="add-community" class="fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
               <span class="ui-button-text">Add community</span>
-            </button>
+            </a>
 
-            <button id="restart-community" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
+            <a id="restart-community" class="fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
               <span class="ui-button-text">Start over</span>
-            </button>
+            </a>
 
 
-            <button id="done-drawing" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
-              <span class="ui-button-text">Done</span>
-            </button>
+            <a id="done-drawing" class="fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
+              <span class="ui-button-text">Continue</span>
+            </a>
           </div>
         </div>
 
@@ -113,7 +121,7 @@
             <div class="yui-u">
               <div class = "form-item slider-container">
                 <label for="percent-black">I think it is about:</label>
-                <input type="text" id="percent-black" style="border:0; color:#f6931f; font-weight:bold;" />
+                <input type="text" name="percent-black" style="border:0; color:#f6931f; font-weight:bold;" />
                 <div class="slider"></div>
               </div>
             </div>
@@ -128,7 +136,7 @@
             <div class="yui-u">
               <div class = "form-item slider-container">
                 <label for="percent-white">I think it is about:</label>
-                <input type="text" id="percent-white" style="border:0; color:#f6931f; font-weight:bold;" />
+                <input type="text" name = "percent-white" style="border:0; color:#f6931f; font-weight:bold;" />
                 <div class="slider"></div>
               </div>
             </div>
@@ -143,7 +151,7 @@
             <div class="yui-u">
               <div class = "form-item slider-container">
                 <label for="percent-democrat">I think it is about:</label>
-                <input type="text" id="percent-democrat" style="border:0; color:#f6931f; font-weight:bold;" />
+                <input type="text" name ="percent-democrat" style="border:0; color:#f6931f; font-weight:bold;" />
                 <div class="slider"></div>
               </div>
             </div>
@@ -158,7 +166,7 @@
             <div class="yui-u">
               <div class = "form-item slider-container">
                 <label for="percent-unemployed">I think it is about:</label>
-                <input type="text" id="percent-unemployed" style="border:0; color:#f6931f; font-weight:bold;" />
+                <input type="text" name ="percent-unemployed" style="border:0; color:#f6931f; font-weight:bold;" />
                 <div class="slider"></div>
               </div>
             </div>
@@ -241,7 +249,7 @@
             </div>
           </div>
 
-          <div class="yui-g" id = "next-question-show-block-group">
+          <div class="yui-g" id = "last-question">
             <div class="yui-u first">
               <p>Looking at the map above, please answer whether you strongly agree, agree, 
               neither agree nor disagree, disagree, or strongly disagree with the following statement:
@@ -273,65 +281,12 @@
               </div>
             </div>
           </div>
-
-          <div class="yui-g" id = "previous-question-hide-block-group">
-            <div class="yui-u first">
-              <p>The map now displays shows the boundaries of what the 
-              Census bureau defines as a ''block group'', 
-              which is a geographic unit meant to represent a ''community''. 
-              The blue highlighted area is your block group.
-              </p>
-              <p><em>Do you think that these boundaries are a reasonable representation of your community?</em></p>
-            </div>
-            <div class="yui-u">
-              <div class = "form-item">
-                <input type="radio" name="block-represent" id ="block-represent-yes" value="yes" />
-                <label for = "block-represent-yes">Yes</label>
-              </div>
-              <div class = "form-item">
-                <input type="radio" name="block-represent" id ="block-represent-no" value="no" />
-                <label for = "block-represent-no">No</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="yui-g">
-            <div class="yui-u first">
-              <p>Looking block group in blue, what is your best guess of percentage
-              of the people that live in this area who are black?
-              </p>
-            </div>
-            <div class="yui-u">
-              <div class = "form-item slider-container">
-                <label for="block-percent-black">I think it is about:</label>
-                <input type="text" id="block-percent-black" style="border:0; color:#f6931f; font-weight:bold;" />
-                <div class="slider"></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="yui-g">
-            <div class="yui-u first">
-              <p>Looking block group in blue, what is your best guess of percentage
-              of the people that live in this area who are white?
-              </p>
-            </div>
-            <div class="yui-u">
-              <div class = "form-item slider-container">
-                <label for="block-percent-white">I think it is about:</label>
-                <input type="text" id="block-percent-white" style="border:0; color:#f6931f; font-weight:bold;" />
-                <div class="slider"></div>
-              </div>
-            </div>
-          </div>
         </div>
-
+      </form>
+          <div class="yui-g" id = "show-data">
+             
+          </div>
       </div>
-      <div id = "geocoder-controls">
-        <p>This is a demo of an online survey mapping tool under development by Cara Wong, Jake Bowers, and Mark Fredrickson.
-        Enter your address (street, city and zip) to try out the demo. Your address and the answers to your questions <em>will not</em> be stored anywhere.
-        </p>
-        <input type = "text" id = "geocoder"/></div>
       <div id="ft" role="contentinfo"><p>&copy; 2010 Jake Bowers, Cara Wong, and Mark Fredrickson. For inquiries, contact mark dot m dot fredrickson /@/ gmail dot com</p></div>
     </div>
   </body>

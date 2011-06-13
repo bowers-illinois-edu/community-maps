@@ -1,3 +1,35 @@
+// function to serialize form data to JS object
+// http://stackoverflow.com/questions/1184624/serialize-form-to-json-with-jquery
+
+jQuery.fn.serializeObject = function() {
+  var arrayData, objectData;
+  arrayData = this.serializeArray();
+  objectData = {};
+
+  $.each(arrayData, function() {
+    var value;
+
+    if (this.value != null) {
+      value = this.value;
+    } else {
+      value = '';
+    }
+
+    if (objectData[this.name] != null) {
+      if (!objectData[this.name].push) {
+        objectData[this.name] = [objectData[this.name]];
+      }
+
+      objectData[this.name].push(value);
+    } else {
+      objectData[this.name] = value;
+    }
+  });
+
+  return objectData;
+};
+
+
 /*!
  * Onine map survey demo
  * http://research.markmfredrickson.com
@@ -9,6 +41,8 @@
  * http://jquery.org/license
  *
  */
+
+
 
 var polygonControl;
 var map;
@@ -47,8 +81,42 @@ $(document).ready(function() {
       });
 
       current.children().first().append(link);
-    }})(j); // work around for JS scoping issue with for loops
+    }
+    
+    })(j); // work around for JS scoping issue with for loops
   }
+
+  var link = $("<a class='fg-button ui-state-default fg-button-icon-right ui-corner-all next-link' href='#'><span class='ui-icon'/>Done</a>").click(function() {
+    $("#last-question").hide();
+    $("#show-data").show();
+    var data = $("#thedata").serializeObject();
+    var addressLatLng = homeMarker.getLatLng();
+    data.addressLat = addressLatLng.lat();
+    data.addressLng = addressLatLng.lng();
+
+    // this is a little thorny. The GOverlay -> KML function is _asyncronous_.
+    // Therefore, for each neighbor/community the user has specified, we have 
+    // save the KML via a call back that also checks if all the data has arrived.
+    // When all the data is available, it should output the data to screen. 
+    // I will assume that no race conditions can happen on the kmlCompleted or 
+    // kmlCount variables.
+    var kmlCount = 0;
+    var kmlCompleted = [];
+
+    $.map(neighborhood, function(n) {
+      n.getKml(function(kml) {
+        kmlCount++;
+        kmlCompleted.push(kml);
+        if (kmlCount == neighborhood.length) {
+          data.communities = kmlCompleted;
+          $("#show-data").append(prettyPrint(data));
+        }
+      });
+    });
+
+  });
+  
+  $("#last-question").children().first().append(link);
 
   // add fancy sliders questions
   $(".slider-container").each(function() {
@@ -69,31 +137,7 @@ $(document).ready(function() {
 
  questions.hide();
   
-  // for the special block showing question, add a fake block group to the map.
-  // the id is place on the question _before_ the block group
-  // similarly, the block group question is responsible for hiding the group
-  var block;
-  $("#next-question-show-block-group a.next-link").click(function() {
-    var mapBounds = map.getBounds();
-    var ne = mapBounds.getNorthEast();
-    var sw = mapBounds.getSouthWest();
-    var width = Math.abs(ne.lng() - sw.lng());
-    var height = Math.abs(ne.lat() - sw.lat());
-    var a = new GLatLng(ne.lat() - .9 * height, ne.lng() - .9 * width);
-    var b = new GLatLng(ne.lat() - .9 * height, sw.lng() + .9 * width);
-    var c = new GLatLng(sw.lat() + .9 * height, ne.lng() - .9 * width);
-    var d = new GLatLng(sw.lat() + .9 * height, sw.lng() + .9 * width);
-
-    block = new GPolygon([a,b,d,c,a], "#0000FF", 5, .5, "#1010ff", .1);
-    for (o in neighborhood) { map.removeOverlay(neighborhood[o]); }
-    map.addOverlay(block);
-  });
-
-  $("#previous-question-hide-block-group a.prev-link").click(function() {
-    for (o in neighborhood) { map.addOverlay(neighborhood[o]); }    
-    map.removeOverlay(block);    
-  })
-
+ 
   // region drawing function
   var addRegion = function(save) {
     var region = new google.maps.Polygon(
@@ -103,6 +147,8 @@ $(document).ready(function() {
          strokeColor: "#FF0000",
          strokeWeight: 10
         })
+  var addRegion = function(save, callback) {
+    var region = new GPolygon([], "#FF0000", 10, 1, "#ff1010", 0.1);
     
     if(save) {
       neighborhood.push(region);
@@ -110,14 +156,37 @@ $(document).ready(function() {
 
     //region.setFillStyle({color: "#0000FF", opacity: .5});
     region.enableDrawing();
+
+    if (callback) {
+      GEvent.addListener(region, "endline", callback);
+    }
   }
 
   var setupTraining = function() {
     // map.clearOverlays();
     map.setCenter(new google.maps.LatLng(42.94, -122.10));
     map.setZoom(12);
+
+    var iconOptions = {};
+    iconOptions.primaryColor = "#ee7700";
+    iconOptions.strokeColor = "#000000";
+    iconOptions.labelColor = "#000000";
+    iconOptions.addStar = false;
+    iconOptions.starPrimaryColor = "#FFFF00";
+    iconOptions.starStrokeColor = "#0000FF";
+
+    iconOptions.label = "1";
+    var icon1 = MapIconMaker.createLabeledMarkerIcon(iconOptions);
     
-    // 12 o'clock
+    iconOptions.label = "2";
+    var icon2 = MapIconMaker.createLabeledMarkerIcon(iconOptions);
+    
+        iconOptions.label = "3";
+    var icon3 = MapIconMaker.createLabeledMarkerIcon(iconOptions);
+
+    iconOptions.label = "4";
+    var icon4 = MapIconMaker.createLabeledMarkerIcon(iconOptions);
+    
     new google.maps.Marker({map: map, position: new google.maps.LatLng(42.975, -122.10), clickable: false});
     // 9 o'clock
     new google.maps.Marker({map: map, position: new google.maps.LatLng(42.94, -122.165), clickable: false});
@@ -129,7 +198,7 @@ $(document).ready(function() {
 
   setupTraining();
 
-  $("#try-training").click(function() { addRegion(false); });
+  $("#try-training").click(function() { addRegion(false, null); });
   $("#restart-training").click(setupTraining);
 
   var centerOnHome = function() {
@@ -138,10 +207,14 @@ $(document).ready(function() {
     map.addOverlay(homeMarker);
   };
 
+  $("#training-time-start").val((new Date().getTime()));
   $("#done-training").click(function() {
+    $("#training-time-end").val((new Date().getTime()));
     $("#training").fadeOut("slow", function() { 
-      centerOnHome();
-      $("#move-marker").fadeIn("slow"); });     
+      $("#geocode").fadeIn("slow", function() {
+        $("#geocode-time-start").val((new Date().getTime()));
+      }); 
+    });     
   });
 
   // setting up the home marker
@@ -149,34 +222,55 @@ $(document).ready(function() {
   $("#done-moving").click(function() {
      homeMarker.disableDragging(false);
      map.setCenter(homeMarker.getPoint(), Math.floor(Math.random() * 5) + 10);
-    $("#move-marker").fadeOut("slow", function() { $("#draw-community").fadeIn("slow"); });     
+     $("#geocode-time-end").val((new Date().getTime()));
+    $("#geocode").fadeOut("slow", function() { 
+      $("#draw-community").fadeIn("slow", function() {
+        $("#draw-community-time-start").val((new Date()).getTime());
+      }); 
+    });     
   });
 
-  // the user can also try to update the map location with a new addr
+  // continuing from this screen is not an option until a valid point has been found
+  $("#done-moving").hide();
+  // make the "Find my location" button the result of hitting enter
+  $("#address").keypress(function(e) {
+    if(e.which == 13) {
+      //$(this).blur();
+      $('#address-update').click();
+    }
+  });
+ 
   $("#address-update").click(function() {
       // TODO lock the screen
       var geocoder = new GClientGeocoder();
-      var address = $("#geocoder-update").val();
+      var address = $("#address").val();
       geocoder.getLatLng(
         address,
         function(point) {
           if (!point) {
             // TODO use diaglog for alerting the user it is not found
-            alert(address + " not found");
+            alert("No location matching '" + address + "' found");
           } else {
             homePoint = point;
-            map.removeOverlay(homeMarker);
+            if (homeMarker) {
+              map.removeOverlay(homeMarker);              
+            }
+            $("#done-moving").show();
             centerOnHome();
           }    
      });
   });
 
+  $("#done-drawing").hide();
 
   $("#add-community").click(function(){
-    addRegion(true);   
+    addRegion(true, function() {
+      $("#done-drawing").show();      
+    });
   })
 
   $("#restart-community").click(function(){
+    $("#done-drawing").hide();
     for (i in neighborhood ) {
       map.removeOverlay(neighborhood[i]);
       neighborhood = [];
@@ -186,37 +280,13 @@ $(document).ready(function() {
   });
 
   $("#done-drawing").click(function(){
+    $("#draw-community-time-end").val((new Date().getTime()));
     homeMarker.disableDragging();
     $("#draw-community").fadeOut("slow", function() { questions.first().fadeIn("slow"); });     
-  })
+  });
 
-  // TODO hide the check box to close the dialog (as it is not an option)
-  // TODO hitting enter should submit the form like the lookup button
-  // $("#geocoder-controls").dialog({
-  //   width: 500,
-  //   modal: true,
-  //   draggable: false,
-  //   resizeable: false,
-  //   title: "Enter your address",
-  //   buttons: {"Look up my address": function() {
-  //     var dialog = this;
-  //     var geocoder = new GClientGeocoder();
-  //     var address = $("#geocoder").val();
-  //     geocoder.getLatLng(
-  //       address,
-  //       function(point) {
-  //         if (!point) {
-  //           // TODO use diaglog for alerting the user it is not found
-  //           alert(address + " not found");
-  //         } else {
-  //           homePoint = point;
-  //           $(dialog).dialog("close");
-  //           
-  //         }    
-  //       });
-  //     }
-  //   }
-  // });
+  // make clickable things have a hover state
+  $(".fg-button").hover(function() { $(this).toggleClass("ui-state-hover"); });
 });
 
 
