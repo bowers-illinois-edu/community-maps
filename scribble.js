@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  var SPEED = 1000;
+  var INTERVAL = 500;
 
   var myLatlng = new google.maps.LatLng(40, -88);
   var myOptions = {
@@ -24,7 +24,7 @@ $(document).ready(function() {
     
       map.setOptions({draggable: false});
 
-      drawing = true;  
+      drawing = false;  
       var p = new google.maps.Polyline({
         map: map,
         path: [e.latLng]
@@ -33,14 +33,25 @@ $(document).ready(function() {
       scribbles.push(p);
       
       currentListener = google.maps.event.addListener(map, 'mousemove', function(e) {
-        var path = p.getPath();
-        path.push(e.latLng); // pushing to path automatically updates the line
+        if (drawing) {
+          var path = p.getPath();
+          path.push(e.latLng); // pushing to path automatically updates the line
+          drawing = false;
+        }
       });
+
+      var loop = function() {
+        drawing = true;
+        currentTimeOut = setTimeout(loop, INTERVAL);
+      }
+
+      currentTimeOut = setTimeout(loop, INTERVAL); 
 
       google.maps.event.addListener(p, 'click', function(e) {
         drawing = false;
         google.maps.event.removeListener(currentListener);       
         map.setOptions({draggable: true });
+        clearTimeout(currentTimeOut);
       });
   });
     
