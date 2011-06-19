@@ -149,6 +149,8 @@ $(document).ready(function() {
       p.setMap(null);
       trainingRegions.push(r);
     }});
+    $(this).hide();
+    $("#restart-training").show();
   });
   $("#restart-training").click(function() {
     setupTraining();
@@ -156,7 +158,10 @@ $(document).ready(function() {
       r.setMap(null);
     });
     scribbleOff(scribbler);
-  });
+    $("#try-training").show();
+    $(this).hide();
+  }).hide();
+  
 
   $("#training-time-start").val((new Date().getTime()));
   $("#done-training").click(function() {
@@ -238,17 +243,20 @@ $(document).ready(function() {
       neighborhood.push(r);
       $("#done-drawing").show();
     }});
+    $(this).hide();
+    $("#restart-community").show();
   });
 
   $("#restart-community").click(function(){
-    $("#done-drawing").hide();
     $.each(neighborhood, function(i, r) {
       r.setMap(null);
     });
     neighborhood = [];
     scribbleOff(scribbler);
     map.setOptions({center: homeMarker.getPosition(), zoom: Math.floor(Math.random() * 5) + 10});
-  });
+    $(this).hide();
+    $("#add-community").show();
+  }).hide();
 
   $("#done-drawing").click(function(){
     $("#draw-community-time-end").val((new Date().getTime()));
