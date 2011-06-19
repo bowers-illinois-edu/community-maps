@@ -60,7 +60,7 @@ $(document).ready(function() {
   neighborhood = []; // collection of polygons that forms the neighborhood/community
   // a is an array (e.g. neighborhood), p is a google.maps.Polygon to
   // make into an array and then remove from the map.
-  var savePolygon = function(a, p, popupguard) {
+  var savePolygon = function(a, p, popupguard, afterdelete) {
     if (!popupguard) { popupguard = function() { return(true); }}
     var r = new google.maps.Polygon({map: map, paths: p.getPath().getArray()});
     p.setMap(null);
@@ -81,6 +81,9 @@ $(document).ready(function() {
           var idx = a.indexOf(r);
           if (idx != -1) { a.splice(idx, 1); }
           r.setMap(null);
+          if (afterdelete) { 
+            afterdelete(r); 
+          }
           popup.close();
         }));
         content.append($("<a class = 'fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only'>No</a>").click(function() {
@@ -273,7 +276,8 @@ $(document).ready(function() {
  
   $("#add-community").click(function(){
     scribbler = scribbleOn(map, {mouseup: function(p) {
-      savePolygon(neighborhood, p, function() { return(allowRemoveCommunity) });
+      savePolygon(neighborhood, p, function() { return(allowRemoveCommunity) },
+                 function() { if (neighborhood.length == 0) { $("#done-drawing").hide() }});          
       $("#done-drawing").show();
     }});
     $(this).hide();
