@@ -58,6 +58,18 @@ $(document).ready(function() {
   //map.setUIToDefault();
 
   neighborhood = []; // collection of polygons that forms the neighborhood/community
+  // a is an array (e.g. neighborhood), p is a google.maps.Polygon to
+  // make into an array and then remove from the map.
+  var savePolygon = function(a,p) {
+    var r = new google.maps.Polygon({map: map, paths: p.getPath().getArray()});
+    p.setMap(null);
+    a.push(r);
+    google.maps.event.addListener(r, "click", function(e) {
+      var idx = a.indexOf(r);
+      if (idx != -1) { a.splice(idx, 1); }
+      r.setMap(null);
+    });
+  };
 
   var questions = $("#survey-questions").children();
 
@@ -145,9 +157,7 @@ $(document).ready(function() {
   var trainingRegions = [];
   $("#try-training").click(function() { 
     scribbler = scribbleOn(map, {mouseup: function(p) {
-      var r = new google.maps.Polygon({map: map, paths: p.getPath().getArray()});
-      p.setMap(null);
-      trainingRegions.push(r);
+      savePolygon(trainingRegions, p)
     }});
     $(this).hide();
     $("#restart-training").show();
@@ -238,9 +248,7 @@ $(document).ready(function() {
 
   $("#add-community").click(function(){
     scribbler = scribbleOn(map, {mouseup: function(p) {
-      var r = new google.maps.Polygon({map: map, paths: p.getPath().getArray()});
-      p.setMap(null);
-      neighborhood.push(r);
+      savePolygon(neighborhood, p);
       $("#done-drawing").show();
     }});
     $(this).hide();
