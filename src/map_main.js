@@ -58,6 +58,44 @@ $(document).ready(function() {
   //map.setUIToDefault();
 
   neighborhood = []; // collection of polygons that forms the neighborhood/community
+  // a is an array (e.g. neighborhood), p is a google.maps.Polygon to
+  // make into an array and then remove from the map.
+  var savePolygon = function(a, p, popupguard, afterdelete) {
+    if (!popupguard) { popupguard = function() { return(true); }}
+    var r = new google.maps.Polygon({map: map, paths: p.getPath().getArray()});
+    p.setMap(null);
+    a.push(r);
+    var doAnyThing = true; // prevents multiple pop ups from appearing.
+    google.maps.event.addListener(r, "click", function(e) {
+      if (doAnyThing & popupguard() ) {
+        doAnyThing = false;
+        // Note: might be slightly more efficient to create the window
+        // once, rather than for each click.
+        var popup = new google.maps.InfoWindow({content: "", position: e.latLng});
+        google.maps.event.addListener(popup, "closeclick", function() {
+          doAnyThing = true;
+        });
+        var content = $("<div style = 'height: 6em'>").addClass("polygon-popup"); 
+        content.append($("<h2>Do you want to delete this community?</h2>"));
+        content.append($("<a class = 'fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only'>Yes</a>").click(function() {
+          var idx = a.indexOf(r);
+          if (idx != -1) { a.splice(idx, 1); }
+          r.setMap(null);
+          if (afterdelete) { 
+            afterdelete(r); 
+          }
+          popup.close();
+        }));
+        content.append($("<a class = 'fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only'>No</a>").click(function() {
+          popup.close();
+          doAnyThing = true;
+          return(false);
+        }));
+        popup.setContent(content[0]);
+        popup.open(map);
+      }
+    });
+  };
 
   var questions = $("#survey-questions").children();
 
@@ -145,10 +183,10 @@ $(document).ready(function() {
   var trainingRegions = [];
   $("#try-training").click(function() { 
     scribbler = scribbleOn(map, {mouseup: function(p) {
-      var r = new google.maps.Polygon({map: map, paths: p.getPath().getArray()});
-      p.setMap(null);
-      trainingRegions.push(r);
+      savePolygon(trainingRegions, p)
     }});
+    $(this).hide();
+    $("#restart-training").show();
   });
   $("#restart-training").click(function() {
     setupTraining();
@@ -156,7 +194,10 @@ $(document).ready(function() {
       r.setMap(null);
     });
     scribbleOff(scribbler);
-  });
+    $("#try-training").show();
+    $(this).hide();
+  }).hide();
+  
 
   $("#training-time-start").val((new Date().getTime()));
   $("#done-training").click(function() {
@@ -228,31 +269,36 @@ $(document).ready(function() {
       } 
     });
   });
+  
+  var allowRemoveCommunity = true;
 
   $("#done-drawing").hide();
-
+ 
   $("#add-community").click(function(){
     scribbler = scribbleOn(map, {mouseup: function(p) {
-      var r = new google.maps.Polygon({map: map, paths: p.getPath().getArray()});
-      p.setMap(null);
-      neighborhood.push(r);
+      savePolygon(neighborhood, p, function() { return(allowRemoveCommunity) },
+                 function() { if (neighborhood.length == 0) { $("#done-drawing").hide() }});          
       $("#done-drawing").show();
     }});
+    $(this).hide();
+    $("#restart-community").show();
   });
 
   $("#restart-community").click(function(){
-    $("#done-drawing").hide();
     $.each(neighborhood, function(i, r) {
       r.setMap(null);
     });
     neighborhood = [];
     scribbleOff(scribbler);
     map.setOptions({center: homeMarker.getPosition(), zoom: Math.floor(Math.random() * 5) + 10});
-  });
+    $(this).hide();
+    $("#add-community").show();
+  }).hide();
 
   $("#done-drawing").click(function(){
     $("#draw-community-time-end").val((new Date().getTime()));
     scribbleOff(scribbler);
+    allowRemoveCommunity = false;
     $("#draw-community").fadeOut("slow", function() { questions.first().fadeIn("slow"); });     
   });
 

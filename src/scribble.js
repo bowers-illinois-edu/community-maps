@@ -14,15 +14,20 @@
  ******************************************************************************/
 
 scribbleOn = function(map, options) {
-  defaults = {
+  var defaults = {
     interval: 25, // mouse position sampling interval
-    mouseup: null // function to be run when mouse button comes up
-  }
+    mouseup: null, // function to be run when mouse button comes up
+    wait: 3000 // milliseconds to wait before considering mouse to be final
+  };
 
   var opts = $.extend({}, defaults, options);
   var jmap = $(map.getDiv());
 
   var drawing = false;
+  var waiting = false;
+  var waitingTimeOut;
+  var waitingFunction;
+
   var p; // will hold the current polyline
   var currentListener;
   var currentTimeOut;
@@ -31,14 +36,21 @@ scribbleOn = function(map, options) {
 
     map.setOptions({draggable: false});
 
-    drawing = false;  
+    drawing = false;
     p = new google.maps.Polyline({
       map: map,
       path: [e.latLng]
     });
 
     currentListener = google.maps.event.addListener(map, 'mousemove', function(e) {
-      if (drawing) {
+      if (waiting) {
+        waiting = false;
+        clearTimeout(waitingTimeOut);
+        waitingFunction();
+        return(false);
+      }
+
+      if (drawing & !waiting) {
         var path = p.getPath();
         path.push(e.latLng); // pushing to path automatically updates the line
         drawing = false;
@@ -52,19 +64,34 @@ scribbleOn = function(map, options) {
 
     currentTimeOut = setTimeout(loop, opts.interval); 
 
+    google.maps.event.addListener(p, "mousedown", function(e) {
+      if (waiting) {
+        map.setOptions({draggable: false});
+        clearTimeout(waitingTimeOut);
+        waiting = false;
+      }
+    });
+
   });
 
   jmap.mouseup(function() {
     if (drawing) {
+      // to get map clicks we need draggable == true
+      map.setOptions({draggable: true});
+      waiting = true;
+      waitingFunction = function() {
+        drawing = false;
+        waiting = false;
 
-      drawing = false;
-      google.maps.event.removeListener(currentListener);       
-      map.setOptions({draggable: true });
-      clearTimeout(currentTimeOut);
+        google.maps.event.removeListener(currentListener);       
+        map.setOptions({draggable: true });
+        clearTimeout(currentTimeOut);
 
-      if (opts.mouseup) {
-        opts.mouseup(p);
+        if (opts.mouseup) {
+          opts.mouseup(p);
+        }
       }
+      waitingTimeOut = setTimeout(waitingFunction, opts.wait);
     }
   });
 

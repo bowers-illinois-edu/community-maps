@@ -62,3 +62,7 @@ button.fg-button { width:auto; overflow:visible; }
 
 
 #address { width: 100%; margin-bottom: 1em;}
+
+.polygon-popup { text-align: center; }
+.polygon-popup a.fg-button { float: none; margin: 0.5em; }
+.polygon-popup h2 { margin-bottom: 1em; }
