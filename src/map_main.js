@@ -64,10 +64,29 @@ $(document).ready(function() {
     var r = new google.maps.Polygon({map: map, paths: p.getPath().getArray()});
     p.setMap(null);
     a.push(r);
+    var doAnyThing = true; // prevents multiple pop ups from appearing.
     google.maps.event.addListener(r, "click", function(e) {
-      var idx = a.indexOf(r);
-      if (idx != -1) { a.splice(idx, 1); }
-      r.setMap(null);
+      if (doAnyThing) {
+        doAnyThing = false;
+        // Note: might be slightly more efficient to create the window
+        // once, rather than for each click.
+        var popup = new google.maps.InfoWindow({content: "", position: e.latLng});
+        var content = $("<div style = 'height: 6em'>").addClass("polygon-popup"); 
+        content.append($("<h2>Do you want to delete this community?</h2>"));
+        content.append($("<a class = 'fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only'>Yes</a>").click(function() {
+          var idx = a.indexOf(r);
+          if (idx != -1) { a.splice(idx, 1); }
+          r.setMap(null);
+          popup.close();
+        }));
+        content.append($("<a class = 'fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only'>No</a>").click(function() {
+          popup.close();
+          doAnyThing = true;
+          return(false);
+        }));
+        popup.setContent(content[0]);
+        popup.open(map);
+      }
     });
   };
 
