@@ -60,17 +60,21 @@ $(document).ready(function() {
   neighborhood = []; // collection of polygons that forms the neighborhood/community
   // a is an array (e.g. neighborhood), p is a google.maps.Polygon to
   // make into an array and then remove from the map.
-  var savePolygon = function(a,p) {
+  var savePolygon = function(a, p, popupguard) {
+    if (!popupguard) { popupguard = function() { return(true); }}
     var r = new google.maps.Polygon({map: map, paths: p.getPath().getArray()});
     p.setMap(null);
     a.push(r);
     var doAnyThing = true; // prevents multiple pop ups from appearing.
     google.maps.event.addListener(r, "click", function(e) {
-      if (doAnyThing) {
+      if (doAnyThing & popupguard() ) {
         doAnyThing = false;
         // Note: might be slightly more efficient to create the window
         // once, rather than for each click.
         var popup = new google.maps.InfoWindow({content: "", position: e.latLng});
+        google.maps.event.addListener(popup, "closeclick", function() {
+          doAnyThing = true;
+        });
         var content = $("<div style = 'height: 6em'>").addClass("polygon-popup"); 
         content.append($("<h2>Do you want to delete this community?</h2>"));
         content.append($("<a class = 'fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only'>Yes</a>").click(function() {
@@ -262,12 +266,14 @@ $(document).ready(function() {
       } 
     });
   });
+  
+  var allowRemoveCommunity = true;
 
   $("#done-drawing").hide();
-
+ 
   $("#add-community").click(function(){
     scribbler = scribbleOn(map, {mouseup: function(p) {
-      savePolygon(neighborhood, p);
+      savePolygon(neighborhood, p, function() { return(allowRemoveCommunity) });
       $("#done-drawing").show();
     }});
     $(this).hide();
@@ -288,6 +294,7 @@ $(document).ready(function() {
   $("#done-drawing").click(function(){
     $("#draw-community-time-end").val((new Date().getTime()));
     scribbleOff(scribbler);
+    allowRemoveCommunity = false;
     $("#draw-community").fadeOut("slow", function() { questions.first().fadeIn("slow"); });     
   });
 
