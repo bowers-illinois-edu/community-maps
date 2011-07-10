@@ -65,15 +65,15 @@ $(document).ready(function() {
     var r = new google.maps.Polygon({map: map, paths: p.getPath().getArray()});
     p.setMap(null);
     a.push(r);
-    var doAnyThing = true; // prevents multiple pop ups from appearing.
+    var popupmutex = true; // prevents multiple pop ups from appearing.
     google.maps.event.addListener(r, "click", function(e) {
-      if (doAnyThing & popupguard() ) {
-        doAnyThing = false;
+      if (popupmutex & popupguard() ) {
+        popupmutex = false;
         // Note: might be slightly more efficient to create the window
         // once, rather than for each click.
         var popup = new google.maps.InfoWindow({content: "", position: e.latLng});
         google.maps.event.addListener(popup, "closeclick", function() {
-          doAnyThing = true;
+          popupmutex = true;
         });
         var content = $("<div style = 'height: 7em'>").addClass("polygon-popup"); 
         content.append($("<h2>Do you want to delete this community?</h2>"));
@@ -88,7 +88,7 @@ $(document).ready(function() {
         }));
         content.append($("<a class = 'fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only'><span class = 'ui-button-text'>No</span></a>").click(function() {
           popup.close();
-          doAnyThing = true;
+          popupmutex = true;
           return(false);
         }));
         popup.setContent(content[0]);
