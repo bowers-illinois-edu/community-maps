@@ -77,7 +77,7 @@ $(document).ready(function() {
         });
         var content = $("<div style = 'height: 7em'>").addClass("polygon-popup"); 
         content.append($("<h2>Do you want to delete this community?</h2>"));
-        content.append($("<a class = 'fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only'><span class = 'ui-button-text'>Yes</span></a>").click(function() {
+        content.append(makeButton("Yes").click(function() {
           var idx = a.indexOf(r);
           if (idx != -1) { a.splice(idx, 1); }
           r.setMap(null);
@@ -86,7 +86,7 @@ $(document).ready(function() {
           }
           popup.close();
         }));
-        content.append($("<a class = 'fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only'><span class = 'ui-button-text'>No</span></a>").click(function() {
+        content.append(makeButton("No").click(function() {
           popup.close();
           popupmutex = true;
           return(false);
@@ -104,7 +104,7 @@ $(document).ready(function() {
       var current = $(questions[i]);
       if (i > 0) {
         // add previous link
-        var link = $("<a class = 'fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only'><span class = 'ui-button-text'>Previous</span></a>").click(function() {
+        var link = makeButton("Previous").click(function() {
           current.fadeOut("slow", function(){
             $(questions[i - 1]).fadeIn("slow"); 
           });
@@ -113,7 +113,7 @@ $(document).ready(function() {
       } 
 
       if (i < questions.length - 1) {
-        var link = $("<a class = 'fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only'><span class = 'ui-button-text'>Next</span></a>").click(function() {
+        var link = makeButton("Next").click(function() {
           current.fadeOut("slow", function(){
             $(questions[i + 1]).fadeIn("slow");
           });
@@ -125,7 +125,7 @@ $(document).ready(function() {
     })(j); // work around for JS scoping issue with for loops
   }
 
-  var link = $("<a class = 'fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only'><span class = 'ui-button-text'>Done</span></a>").click(function() {
+  var link = makeButton("Done").click(function() {
     $("#last-question").hide();
     $("#show-data").show();
     var data = $("#thedata").serializeObject();
