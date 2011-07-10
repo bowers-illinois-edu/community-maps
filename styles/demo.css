@@ -28,3 +28,5 @@ em {
 
 .polygon-popup { text-align: center; }
 .polygon-popup a.fg-button { float: none; margin: 0 0.5em 0 0.5em; }
+
+.drawing { cursor: crosshair; }

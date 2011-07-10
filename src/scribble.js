@@ -32,8 +32,10 @@ scribbleOn = function(map, options) {
   var currentListener;
   var currentTimeOut;
 
-  var scribbler = google.maps.event.addListener(map, 'mousedown', function(e) {
+  map.setOptions({draggableCursor: "crosshair"});
 
+  var scribbler = google.maps.event.addListener(map, 'mousedown', function(e) {
+    jmap.addClass("drawing");
     map.setOptions({draggable: false});
 
     drawing = false;
@@ -82,6 +84,7 @@ scribbleOn = function(map, options) {
       waitingFunction = function() {
         drawing = false;
         waiting = false;
+        jmap.removeClass("drawing");
 
         google.maps.event.removeListener(currentListener);       
         map.setOptions({draggable: true });
@@ -95,12 +98,13 @@ scribbleOn = function(map, options) {
     }
   });
 
-  return(scribbler)
+  return({scribbler: scribbler, map: map})
 }
 
-scribbleOff = function(scribbleListener) {
-  if(scribbleListener) {
-    google.maps.event.removeListener(scribbleListener);
+scribbleOff = function(scribbleObj) {
+  if(scribbleObj.scribbler) {
+    scribbleObj.map.setOptions({draggableCursor: null});
+    google.maps.event.removeListener(scribbleObj.scribbler);
   }
 }
 
