@@ -102,7 +102,7 @@ scribbleOn = function(map, options) {
 }
 
 scribbleOff = function(scribbleObj) {
-  if(scribbleObj.scribbler) {
+  if(scribbleObj && scribbleObj.scribbler) {
     scribbleObj.map.setOptions({draggableCursor: null});
     google.maps.event.removeListener(scribbleObj.scribbler);
   }
