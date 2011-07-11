@@ -26,6 +26,9 @@ $(document).ready(function() {
   neighborhood = []; // collection of polygons that forms the neighborhood/community
   // a is an array (e.g. neighborhood), p is a google.maps.Polygon to
   // make into an array and then remove from the map.
+  
+  var popups = []; // similar to neighborhood but keeps track of popups on the screen.
+
   var savePolygon = function(a, p, popupguard, afterdelete) {
     if (!popupguard) { popupguard = function() { return(true); }}
     var r = new google.maps.Polygon({map: map, paths: p.getPath().getArray()});
@@ -38,6 +41,8 @@ $(document).ready(function() {
         // Note: might be slightly more efficient to create the window
         // once, rather than for each click.
         var popup = new google.maps.InfoWindow({content: "", position: e.latLng});
+        popups.push(popup);
+
         google.maps.event.addListener(popup, "closeclick", function() {
           popupmutex = true;
         });
@@ -113,6 +118,11 @@ $(document).ready(function() {
     $.each(trainingRegions, function(i, r) {
       r.setMap(null);
     });
+
+    $.each(popups, function(i, p) {
+      p.setMap(null);
+    });
+
     scribbleOff(scribbler);
     $("#try-training").show();
     $(this).hide();
@@ -128,6 +138,12 @@ $(document).ready(function() {
     $.each(trainingRegions, function(i, r) {
       r.setMap(null);
     });
+
+    $.each(popups, function(i, p) {
+      p.setMap(null);
+    });
+
+
 
     $("#training").fadeOut("slow", function() { 
       $("#geocode").fadeIn("slow", function() {
@@ -208,7 +224,14 @@ $(document).ready(function() {
     $.each(neighborhood, function(i, r) {
       r.setMap(null);
     });
+    
+    $.each(popups, function(i, p) {
+      p.setMap(null);
+    });
+
     neighborhood = [];
+    popups = [];
+
     scribbleOff(scribbler);
     map.setOptions({center: homeMarker.getPosition(), zoom: Math.floor(Math.random() * 5) + 10});
     $(this).hide();
@@ -217,6 +240,11 @@ $(document).ready(function() {
 
   $("#done-drawing").click(function(){
     $("#draw-community-time-end").val((new Date().getTime()));
+
+    $.each(popups, function(i, p) {
+      p.setMap(null);
+    });
+
     scribbleOff(scribbler);
     allowRemoveCommunity = false;
     $("#draw-community").fadeOut("slow", function() { $("#survey-questions").children().first().fadeIn("slow"); });     
