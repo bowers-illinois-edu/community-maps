@@ -1,35 +1,3 @@
-// function to serialize form data to JS object
-// http://stackoverflow.com/questions/1184624/serialize-form-to-json-with-jquery
-
-jQuery.fn.serializeObject = function() {
-  var arrayData, objectData;
-  arrayData = this.serializeArray();
-  objectData = {};
-
-  $.each(arrayData, function() {
-    var value;
-
-    if (this.value != null) {
-      value = this.value;
-    } else {
-      value = '';
-    }
-
-    if (objectData[this.name] != null) {
-      if (!objectData[this.name].push) {
-        objectData[this.name] = [objectData[this.name]];
-      }
-
-      objectData[this.name].push(value);
-    } else {
-      objectData[this.name] = value;
-    }
-  });
-
-  return objectData;
-};
-
-
 /*!
  * Onine map survey demo
  * http://research.markmfredrickson.com
@@ -41,8 +9,6 @@ jQuery.fn.serializeObject = function() {
  * http://jquery.org/license
  *
  */
-
-
 
 var polygonControl;
 var map;
@@ -97,33 +63,6 @@ $(document).ready(function() {
     });
   };
 
-  var questions = $("#survey-questions").children();
-
-  for(j = 0; j < questions.length; j++) {
-    (function(i) {
-      var current = $(questions[i]);
-      if (i > 0) {
-        // add previous link
-        var link = makeButton("Previous").click(function() {
-          current.fadeOut("slow", function(){
-            $(questions[i - 1]).fadeIn("slow"); 
-          });
-        });
-        current.children().first().append(link);
-      } 
-
-      if (i < questions.length - 1) {
-        var link = makeButton("Next").click(function() {
-          current.fadeOut("slow", function(){
-            $(questions[i + 1]).fadeIn("slow");
-          });
-        });
-
-        current.children().first().append(link);
-      }
-
-    })(j); // work around for JS scoping issue with for loops
-  }
 
   var link = makeButton("Done").click(function() {
     $("#last-question").hide();
@@ -150,25 +89,6 @@ $(document).ready(function() {
   });
 
   $("#last-question").children().first().append(link);
-
-  // add fancy sliders questions
-  $(".slider-container").each(function() {
-    var s = $(this);
-    var lbl = $("label", s);
-    var txt = $("input", s);
-    var sld = $(".slider", s);
-    var start = Math.floor(Math.random() * 100);
-    sld.slider({
-      value: start,
-      min: 0,
-      max: 100,
-      step: 1,
-      slide: function(e, ui) {txt.val(ui.value + '%');}
-    });
-    txt.val(start + '%');
-  });  
-
-  questions.hide();
 
   var trainingLocation = new google.maps.LatLng(42.94, -122.10);
   var setupTraining = function() {
@@ -299,7 +219,7 @@ $(document).ready(function() {
     $("#draw-community-time-end").val((new Date().getTime()));
     scribbleOff(scribbler);
     allowRemoveCommunity = false;
-    $("#draw-community").fadeOut("slow", function() { questions.first().fadeIn("slow"); });     
+    $("#draw-community").fadeOut("slow", function() { $("#survey-questions").children().first().fadeIn("slow"); });     
   });
 
   // make clickable things have a hover state
