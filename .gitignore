@@ -6,3 +6,4 @@ lib
 classes
 build
 ./community-maps-tmp
+war/WEB-INF/appengine-generated/
