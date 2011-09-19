@@ -1,1 +1,8 @@
-\#*
+.cake
+pom.xml
+*.jar
+*.war
+lib
+classes
+build
+./community-maps-tmp
