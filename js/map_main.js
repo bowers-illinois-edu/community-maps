@@ -24,16 +24,18 @@ $(document).ready(function() {
     p.setMap(null);
     a.push(r);
     
-    var paths = $.map(a, function(n, i) {
-      var p = n.getPath().getArray();
-      var stuff = $.map(p, function(e, j) {
-        return([[e.lat(), e.lng()]]);
-      });
-      return(stuff.join(","));
-    });
+    var savePaths = function() {
+      // data format is lat,lon,lat,lon,... ; lat,lon,lat,lon,... ; ...
+      datafield.val($.map(a, function(n, i) {
+        var p = n.getPath().getArray();
+        var stuff = $.map(p, function(e, j) {
+          return([[e.lat(), e.lng()]]);
+        });
+        return(stuff.join(","));
+      }).join(";"));
+    }
     
-    // data format is lat,lon,lat,lon,... ; lat,lon,lat,lon,... ; ...
-    datafield.val(paths.join(";"));
+    savePaths(); // save on write
 
     var popupmutex = true; // prevents multiple pop ups from appearing.
     google.maps.event.addListener(r, "click", function(e) {
@@ -56,6 +58,7 @@ $(document).ready(function() {
           if (afterdelete) { 
             afterdelete(r); 
           }
+          savePaths(); // update the data field
           popup.close();
         }));
         content.append(makeButton("No").click(function() {
