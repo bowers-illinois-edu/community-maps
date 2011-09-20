@@ -17,6 +17,79 @@ var homeMarker; // name the home marker so we can grab it later
 var homePoint;
 
 $(document).ready(function() {
+  var popups = [];
+  var savePolygon = function(map, a, p, popupguard, afterdelete) {
+    if (!popupguard) { popupguard = function() { return(true); }}
+    var r = new google.maps.Polygon({map: map, paths: p.getPath().getArray()});
+    p.setMap(null);
+    a.push(r);
+    var popupmutex = true; // prevents multiple pop ups from appearing.
+    google.maps.event.addListener(r, "click", function(e) {
+      if (popupmutex & popupguard() ) {
+        popupmutex = false;
+        // Note: might be slightly more efficient to create the window
+        // once, rather than for each click.
+        var popup = new google.maps.InfoWindow({content: "", position: e.latLng});
+        popups.push(popup);
+
+        google.maps.event.addListener(popup, "closeclick", function() {
+          popupmutex = true;
+        });
+        var content = $("<div style = 'height: 7em'>").addClass("polygon-popup"); 
+        content.append($("<h2>Do you want to delete this community?</h2>"));
+        content.append(makeButton("Yes").click(function() {
+          var idx = a.indexOf(r);
+          if (idx != -1) { a.splice(idx, 1); }
+          r.setMap(null);
+          if (afterdelete) { 
+            afterdelete(r); 
+          }
+          popup.close();
+        }));
+        content.append(makeButton("No").click(function() {
+          popup.close();
+          popupmutex = true;
+          return(false);
+        }));
+        popup.setContent(content[0]);
+        popup.open(map);
+      }
+    });
+  };
+
+  $(".scribble-map").each(function(idx) {
+    var data = [];
+    
+   
+    var map = new google.maps.Map($(".map-canvas", this).get(0),
+                                  {mapTypeId: google.maps.MapTypeId.ROADMAP,
+                                   scrollwheel: false,
+                                   zoom: 16});
+                                 
+    var center = new google.maps.LatLng($(".lat", this).val(), $(".lon", this).val());
+    map.setOptions({center: center});
+
+    var start = $(".start", this);
+    var stop = $(".stop", this);
+    var reset = $(".reset", this);
+    var scribbler;
+    
+    start.click(function() {
+      stop.show();
+      reset.show();
+      
+      scribbler = scribbleOn(map, {mouseup: function(p) {
+        savePolygon(map, data, p, function() { return(true) },
+                    function() { if (data.length == 0) { stop.hide(); }}); 
+      }});
+      start.hide();
+    });
+
+    stop.click(function() {
+
+    });
+  });
+
   map = new google.maps.Map($("#map_canvas")[0],
     {mapTypeId: google.maps.MapTypeId.ROADMAP,
       scrollwheel: false,
@@ -69,88 +142,13 @@ $(document).ready(function() {
   };
 
 
-  var link = makeButton("Done").click(function() {
-    $("#last-question").hide();
-    $("#show-data").show();
-    var data = $("#thedata").serializeObject();
-    var addressLatLng = homeMarker.getPosition();
-    data.addressLat = addressLatLng.lat();
-    data.addressLng = addressLatLng.lng();
-
-    // in this next code block, the return values are wrapped into extra arrays 
-    // this is because jQuery.map tries to flatten arrays as return values
-    // I would argue this behavior is wrong, but it is what jQuery does, so we can
-    // work around.
-    data.paths = $.map(neighborhood, function(n, i) {
-      var p = n.getPath().getArray();
-      var stuff = $.map(p, function(e, j) {
-        return([[e.lat(), e.lng()]]);
-      });
-      return([stuff]);
-    });
-
-    $("#show-data").append(prettyPrint(data, {maxDepth: 4}));
-
-  });
-
-  $("#last-question").children().first().append(link);
-
-  var trainingLocation = new google.maps.LatLng(42.94, -122.10);
-  var setupTraining = function() {
-    // map.clearOverlays();
-    map.setCenter(trainingLocation);
-    map.setZoom(12);
-  }
-
-  setupTraining();
+  
+  // This should be a set from the user data, perhaps in a hidden
+  // field
+  var defaultLocation = new google.maps.LatLng(42.94, -122.10);
+  homePoint = defaultLocation;
 
   var scribbler;
-  var trainingRegions = [];
-  $("#try-training").click(function() { 
-    scribbler = scribbleOn(map, {mouseup: function(p) {
-      savePolygon(trainingRegions, p)
-    }});
-    $(this).hide();
-    $("#restart-training").show();
-  });
-  $("#restart-training").click(function() {
-    setupTraining();
-    $.each(trainingRegions, function(i, r) {
-      r.setMap(null);
-    });
-
-    $.each(popups, function(i, p) {
-      p.setMap(null);
-    });
-
-    scribbleOff(scribbler);
-    $("#try-training").show();
-    $(this).hide();
-  }).hide();
-  
-
-  $("#training-time-start").val((new Date().getTime()));
-  $("#done-training").click(function() {
-    $("#training-time-end").val((new Date().getTime()));
-    
-    scribbleOff(scribbler);
-    // clear out the training regions
-    $.each(trainingRegions, function(i, r) {
-      r.setMap(null);
-    });
-
-    $.each(popups, function(i, p) {
-      p.setMap(null);
-    });
-
-
-
-    $("#training").fadeOut("slow", function() { 
-      $("#geocode").fadeIn("slow", function() {
-        $("#geocode-time-start").val((new Date().getTime()));
-      }); 
-    });     
-  });
 
   // setting up the home marker
   var centerOnHome = function() {
@@ -162,28 +160,13 @@ $(document).ready(function() {
     });
   };
 
-  // when the user is done, clikcing the button fixes the marker in place
-  $("#done-moving").click(function() {
-    homeMarker.setOptions({draggable: false});
-    map.setOptions({center: homeMarker.getPosition(), zoom: Math.floor(Math.random() * 5) + 10});
-
-    $("#geocode-time-end").val((new Date().getTime()));
-    $("#geocode").fadeOut("slow", function() { 
-      $("#draw-community").fadeIn("slow", function() {
-        $("#draw-community-time-start").val((new Date()).getTime());
-      }); 
-    });     
-  });
-
-  // continuing from this screen is not an option until a valid point has been found
-  $("#done-moving").hide();
   // make the "Find my location" button the result of hitting enter
-  $("#address").keypress(function(e) {
-    if(e.which == 13) {
-      //$(this).blur();
-      $('#address-update').click();
-    }
-  });
+  // $("#address").keypress(function(e) {
+  //   if(e.which == 13) {
+  //     //$(this).blur();
+  //     $('#address-update').click();
+  //   }
+  // });
 
   $("#address-update").click(function() {
     // TODO lock the screen
