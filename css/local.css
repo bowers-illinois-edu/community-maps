@@ -9,3 +9,16 @@ h1 {
 
 div.scribble-map div.actions { margin: 1em 1em 1em 0; }
 div.scribble-map div.actions a { margin-right: 1em; }
+
+ul.burp-jquery-rank-options { margin: 1em 0 1em 0; }
+
+li.burp-jquery-rank-item {
+    display: block;
+    width: 33%;
+    text-align: center;
+    margin: .25em 0 .25em 0;
+    background-color: #eee;
+    padding: .5em;
+    border: 1px solid #ccc;
+    font-weight: bold;
+}
