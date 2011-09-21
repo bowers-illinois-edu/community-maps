@@ -1,0 +1,11 @@
+h1 {
+  font-size: 150%;
+}
+
+#ft {
+  color: #cccccc;
+  font-size: 80%;
+}
+
+div.scribble-map div.actions { margin: 1em 1em 1em 0; }
+div.scribble-map div.actions a { margin-right: 1em; }

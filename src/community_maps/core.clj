@@ -2,6 +2,7 @@
   (:use [shanks core appengine-magic]
         hiccup.core
         hiccup.page-helpers
+        [burp.core :only [add-class]]
         [burp.ring :only [wrap-burp]]
         [burp.jquery :only [jquery-link jquery-ui-link]]
         ring.middleware.file)
@@ -27,13 +28,19 @@
     (include-js "http://maps.google.com/maps/api/js?v=3.4&sensor=false")
     (include-css "http://yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css")
     (include-css "http://yui.yahooapis.com/2.8.2r1/build/base/base-min.css")
-    (include-css "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/ui-lightness/jquery-ui.css")]
+    (include-css "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/ui-lightness/jquery-ui.css")
+    (include-css "local.css")]
    [:body {:id "doc" :class "yui-t7"}
     [:div#hd [:h1 "Hello!"]]
     [:div#bd
      [:div.yui-g body]]]))
 
 (defscreen thank-you [_] "Thank you for taking this survey.")
+
+(defelem button
+  "Create a button with a txt label"
+  [txt]
+  [:a {:class "fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"} [:span.ui-button-text txt]])
 
 (defelem scribble-map
   "Create a map centered on a given lat/lon"
@@ -43,9 +50,14 @@
      (f/hidden-field {:class "lat"} :lat lat)
      (f/hidden-field {:class "lon"} :lon lon)
      (f/hidden-field {:class "map-data"} :data)
-     [:a.start "Start drawing"]
-     [:a.stop {:style "display: none;"} "Stop drawing"]
-     [:a.reset {:style "display: none;"} "Reset Map"]
+     [:div.actions
+      (add-class (button "Start Drawing") "action start")
+      (add-class
+       (button {:style "display: none;"} "Stop Drawing")
+       "action stop")
+      (add-class
+       (button {:style "display: none;"} "Reset Map")
+       "action reset")]
      [:div.map-canvas {:style "height: 400px; width: 100%;"}]]))
 
 (defscreen draw-on-map
@@ -56,7 +68,8 @@
 (def survey-app
   (-> (survey createwithid dbsave dbload layout thank-you [draw-on-map])
       wrap-burp
-      (wrap-file "js")))
+      (wrap-file "js")
+      (wrap-file "css")))
 
 (ae/def-appengine-app survey-app-ae #'survey-app)
 
