@@ -26,8 +26,12 @@
     (include-js "utilities.js")
     (include-js "http://maps.google.com/maps/api/js?v=3.4&sensor=false")
     (include-css "http://yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css")
+    (include-css "http://yui.yahooapis.com/2.8.2r1/build/base/base-min.css")
     (include-css "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/ui-lightness/jquery-ui.css")]
-   [:body body]))
+   [:body {:id "doc" :class "yui-t7"}
+    [:div#hd [:h1 "Hello!"]]
+    [:div#bd
+     [:div.yui-g body]]]))
 
 (defscreen thank-you [_] "Thank you for taking this survey.")
 
@@ -46,8 +50,8 @@
 
 (defscreen draw-on-map
   [subject]
-  [:div.question "Please draw on the map"
-   (scribble-map :test-scribble 42.04 -122.10)])
+  (question "Please draw on the map"
+   (scribble-map :test-scribble 40.1105556 -88.2072222)))
 
 (def survey-app
   (-> (survey createwithid dbsave dbload layout thank-you [draw-on-map])
