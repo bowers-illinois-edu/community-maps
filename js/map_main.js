@@ -101,7 +101,18 @@ $(document).ready(function() {
     });
 
     stop.click(function() {
+      scribbleOff(scribbler);
+      stop.hide();
+      start.show();
+      reset.hide();
+    });
 
+    reset.click(function() {
+      hiddenfield.val("");
+      $.map(data, function(item, idx) {
+        item.setMap(null);
+      });
+      data = [];
     });
   });
 
