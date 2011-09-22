@@ -72,11 +72,9 @@
 
 (def survey-app
   (-> (survey createwithid dbsave dbload layout thank-you [draw-on-map])
-      wrap-burp
-      (wrap-file "js")
-      (wrap-file "css")))
+      wrap-burp))
 
-(ae/def-appengine-app survey-app-ae #'survey-app)
+(ae/def-appengine-app community-maps-app #'survey-app)
 
 
 
