@@ -207,41 +207,11 @@ areas you highlighted")
      :quebec "Mostly Bloc Quebecois"
      :other [:span "Some other mixture. Please explain:" (f/text-field :other-description)]}))
 
-;;; 
-;;;[IF R RESPONDS A MIXTURE: Can you explain what you mean by “some other mixture”?]
-;;; 
-;;; 
-;;;
 ;;;Q26.	Question
-;;;Now I’d like to talk about the country as a whole. (randomize groups)
-;;; 
-;;;Just your best guess-what percentage of the Canadian population is black? 
-;;; 
-;;;Responses:
-;;; 
-;;;GROUP
-;;;PERCENTAGE
-;;; 
-;;;a. BLACK
-;;; 
-;;; 
-;;;b. WHITE?
-;;; 
-;;;c. Chinese
-;;;d. East Indian
-;;;e. Latin American
-;;;f. Canadian Aboriginal
-;;;g. unemployed
-;;; 
-;;;h liberal?
-;;;i. conservative
-;;;j. NDP
-;;;k other Asian
-;;; 
-;;;l. Bloc Quebecois
-;;; 
-;;; 
-;;;
+  (percentage-of-community
+   :canada-percentages
+   "What is your best guess for the percentage of the Canadian population for each of the following groups?")
+
 ;;;Q27.	Question: 
 ;;;How did you learn about the composition of Canada?
 ;;; 
