@@ -95,17 +95,8 @@ areas you highlighted")
     :tv "television entertainment shows"})
 ;;;[IF R ASKS: Composition is the percentage of whites, unemployed, etc. in your local community.]
 ;;; 
-;;;Responses:
-;;;personal observation
-;;;friends and families
-;;;news (tv, radio, online, paper)
-;;;local institutions
-;;;political leaders
-;;;television entertainment shows
-;;; 
 ;;;if more than one is checked, which is the main source of information.
 ;;;Does this differ by target (race, party, unemployment)
-;;;
 
   (directions "Here are some statements about things that people in your local community that you have drawn on this map [REFERRING TO MAP THEY DREW ON] may or may not do. For each of these statements, please tell me whether you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree.")
 
