@@ -83,7 +83,7 @@
       (doall
        (map
         (fn [[group-id group]] [:tr [:td group] [:td (percentage group-id)]])
-        ethnic-political-groups))])))
+        (shuffle (vec ethnic-political-groups))))])))
 
 (defn learn-about-composition
   "How did the R learn about his community."
