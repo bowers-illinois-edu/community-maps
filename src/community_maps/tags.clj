@@ -3,7 +3,8 @@
         hiccup.core
         [burp.core :only [add-class]]
         [burp.ring :only [wrap-burp]])
-  (:require [hiccup.form-helpers :as f]))
+  (:require [hiccup.form-helpers :as f]
+            [burp.forms :as bf]))
 
 (defelem button
   "Create a button with a txt label"
@@ -27,3 +28,14 @@
        (button {:style "display: none;"} "Reset Map")
        "action reset")]
      [:div.map-canvas {:style "height: 400px; width: 100%;"}]]))
+
+(defelem percentage
+  "Allow the user to select from a list of percentages 0 to 100"
+  [id]
+  [:div.percentage-question
+   (bf/radio-group id
+                   (concat
+                    (map (fn [p] [(str "percentage-" p) (str p "%")]) (range 0 100 10))
+                    [["percentage-100" "100%"]]))
+   [:br]])
+         

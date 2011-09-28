@@ -29,22 +29,16 @@ address will never be used unless you explicitly give us permission to do so.)"
                     :other "In another province"
                     :ex-canada "Outside Canada"})
    (f/text-field :other-residence-name))
-;;; 
-;;;Elsewhere in [city] (follow - name of neighborhood?)
-;;;Elsewhere in [province] (name of city/town)
-;;;Other city and province (name of city, province)
-;;;Outside Canada (name of country)
-;;; 
-;;; 
-;;;
+
 ;;;Q4.	Question:
-;;;Do you or your family own your own home/apartment, pay rent or what?
-;;; 
-;;;yes, owned
-;;;no, not owned
-;;;other
-;;;refused
-;;; 
+
+  (single-choice
+   :rent-own
+   "Do you or your family own your own home/apartment, pay rent or what?"
+   {:yes "We own"
+    :rent "We rent"
+    :other "We have another arrangement"})
+
 ;;;Q5.	Question:
 ;;;Randomize:
 ;;;a)	Question about whether you voted in the recent provincial election. Follow – which party did you vote for.
@@ -59,32 +53,30 @@ address will never be used unless you explicitly give us permission to do so.)"
 ;;; 
 ;;;[IF HAVING TROUBLE: If you are having trouble with the drawing, please name major cross streets, parks, stores or other landmarks that you think of as boundaries of your local community.]
 ;;; 
-;;; 
-;;; 
-;;; 
+  ; Some inter-question directions:
+  [:p "Now, for these next few questions we’ll be referring to the
+areas you highlighted"]
+
 ;;;Q6.	Question
-;;;Now, for these next few questions we’ll be referring to the areas you highlighted.
-;;;Just your best guess – what percentage of the population of this community [POINT TO MAP] is black? Responses: (randomize order of groups)
-;;; 
-;;;GROUPS
-;;;PERCENTAGE
-;;;a. BLACK
-;;; 
-;;;b.	WHITE?
-;;; 
-;;;c.	liberal?
-;;; 
-;;;d.	conservative?
-;;; 
-;;;e.	UNEMPLOYED?
-;;;f. NDP?
-;;;g. Chinese
-;;;h. East Indian
-;;;i. Canadian Aboriginal
-;;;j. Latin American
-;;;k. Other Asian (has to be asked last)
-;;;l. Bloq Quebecois (only asked of Rs in Quebec)
-;;; 
+  (question 
+   "Just your best guess – what percentage of the population of this community is:"
+   (f/with-group :community-racial-percentage
+     [:table 
+      (doall
+       (map
+        (fn [[group-id group]] [:tr [:td group] [:td (percentage group-id)]])
+        {:black "Black"
+         :white "White"
+         :liberal "Liberal"
+         :conservative "Conservative"
+         :unemployed "Unemployed"
+         :ndp "NDP"
+         :chinese "Chinese"
+         :east-indian "East Indian"
+         :aboriginal "Canadian Aboriginal"
+         :latin "Latin American"
+         :other-asian "Other Asian"
+         :quebecois "Bloq Quebecois"}))]))
 ;;; 
 ;;;Q7.	Question:
 ;;;How did you learn about the composition of your local community?

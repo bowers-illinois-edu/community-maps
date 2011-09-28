@@ -22,3 +22,16 @@ li.burp-jquery-rank-item {
     border: 1px solid #ccc;
     font-weight: bold;
 }
+
+div.percentage-question div.labeled-radio-button {
+    float: left;
+}
+
+div.percentage-question br {
+    float: clear;
+}
+
+div.labeled-radio-button * {
+    margin-right: 0.5em;
+}
+
