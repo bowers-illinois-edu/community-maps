@@ -212,26 +212,23 @@ areas you highlighted")
    :canada-percentages
    "What is your best guess for the percentage of the Canadian population for each of the following groups?")
 
-;;;Q27.	Question: 
-;;;How did you learn about the composition of Canada?
-;;; 
-;;;[IF R ASKS: Composition is the percentage of whites, blacks, Democrats, Republicans, and unemployed in your local community.]
-;;; 
-;;;Responses:
-;;;personal observation
-;;;friends and families
-;;;news (tv, radio, online, paper)
-;;;local institutions
-;;;political leaders
-;;;television entertainment shows
-;;; 
-;;;if more than one is checked, which is most important
-;;;Does this differ by target (race, party, unemployment)
-;;; 
+;;;Q27.	Question:
+  (learn-about-composition
+   :canada-percentages-learn
+   "How did you learn about the composition of Canada?")
+
 ;;;Q8.	Question:
-;;;According to [Conservative / NDP/ BQ/ Liberal leader], the number of visible minorities is going  reach [25%/ 35%/50%] of the Canadian population in the next 10 years, largely as a result of immigration.  
-;;; 
-;;;Do you think the number of immigrants from foreign countries who are permitted to come to Canada to live should be increased a little, increased a lot, decreased a little, decreased a lot, or left the same as it is now?  
+  (question
+   [:div
+    [:p "According to [Conservative / NDP/ BQ/ Liberal leader], the number of visible minorities is going  reach [25%/ 35%/50%] of the Canadian population in the next 10 years, largely as a result of immigration."]
+    [:p "Do you think the number of immigrants from foreign countries who are permitted to come to Canada to live should be increased a little, increased a lot, decreased a little, decreased a lot, or left the same as it is now?"]]
+   (bf/radio-group
+    :increase-immigration
+    {:increase-little "Increased a little"
+     :increase-much "Increased a lot"
+     :decrease-little "Decreased a little"
+     :decrease-much "Decreased a lot"
+     :same "Left the same as it is now."}))
 ;;; 
 ;;; 
 ;;;Q28.	Question:
