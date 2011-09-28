@@ -38,3 +38,11 @@ div.labeled-radio-button * {
 div.labeled-checkbox input {
     margin: 0.25em;
 }
+
+p.directions {
+    border: 1px solid #eee;
+    margin: 1em 0 1em 0;
+    font-size: 120%;
+    padding: 2em;
+    color: #aa1122;
+}

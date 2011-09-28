@@ -4,6 +4,11 @@
   (:require [hiccup.form-helpers :as f]
             [burp.forms :as bf]))
 
+(defn directions
+  "Provide a set directions inline with the questions"
+  [& body]
+  [:p.directions body])
+
 (defscreen basics
   [subject]
   
@@ -54,8 +59,8 @@ address will never be used unless you explicitly give us permission to do so.)"
 ;;;[IF HAVING TROUBLE: If you are having trouble with the drawing, please name major cross streets, parks, stores or other landmarks that you think of as boundaries of your local community.]
 ;;; 
   ; Some inter-question directions:
-  [:p "Now, for these next few questions we’ll be referring to the
-areas you highlighted"]
+  (directions "Now, for these next few questions we’ll be referring to the
+areas you highlighted")
 
 ;;;Q6.	Question
   (question 
@@ -88,7 +93,6 @@ areas you highlighted"]
     :institutions "local institutions"
     :leaders "political leaders"
     :tv "television entertainment shows"})
-;;; 
 ;;;[IF R ASKS: Composition is the percentage of whites, unemployed, etc. in your local community.]
 ;;; 
 ;;;Responses:
@@ -101,10 +105,13 @@ areas you highlighted"]
 ;;; 
 ;;;if more than one is checked, which is the main source of information.
 ;;;Does this differ by target (race, party, unemployment)
-;;; 
-;;;
+;;;
+
+  (directions "Here are some statements about things that people in your local community that you have drawn on this map [REFERRING TO MAP THEY DREW ON] may or may not do. For each of these statements, please tell me whether you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree.")
+
 ;;;Q9.	Question:
-;;;Here are some statements about things that people in your local community that you have drawn on this map [REFERRING TO MAP THEY DREW ON] may or may not do. For each of these statements, please tell me whether you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree.
+
+
 ;;; 
 ;;;People around here are willing to help others in their community. 
 ;;; 
