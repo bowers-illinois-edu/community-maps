@@ -79,7 +79,15 @@ areas you highlighted"]
          :quebecois "Bloq Quebecois"}))]))
 ;;; 
 ;;;Q7.	Question:
-;;;How did you learn about the composition of your local community?
+  (multiple-choice
+   :composition
+   "How did you learn about the composition of your local community?"
+   {:observation "personal observation"
+    :friends "friends and families"
+    :news "news (tv, radio, online, paper)"
+    :institutions "local institutions"
+    :leaders "political leaders"
+    :tv "television entertainment shows"})
 ;;; 
 ;;;[IF R ASKS: Composition is the percentage of whites, unemployed, etc. in your local community.]
 ;;; 

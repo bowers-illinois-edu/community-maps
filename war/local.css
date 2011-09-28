@@ -35,3 +35,6 @@ div.labeled-radio-button * {
     margin-right: 0.5em;
 }
 
+div.labeled-checkbox input {
+    margin: 0.25em;
+}
