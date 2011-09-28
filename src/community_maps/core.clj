@@ -5,7 +5,7 @@
         [burp.ring :only [wrap-burp]]
         [burp.jquery :only [jquery-link jquery-ui-link]]
         ring.middleware.file
-        [community-maps.screens draw])
+        [community-maps.screens draw everything])
   (:require [appengine-magic.core :as ae]
             [hiccup.form-helpers :as f]))
 
@@ -39,7 +39,7 @@
 (defscreen thank-you [_] "Thank you for taking this survey.")
 
 (def survey-app
-  (-> (survey createwithid dbsave dbload layout thank-you [draw-on-map])
+  (-> (survey createwithid dbsave dbload layout thank-you [basics draw-on-map])
       wrap-burp))
 
 (ae/def-appengine-app community-maps-app #'survey-app)
