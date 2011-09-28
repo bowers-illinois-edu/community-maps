@@ -39,3 +39,12 @@
                     [["percentage-100" "100%"]]))
    [:br]])
          
+(defelem agree-disagree
+  "Strongly agree => strongly disagree"
+  [id]
+  (bf/radio-group id
+                 {:strongly-agree "Strongly Agree"
+                  :agree "Agree"
+                  :neither "Neither agree nor disagree"
+                  :disagree "Disagree"
+                  :strongly-disagree "Strongly Disagree"}))

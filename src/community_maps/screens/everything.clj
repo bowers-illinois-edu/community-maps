@@ -109,28 +109,15 @@ areas you highlighted")
 
   (directions "Here are some statements about things that people in your local community that you have drawn on this map [REFERRING TO MAP THEY DREW ON] may or may not do. For each of these statements, please tell me whether you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree.")
 
-;;;Q9.	Question:
+;;;Q9, Q10, Q11	
 
+  (doall
+   (map
+    (fn [[id prompt]] (question prompt (agree-disagree id)))
+    {:help "People around here are willing to help others in their community."
+     :get-along "People in this community generally don’t get along with each other."
+     :share-values "People in this community do not share the same values."}))
 
-;;; 
-;;;People around here are willing to help others in their community. 
-;;; 
-;;;Responses:
-;;; 
-;;; 
-;;;Q10.	Question:
-;;;People in this community generally don’t get along with each other.
-;;; 
-;;;Responses:
-;;; 
-;;; 
-;;;
-;;;Q11.	Question
-;;;People in this community do not share the same values.
-;;; 
-;;;Responses:
-;;; 
-;;; 
 ;;;Q12.	Question:
 ;;;For each of the following, please tell me if it is very likely, likely, unlikely or very unlikely that people in your community would act in the following manner.
 ;;; 
