@@ -128,62 +128,37 @@ areas you highlighted")
   (question
    "Some political leaders argue that in the next 10 years, ethnic minorities will [increase their share of the population in this area by a lot / decrease their share of the population in this area by a lot].  Do you think this is a good or bad thing?"
    (bf/radio-group :ethnic-growth {:good "Good thing" :bad "Bad thing"}))
-;;; 
-;;; 
+
 ;;;Assuming we know employment status from Vote Compass...
 ;;;Q19.	Question:
-;;;At what location do you work or study?
-;;; 
-;;;address: number and street name or nearest intersection
-;;; 
-;;; 
-;;; 
-;;; 
-;;;
+  (question
+   "At what location do you work or study?"
+   (f/text-field :work-study-address)
+   [:em.address-note "number and street name or nearest intersection"])
+
 ;;;Q20.	Question:
-;;;Are the people at your work (or school) mostly white, mostly ethnic minorities, about half and half, or some other mixture?
-;;; 
-;;; 
-;;;[IF R RESPONDS A MIXTURE: Can you explain what you mean by “some other mixture”?]
-;;; 
+  (question 
+   "Are the people at your work (or school) mostly white, mostly ethnic minorities, about half and half, or some other mixture?"
+   (bf/radio-group :work-ethnicity
+                   {:white "Mostly white"
+                    :ethnic "Mostly ethnic minorities"
+                    :half "About half and half"
+                    :other [:span "Some other mixture. Please explain:" (f/text-field :other-description)]}))
 ;;;What is the largest nonwhite group?
+
+  (directions
+   "Now I'm going to read the names of some groups in Canadian society. When I read the name of a group, we'd like you to tell us if you feel particularly close to people in that group --- if you feel the people in that group are like you in their ideas and interests and feelings about things. If you do not feel particularly close to the people in a group, I'd like to know that, too. If we come to a group you don't know much about, just tell me and we'll move on to the next one.")
 ;;; 
-;;; 
-;;; 
-;;;
 ;;;Q21.	Question:
-;;;Now I'm going to read the names of some groups in Canadian society. When I read the name of a group, we'd like you to tell us if you feel particularly close to people in that group --- if you feel the people in that group are like you in their ideas and interests and feelings about things. If you do not feel particularly close to the people in a group, I'd like to know that, too. If we come to a group you don't know much about, just tell me and we'll move on to the next one.
 ;;; 
-;;; 
-;;;Do you feel close to [GROUP]? (MARK ALL MENTIONS: yes or no)(randomize order of groups)
-;;; 
-;;;Responses:
-;;;GROUPS
-;;; 
-;;;a.liberals
-;;; 
-;;;b. whites
-;;; 
-;;;c. blacks
-;;; 
-;;;d. conservatives
-;;; 
-;;;e. members of NDP
-;;; 
-;;;f. Chinese
-;;;g. East Indian
-;;;h. unemployed
-;;;i. immigrants
-;;;j. Bloc Quebecois
-;;;k. Latin Americans
-;;;l. Canadian Aboriginals
-;;; 
-;;;m.	PEOPLE IN YOUR LOCAL COMMUNITY [referring to the map they drew on]
-;;; 
-;;;n	PEOPLE IN THIS AREA [referring to the province/city/DA map]
-;;; 
-;;; 
-;;;
+  (multiple-choice
+   :close-to-group
+   "Do you feel close to any of the following groups"
+   (merge
+    ethnic-political-groups
+    {:local-community "People in your local community"
+     :census-community "People in this area"}))
+
 ;;;Q22.	Question:
 ;;;Now let’s look at the map of your local community again. [REFERRING TO MAP THEY DREW ON]
 ;;; 

@@ -59,6 +59,20 @@
                   :unlikely "Unlikely"
                   :very-unlikely "Very unlikely"}))
 
+(def ethnic-political-groups
+  {:black "Black"
+   :white "White"
+   :liberal "Liberal"
+   :conservative "Conservative"
+   :unemployed "Unemployed"
+   :ndp "NDP"
+   :chinese "Chinese"
+   :east-indian "East Indian"
+   :aboriginal "Canadian Aboriginal"
+   :latin "Latin American"
+   :other-asian "Other Asian"
+   :quebecois "Bloq Quebecois"})
+
 (defn percentage-of-community
   "Asks about the list of groups we are interested in"
   [id prompt]
@@ -69,18 +83,7 @@
       (doall
        (map
         (fn [[group-id group]] [:tr [:td group] [:td (percentage group-id)]])
-        {:black "Black"
-         :white "White"
-         :liberal "Liberal"
-         :conservative "Conservative"
-         :unemployed "Unemployed"
-         :ndp "NDP"
-         :chinese "Chinese"
-         :east-indian "East Indian"
-         :aboriginal "Canadian Aboriginal"
-         :latin "Latin American"
-         :other-asian "Other Asian"
-         :quebecois "Bloq Quebecois"}))])))
+        ethnic-political-groups))])))
 
 (defn learn-about-composition
   "How did the R learn about his community."
