@@ -109,31 +109,25 @@ areas you highlighted")
   (learn-about-composition
    :census-composition
    "How did you learn about the composition of this area?")
-;;; 
-;;;[IF R ASKS: Composition is the percentage of whites, blacks, etc. 
-;;; 
-;;;Responses:
-;;;personal observation
-;;;friends and families
-;;;news (tv, radio, online, paper)
-;;;local institutions
-;;;political leaders
-;;;television entertainment shows
-;;; 
-;;;if more than one is checked, which is most important
-;;;Does this differ by target (race, party, unemployment)
-;;; 
-;;; 
-;;;
+ 
 ;;;Q16.	Question:
-;;;On the whole, do you like or dislike this [province/city/Dissemination area] as a place to live? Would you say you like it a lot, like it, dislike it, or dislike it a lot?
-;;; 
-;;; 
+  (question
+   "On the whole, do you like or dislike this [province/city/Dissemination area] as a place to live? Would you say you like it a lot, like it, dislike it, or dislike it a lot?"
+   (bf/radio-group
+    :like-dislike-census
+    {:like-alot "Like it a lot"
+     :like "Like it"
+     :dislike "Dislike it"
+     :dislike-alot "Dislike it a lot"}))
+
 ;;;Q17.	Question:
-;;;On the whole, do you think that people who live in this [province/city/Dissemination area] feel a sense of community?  
-;;; 
+  (yes-no :census-feel-community 
+          "On the whole, do you think that people who live in this [province/city/Dissemination area] feel a sense of community?")
+
 ;;;Q18.	Question:
-;;;Some political leaders argue that in the next 10 years, ethnic minorities will [increase their share of the population in this area by a lot / decrease their share of the population in this area by a lot].  Do you think this is a good or bad thing?
+  (question
+   "Some political leaders argue that in the next 10 years, ethnic minorities will [increase their share of the population in this area by a lot / decrease their share of the population in this area by a lot].  Do you think this is a good or bad thing?"
+   (bf/radio-group :ethnic-growth {:good "Good thing" :bad "Bad thing"}))
 ;;; 
 ;;; 
 ;;;Assuming we know employment status from Vote Compass...
