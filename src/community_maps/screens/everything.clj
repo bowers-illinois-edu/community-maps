@@ -63,36 +63,14 @@ address will never be used unless you explicitly give us permission to do so.)"
 areas you highlighted")
 
 ;;;Q6.	Question
-  (question 
-   "Just your best guess – what percentage of the population of this community is:"
-   (f/with-group :community-racial-percentage
-     [:table 
-      (doall
-       (map
-        (fn [[group-id group]] [:tr [:td group] [:td (percentage group-id)]])
-        {:black "Black"
-         :white "White"
-         :liberal "Liberal"
-         :conservative "Conservative"
-         :unemployed "Unemployed"
-         :ndp "NDP"
-         :chinese "Chinese"
-         :east-indian "East Indian"
-         :aboriginal "Canadian Aboriginal"
-         :latin "Latin American"
-         :other-asian "Other Asian"
-         :quebecois "Bloq Quebecois"}))]))
+  (percentage-of-community
+   :community-percentage
+   "Just your best guess – what percentage of the population of this community is:")
 ;;; 
 ;;;Q7.	Question:
-  (multiple-choice
-   :composition
-   "How did you learn about the composition of your local community?"
-   {:observation "personal observation"
-    :friends "friends and families"
-    :news "news (tv, radio, online, paper)"
-    :institutions "local institutions"
-    :leaders "political leaders"
-    :tv "television entertainment shows"})
+  (learn-about-composition
+   :community-composition
+   "How did you learn about the composition of your local community?")
 ;;;[IF R ASKS: Composition is the percentage of whites, unemployed, etc. in your local community.]
 ;;; 
 ;;;if more than one is checked, which is the main source of information.
@@ -123,31 +101,14 @@ areas you highlighted")
    "Referring to this map with the Census boundary on it, I’d like to ask a series of questions just like the previous ones:")
 
 ;;;Q14.	Question:
-;;;Just your best guess - what percentage of the population in the highlighted area is…[Randomize order of groups}
-;;; 
-;;;Responses:
-;;; 
-;;;GROUPS
-;;;PERCENTAGE
-;;;a. BLACK
-;;; 
-;;;b.WHITE?
-;;; 
-;;;c. Liberal
-;;; 
-;;;d. Conservative
-;;; 
-;;;e.	UNEMPLOYED?
-;;;f. NDP?
-;;;g. Chinese
-;;;h. East Indian
-;;;i. Canadian Aboriginal
-;;;j. Latin American
-;;;k. Other Asian (has to be asked last)
-;;;l. Bloq Quebecois (only asked of Rs in Quebec)
-;;; 
+  (percentage-of-community
+   :census-community
+   "Just your best guess - what percentage of the population in the highlighted area is:")
+
 ;;;Q15.	Question:
-;;;How did you learn about the composition of this area?
+  (learn-about-composition
+   :census-composition
+   "How did you learn about the composition of this area?")
 ;;; 
 ;;;[IF R ASKS: Composition is the percentage of whites, blacks, etc. 
 ;;; 

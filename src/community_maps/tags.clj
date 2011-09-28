@@ -58,3 +58,39 @@
                   :fifty-fity "Equally likely and unlikely (\"50/50\")"
                   :unlikely "Unlikely"
                   :very-unlikely "Very unlikely"}))
+
+(defn percentage-of-community
+  "Asks about the list of groups we are interested in"
+  [id prompt]
+  (question 
+   prompt
+   (f/with-group id
+     [:table 
+      (doall
+       (map
+        (fn [[group-id group]] [:tr [:td group] [:td (percentage group-id)]])
+        {:black "Black"
+         :white "White"
+         :liberal "Liberal"
+         :conservative "Conservative"
+         :unemployed "Unemployed"
+         :ndp "NDP"
+         :chinese "Chinese"
+         :east-indian "East Indian"
+         :aboriginal "Canadian Aboriginal"
+         :latin "Latin American"
+         :other-asian "Other Asian"
+         :quebecois "Bloq Quebecois"}))])))
+
+(defn learn-about-composition
+  "How did the R learn about his community."
+  [id prompt]
+  (multiple-choice
+   id
+   prompt
+   {:observation "personal observation"
+    :friends "friends and families"
+    :news "news (tv, radio, online, paper)"
+    :institutions "local institutions"
+    :leaders "political leaders"
+    :tv "television entertainment shows"}))
