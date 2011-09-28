@@ -2,10 +2,10 @@
   (:use [shanks core appengine-magic]
         hiccup.core
         hiccup.page-helpers
-        [burp.core :only [add-class]]
         [burp.ring :only [wrap-burp]]
         [burp.jquery :only [jquery-link jquery-ui-link]]
-        ring.middleware.file)
+        ring.middleware.file
+        [community-maps.screens draw])
   (:require [appengine-magic.core :as ae]
             [hiccup.form-helpers :as f]))
 
@@ -35,47 +35,12 @@
     [:div#bd
      [:div.yui-g body]]]))
 
+; screens defined in screens.* namespaces
 (defscreen thank-you [_] "Thank you for taking this survey.")
-
-(defelem button
-  "Create a button with a txt label"
-  [txt]
-  [:a {:class "fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"} [:span.ui-button-text txt]])
-
-(defelem scribble-map
-  "Create a map centered on a given lat/lon"
-  [id lat lon]
-  (f/with-group id
-    [:div.scribble-map
-     (f/hidden-field {:class "lat"} :lat lat)
-     (f/hidden-field {:class "lon"} :lon lon)
-     (f/hidden-field {:class "map-data"} :data)
-     [:div.actions
-      (add-class (button "Start Drawing") "action start")
-      (add-class
-       (button {:style "display: none;"} "Stop Drawing")
-       "action stop")
-      (add-class
-       (button {:style "display: none;"} "Reset Map")
-       "action reset")]
-     [:div.map-canvas {:style "height: 400px; width: 100%;"}]]))
-
-(defscreen draw-on-map
-  [subject]
-  (question "Please draw on the map"
-            (scribble-map :test-scribble 40.1105556 -88.2072222))
-  (rank-options :icecream "Rank the following ice cream flavors:"
-                {:choc "Chocolate"
-                 :van "Vanilla"
-                 :straw "Strawberry"
-                 :rock "Rocky Road"}))
 
 (def survey-app
   (-> (survey createwithid dbsave dbload layout thank-you [draw-on-map])
       wrap-burp))
 
 (ae/def-appengine-app community-maps-app #'survey-app)
-
-
-
 
