@@ -109,21 +109,15 @@ areas you highlighted")
      :get-along "People in this community generally don’t get along with each other."
      :share-values "People in this community do not share the same values."}))
 
-;;;Q12.	Question:
-;;;For each of the following, please tell me if it is very likely, likely, unlikely or very unlikely that people in your community would act in the following manner.
-;;; 
-;;;If some children were painting graffiti on a local building or house, how likely is it that people in your community would do something about it? [Would you say it is very likely, likely, unlikely, or very unlikely?] 
-;;; 
-;;;Responses:
-;;; 
-;;; 
-;;;
-;;;Q13.	Question
-;;;Suppose that because of budget cuts the fire station or library closest to your home was going to be closed down by the city. How likely is it that community residents would organize to try to do something to keep the fire station open?
-;;; 
-;;;Responses:
-;;; 
-;;; 
+  (directions "For each of the following, please tell me if it is very likely, likely, unlikely or very unlikely that people in your community would act in the following manner.")
+
+;;;Q12., Q13.
+  (doall
+   (map
+    (fn [[id prompt]] (question prompt (likelihood id)))
+    {:graffiti "If some children were painting graffiti on a local building or house, how likely is it that people in your community would do something about it?"
+     :community-organize "Suppose that because of budget cuts the fire station or library closest to your home was going to be closed down by the city. How likely is it that community residents would organize to try to do something to keep the fire station open?"}))
+
 ;;;Q14.	Question:
 ;;;Now, look at this map [SHOW HIGHLIGHTED Province/City/Dissemination Area MAP]. The highlighted area shows [your Province/ your City/ what the Census bureau defines as your dissemination area]. 
 ;;; 
@@ -566,4 +560,4 @@ areas you highlighted")
 ;;;Ask respondents if they would be willing to complete another survey.
 ;;;        -replicate local community map-drawing
 ;;;        -conduct a series of PD games with co-ethnics and non-co-ethnics
-)
+   )

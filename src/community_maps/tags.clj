@@ -48,3 +48,13 @@
                   :neither "Neither agree nor disagree"
                   :disagree "Disagree"
                   :strongly-disagree "Strongly Disagree"}))
+
+(defelem likelihood
+  "Very likely => very unlikely"
+  [id]
+  (bf/radio-group id
+                 {:very-likely "Very likely"
+                  :likely "Likely"
+                  :fifty-fity "Equally likely and unlikely (\"50/50\")"
+                  :unlikely "Unlikely"
+                  :very-unlikely "Very unlikely"}))
