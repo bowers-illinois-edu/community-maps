@@ -7,7 +7,7 @@
 (defn directions
   "Provide a set directions inline with the questions"
   [& body]
-  [:p.directions body])
+  [:div.directions (doall (map #(vector :p %) body))])
 
 (defscreen basics
   [subject]
@@ -118,11 +118,11 @@ areas you highlighted")
     {:graffiti "If some children were painting graffiti on a local building or house, how likely is it that people in your community would do something about it?"
      :community-organize "Suppose that because of budget cuts the fire station or library closest to your home was going to be closed down by the city. How likely is it that community residents would organize to try to do something to keep the fire station open?"}))
 
+  (directions
+   "Now, look at this map [SHOW HIGHLIGHTED Province/City/Dissemination Area MAP]. The highlighted area shows [your Province/ your City/ what the Census bureau defines as your dissemination area]."
+   "Referring to this map with the Census boundary on it, I’d like to ask a series of questions just like the previous ones:")
+
 ;;;Q14.	Question:
-;;;Now, look at this map [SHOW HIGHLIGHTED Province/City/Dissemination Area MAP]. The highlighted area shows [your Province/ your City/ what the Census bureau defines as your dissemination area]. 
-;;; 
-;;;Referring to this map with the Census boundary on it, I’d like to ask a series of questions just like the previous ones:  
-;;; 
 ;;;Just your best guess - what percentage of the population in the highlighted area is…[Randomize order of groups}
 ;;; 
 ;;;Responses:

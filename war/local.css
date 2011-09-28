@@ -39,10 +39,15 @@ div.labeled-checkbox input {
     margin: 0.25em;
 }
 
-p.directions {
+div.directions {
     border: 1px solid #eee;
     margin: 1em 0 1em 0;
     font-size: 120%;
-    padding: 2em;
     color: #aa1122;
+    padding: 1em 1.5em 1em 1.5em;
 }
+
+div.directions p {
+    margin: 1em;
+}
+
