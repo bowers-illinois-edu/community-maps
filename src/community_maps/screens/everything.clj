@@ -229,61 +229,12 @@ areas you highlighted")
      :decrease-little "Decreased a little"
      :decrease-much "Decreased a lot"
      :same "Left the same as it is now."}))
-;;; 
-;;; 
+
 ;;;Q28.	Question:
-;;;Please turn to page 5 in your booklet.
-;;;We'd also like to get your feelings about some groups in Canadian society. When I read the name of a group, we'd like you to rate it with what we call a feeling thermometer. Ratings between 50 degrees and 100 degrees mean that you feel favorably and warm toward the group; ratings between 0 and 50 degrees mean that you don't feel favorably towards the group and that you don't care too much for that group. If you don't feel particularly warm or cold toward a group you would rate them at 50 degrees. If we come to a group you don't know much about, just tell me and we'll move on to the next one.
-;;; 
-;;;Using the scale, how would you rate [GROUP]:
-;;; 
-;;;List of Groups
-;;;GROUPS
-;;;00-100.
-;;;DEGREES
-;;;998. DON’T KNOW
-;;;999. OTHER
-;;;990. REFUSED
-;;;a. liberals
-;;;b. conservatives
-;;;c. NDP
-;;;d. BQ
-;;; 
-;;; 
-;;; 
-;;; 
-;;; 
-;;;e. WHITES
-;;; 
-;;; 
-;;; 
-;;; 
-;;;f. Chinese
-;;;g. East Indian
-;;;h. Latin American
-;;;i. Blacks
-;;;j. Canadian Aboriginal
-;;; 
-;;; 
-;;; 
-;;; 
-;;;k.	other Asian
-;;; 
-;;; 
-;;; 
-;;; 
-;;;l.	immigrants 
-;;; 
-;;; 
-;;; 
-;;; 
-;;;m.	unemployed 
-;;; 
-;;; 
-;;; 
-;;; 
-;;; 
-;;;
+  (percentage-of-community
+   :group-feeling-thermometer
+   "We'd also like to get your feelings about some groups in Canadian society. When I read the name of a group, we'd like you to rate it with what we call a feeling thermometer. Ratings between 50 degrees and 100 degrees mean that you feel favorably and warm toward the group; ratings between 0 and 50 degrees mean that you don't feel favorably towards the group and that you don't care too much for that group. If you don't feel particularly warm or cold toward a group you would rate them at 50 degrees. If we come to a group you don't know much about, just tell me and we'll move on to the next one.")
+
 ;;;Q29.	Question:
 ;;;When it comes to social and political matters, some people think of themselves mainly as white, Chinese, or Black and that is very important to how they think of themselves. Other people don’t tend to think of themselves in these ways. When it comes to social and political matters, how important is your race or ethnicity to how you think of yourself? Is it very important, somewhat important, not very important, or not important at all?
 ;;; 
