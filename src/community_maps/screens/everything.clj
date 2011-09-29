@@ -386,19 +386,15 @@ areas you highlighted")
   (seven-point-scale :government-improve-ethnic 
    "Some people feel that the government in Ottawa  should make every effort to improve the social and economic position of ethnic minorities. Suppose these people are at one end of a scale, at point 1. Others feel that the government should not make any special effort to help ethnic minorities because they should help themselves. Suppose these people are at the other end, at point 7. And, of course, some other people have opinions somewhere in between. Where would you place yourself on this scale?")
 
-;;;
 ;;;Q51.	Question:
-;;;Some people feel that if ethnic minorities are not getting fair treatment in jobs, the government in Ottawa ought to see to it that they do. Others feel that this is not the federal government's business. 
+  (question
+   [:div
+    [:p "Some people feel that if ethnic minorities are not getting fair treatment in jobs, the government in Ottawa ought to see to it that they do. Others feel that this is not the federal government's business."]
+    [:p "How do you feel? Should the government in Ottawa see to it that ethnic minorities get fair treatment in jobs or is this not the federal government's business?"]]
+   (agree-disagree :government-ensure-fair-treatment))
+
 ;;; 
-;;;How do you feel? Should the government in Ottawa see to it that ethnic minorities get fair treatment in jobs or is this not the federal government's business? 
-;;; 
-;;;[AFTER R RESPONDS] Do you feel [IT IS/IS NOT] the government’s business strongly or not strongly?
-;;; 
-;;;Responses:
-;;; 
-;;; 
-;;; 
-;;;Ask respondents if they would be willing to complete another survey.
+  (yes-no :complete-additional-survey "Would you be willing to complete another survey?"))
 ;;;        -replicate local community map-drawing
 ;;;        -conduct a series of PD games with co-ethnics and non-co-ethnics
-     )
+
