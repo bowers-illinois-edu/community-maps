@@ -309,41 +309,44 @@ areas you highlighted")
      "Government officials usually pay less attention to a request or complaint from an ethnic minority person than from a white person."}))
 
 ;;;Q42.	Question
-;;;If you could find the housing that you would want and like, would you rather live in a neighborhood that is mostly [co-partisans], mostly members of other political parties, or some mixture of them? 
-;;; 
-;;;Does this work in Canada?
-;;;[IF R RESPONDS A MIXTURE: Can you explain what you mean by “some other mixture”?]
-;;; 
-;;; 
-;;; 
+  (question
+   "If you could find the housing that you would want and like, would you rather live in a neighborhood that is mostly [co-partisans], mostly members of other political parties, or some mixture of them?"
+   (bf/radio-group
+    :housing-political
+    {:co-partisans "Mostly co-partisans"
+     :other "Mostly members of other political parties"
+     :mixture [:span "Some mixture of them. Please explain: " (f/text-field :explain-other)]}))
+
 ;;;Q43.	Question:
-;;;If you could find the housing that you would want and like, would you rather live in a neighborhood that is mostly white, mostly [ethnic minorities/ blacks/ Asian], or some other mixture? 
-;;; 
-;;;[IF R RESPONDS A MIXTURE: Can you explain what you mean by “some other mixture”?]
-;;; 
-;;;Responses:
-;;; 
-;;; 
+  (question
+   "If you could find the housing that you would want and like, would you rather live in a neighborhood that is mostly white, mostly [ethnic minorities/ blacks/ Asian], or some other mixture?"
+   (bf/radio-group
+    :housing-ethnic
+    {:white "Mostly white"
+     :ethnic "Mostly [ethnic...]"
+     :other [:span "Some other mixture. Please explain: " (f/text-field :explain-other)]}))
+
 ;;;Q44.	Question:
-;;;Now I have some questions about different groups in our society. (randomize order)
-;;; 
-;;;A score of 1 means that you think almost all of the people in that group tend to be "hard-working." A score of 7 means that you think most people in the group are "lazy." A score of 4 means that you think that most people in the group are neither particularly lazy nor particularly hardworking, and of course, you may choose any number in between.
-;;; 
-;;; 
-;;;a. Where would you rate Whites in general on this scale?
-;;;b. Where would you rate Liberals in general on this scale?
-;;;c.  Where would you rate Conservatives in general on this scale?
-;;;d. Where would you rate Blacks in general on this scale?
-;;; 
-;;;e. Where would you rate Chinese in general on this scale?
-;;; 
-;;;f. Where would you rate members of the NDP in general on this scale?
-;;; 
-;;;g. Where would you rate East Indians in general on this scale?
-;;; 
-;;;h. Where would you rate members of the Block Quebecois on this scale?
-;;; 
-;;;
+  (directions
+   "Now I have some questions about different groups in our society. (randomize order)"
+   "A score of 1 means that you think almost all of the people in that group tend to be \"hard-working.\" A score of 7 means that you think most people in the group are \"lazy.\" A score of 4 means that you think that most people in the group are neither particularly lazy nor particularly hardworking, and of course, you may choose any number in between.")
+
+  (doall
+   (map
+    (fn [[id grp]]
+      (question
+       (str "Where would you rate " grp " in general on this scale?")
+       (bf/radio-group id (map #(vector % %) (range 1 8)))))
+    (shuffle (vec
+              {:whites "Whites"
+               :liberals "Liberals"
+               :conservatives "Conservatives"
+               :blacks "Blacks"
+               :chinese "Chinese"
+               :ndp "Members of the NDP"
+               :indian "East Indians"
+               :quebec "members of the Block Quebecois"}))))
+
 ;;;Q45.	Question:
 ;;;Please turn to the next page (page 8) in your booklet.
 ;;;The next set asks if people in each group tend to be “intelligent" or "unintelligent". A score of 1 means that you think almost all of the people in that group tend to be “intelligent”. A score of 7 means that you think most people in the group are “unintelligent.” A score of 4 means that you think that most people in the group are neither particularly unintelligent nor particularly intelligent, and of course, you may choose any number in between. 
