@@ -244,54 +244,35 @@ areas you highlighted")
      :somewhat-important "Somewhat important"
      :not-very-important "Not very important"
      :not-important "Not important at all"}))
-;;; 
-;;;Responses:
-;;; 
-;;; 
-;;;
 ;;;Q30.	Question:
-;;;Some people say that it is better for Canada if different racial and ethnic groups maintain their distinct cultures as in a cultural mosaic. Others say that it is better if groups change so that they blend into the larger society as in the idea of a melting pot. Where would you place yourself on this scale?
-;;; 
+  (question
+   "Some people say that it is better for Canada if different racial and ethnic groups maintain their distinct cultures as in a cultural mosaic. Others say that it is better if groups change so that they blend into the larger society as in the idea of a melting pot. Where would you place yourself on this scale?"
+   "Todo: slider")
 ;;;Responses:
 ;;;One end of slider: "racial and ethnic groups should maintain their distinct cultures"
 ;;;Other end: "groups should change so that they blend into the larger society.  
+
+  (directions 
+   "Now I’m going to read you some statements and would like to get your reaction to them. After I read each statement, please tell me if you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree with the statement.")
 ;;; 
-;;;Q31.	Question:
-;;;Please turn to page 3 in your booklet.
-;;;Now I’m going to read you some statements and would like to get your reaction to them. After I read each statement, please tell me if you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree with the statement.
-;;; 
-;;;Members of certain ethnic or racial groups have fewer opportunities to get ahead than other people.
-;;; 
-;;;Responses:
-;;; 
-;;; 
-;;;Q32.	Question:
-;;;People should always vote for candidates of their same ethnic background.
-;;; 
-;;; 
-;;;Responses:
-;;; 
-;;; 
-;;;Q33.	Question:
-;;;Members of particular ethnic groups use special programs to get more benefits than they deserve.
-;;; 
-;;;Responses:
-;;; 
-;;; 
-;;;
-;;;Q34.	Question:
-;;;People of different ethnic or racial groups are generally happier when they live and socialize with others of the same background.
-;;; 
-;;;Responses:
-;;; 
-;;; 
-;;;Q35.	Question:
-;;;Ethnic minorities should always shop in stores owned by [ethnic minorities/ other members of their same ethnic background]
-;;; 
-;;;Responses:
-;;; 
-;;; 
-;;;
+;;;Q31. Q32, Q33, Q34, Q35
+  (doall
+   (map
+    (fn [[k p]] (question p (agree-disagree k)))
+    {:fewer-opportunities
+     "Members of certain ethnic or racial groups have fewer opportunities to get ahead than other people."
+
+     :vote-ethnic 
+     "People should always vote for candidates of their same ethnic background."
+
+     :special-programs
+     "Members of particular ethnic groups use special programs to get more benefits than they deserve."
+
+     :happier-within-group
+     "People of different ethnic or racial groups are generally happier when they live and socialize with others of the same background."
+     :shop-ethnic
+     "Ethnic minorities should always shop in stores owned by [ethnic minorities/ other members of their same ethnic background]"}
+
 ;;;Q36.	Question:
 ;;;How would it make you feel if a close relative of yours were planning to marry a person of different [race / ethnic background] from yours? Would you be very uneasy, somewhat uneasy, or not uneasy at all?
 ;;; 
@@ -428,3 +409,4 @@ areas you highlighted")
 ;;;        -replicate local community map-drawing
 ;;;        -conduct a series of PD games with co-ethnics and non-co-ethnics
    )
+))
