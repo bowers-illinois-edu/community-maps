@@ -271,49 +271,43 @@ areas you highlighted")
      :happier-within-group
      "People of different ethnic or racial groups are generally happier when they live and socialize with others of the same background."
      :shop-ethnic
-     "Ethnic minorities should always shop in stores owned by [ethnic minorities/ other members of their same ethnic background]"}
+     "Ethnic minorities should always shop in stores owned by [ethnic minorities/ other members of their same ethnic background]"}))
 
 ;;;Q36.	Question:
-;;;How would it make you feel if a close relative of yours were planning to marry a person of different [race / ethnic background] from yours? Would you be very uneasy, somewhat uneasy, or not uneasy at all?
-;;; 
-;;; 
-;;;Responses:
-;;; 
-;;; 
-;;; 
+    (question
+     "How would it make you feel if a close relative of yours were planning to marry a person of different [race / ethnic background] from yours? Would you be very uneasy, somewhat uneasy, or not uneasy at all?"
+     (bf/radio-group :marry-ethnic
+                     {:very-uneasy "Very uneasy"
+                      :somewhat-uneasy "Somewhat uneasy"
+                      :not-uneasy "Not uneasy at all"}))
+ 
 ;;;Q37.	Question:
-;;;How would it make you feel if a close relative of yours were planning to marry a person who had strong political beliefs different from your own. Would you be very uneasy, somewhat uneasy, or not uneasy at all?
-;;; 
-;;;Responses:
-;;; 
-;;; 
-;;; 
-;;;
-;;;Q38.	Question:
-;;;Now I’m going to read you some statements and would like to get your reaction to them. After I read each statement, please tell me if you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree with the statement.
-;;; 
-;;;Question:
-;;;Irish, Italian, Jewish and many other minorities overcame prejudice and worked their way up. Other minorities, like [Chinese / Blacks] should do the same without any special favors.
-;;; 
-;;;Responses:
-;;; 
-;;; 
-;;;
-;;;Q39.	Question:
-;;;It's really a matter of some people not trying hard enough; if ethnic minorities would only try harder they could be just as well off as whites.
-;;; 
-;;;Q40.	Question:
-;;;Most [ethnic minorities / people] who receive money from social welfare programs could get along without it if they tried.
-;;; 
-;;;Responses:
-;;; 
-;;; 
-;;;Q41.	Question:
-;;;Government officials usually pay less attention to a request or complaint from an ethnic minority person than from a white person.
-;;; 
-;;;Responses: 
-;;; 
-;;; 
+    (question
+     "How would it make you feel if a close relative of yours were planning to marry a person who had strong political beliefs different from your own. Would you be very uneasy, somewhat uneasy, or not uneasy at all?"
+     (bf/radio-group :marry-political
+                     {:very-uneasy "Very uneasy"
+                      :somewhat-uneasy "Somewhat uneasy"
+                      :not-uneasy "Not uneasy at all"}))
+
+;;;Q38, Q39, Q40, Q41
+  (directions 
+   "Now I’m going to read you some statements and would like to get your reaction to them. After I read each statement, please tell me if you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree with the statement.")
+
+  (doall
+   (map
+    (fn [[k p]] (question p (agree-disagree k)))
+    {:special-favors 
+     "Irish, Italian, Jewish and many other minorities overcame prejudice and worked their way up. Other minorities, like [Chinese / Blacks] should do the same without any special favors."
+
+     :try-harder
+     "It's really a matter of some people not trying hard enough; if ethnic minorities would only try harder they could be just as well off as whites."
+
+     :social-welfare
+     "Most [ethnic minorities / people] who receive money from social welfare programs could get along without it if they tried."
+
+     :gov-attention
+     "Government officials usually pay less attention to a request or complaint from an ethnic minority person than from a white person."}))
+
 ;;;Q42.	Question
 ;;;If you could find the housing that you would want and like, would you rather live in a neighborhood that is mostly [co-partisans], mostly members of other political parties, or some mixture of them? 
 ;;; 
@@ -408,5 +402,4 @@ areas you highlighted")
 ;;;Ask respondents if they would be willing to complete another survey.
 ;;;        -replicate local community map-drawing
 ;;;        -conduct a series of PD games with co-ethnics and non-co-ethnics
-   )
-))
+)
