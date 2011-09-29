@@ -363,29 +363,29 @@ areas you highlighted")
                :indian "East Indians"
                :quebec "members of the Block Quebecois"}))))
 
-;;;Q46.	Question: 
-;;;Now I’m going to read you some statements and would like to get your reaction to them. After I read each statement, please tell me if you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree with the statement.
-;;; 
-;;;More good jobs for people of one ethnic group means fewer good jobs for members of other groups.
-;;; 
-;;;
-;;;Q47.	Question:
-;;;The more influence people in one ethnic group have in local politics, the less influence members of other groups will have in local politics.
-;;; 
-;;;Responses:
-;;; 
-;;; 
-;;;Q48.	Question:
-;;;As more good housing and neighborhoods go to people in one ethnic group, there will be fewer good houses and neighborhoods for members of other groups.
-;;; 
-;;;Responses:
-;;; 
-;;; 
-;;;Q49.	Question:
-;;;The more money spent on doctors, hospitals, and medicine for the healthcare of people in one ethnic group, the less money that will be available for the healthcare of members of other groups .
-;;;
+;;;Q46, Q47, Q48, Q49
+  (directions
+   "Now I’m going to read you some statements and would like to get your reaction to them. After I read each statement, please tell me if you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree with the statement.")
+ 
+  (doall
+   (map
+    (fn [[id prompt]] (question prompt (agree-disagree id)))
+    {:competition-jobs 
+     "More good jobs for people of one ethnic group means fewer good jobs for members of other groups."
+
+     :ethnic-influence
+     "The more influence people in one ethnic group have in local politics, the less influence members of other groups will have in local politics."
+
+     :ethnic-housing-pressure
+     "As more good housing and neighborhoods go to people in one ethnic group, there will be fewer good houses and neighborhoods for members of other groups."
+
+     :healthcare-spending
+     "The more money spent on doctors, hospitals, and medicine for the healthcare of people in one ethnic group, the less money that will be available for the healthcare of members of other groups."}))
+
 ;;;Q50.	Question:
-;;;Some people feel that the government in Ottawa  should make every effort to improve the social and economic position of ethnic minorities. Suppose these people are at one end of a scale, at point 1. Others feel that the government should not make any special effort to help ethnic minorities because they should help themselves. Suppose these people are at the other end, at point 7. And, of course, some other people have opinions somewhere in between. Where would you place yourself on this scale?
+  (seven-point-scale :government-improve-ethnic 
+   "Some people feel that the government in Ottawa  should make every effort to improve the social and economic position of ethnic minorities. Suppose these people are at one end of a scale, at point 1. Others feel that the government should not make any special effort to help ethnic minorities because they should help themselves. Suppose these people are at the other end, at point 7. And, of course, some other people have opinions somewhere in between. Where would you place yourself on this scale?")
+
 ;;;
 ;;;Q51.	Question:
 ;;;Some people feel that if ethnic minorities are not getting fair treatment in jobs, the government in Ottawa ought to see to it that they do. Others feel that this is not the federal government's business. 
@@ -401,4 +401,4 @@ areas you highlighted")
 ;;;Ask respondents if they would be willing to complete another survey.
 ;;;        -replicate local community map-drawing
 ;;;        -conduct a series of PD games with co-ethnics and non-co-ethnics
-)
+     )
