@@ -348,25 +348,24 @@ areas you highlighted")
                :quebec "members of the Block Quebecois"}))))
 
 ;;;Q45.	Question:
-;;;Please turn to the next page (page 8) in your booklet.
-;;;The next set asks if people in each group tend to be “intelligent" or "unintelligent". A score of 1 means that you think almost all of the people in that group tend to be “intelligent”. A score of 7 means that you think most people in the group are “unintelligent.” A score of 4 means that you think that most people in the group are neither particularly unintelligent nor particularly intelligent, and of course, you may choose any number in between. 
-;;; 
-;;;a. Where would you rate Whites in general on this scale?
-;;;b. Where would you rate Liberals in general on this scale?
-;;;c.  Where would you rate Conservatives in general on this scale?
-;;;d. Where would you rate Blacks in general on this scale?
-;;; 
-;;;e. Where would you rate Chinese in general on this scale?
-;;; 
-;;;f. Where would you rate members of the NDP in general on this scale?
-;;; 
-;;;g. Where would you rate East Indians in general on this scale?
-;;; 
-;;;h. Where would you rate members of the Block Quebecois on this scale?
-;;; 
-;;; 
-;;; 
-;;;
+  (directions 
+   "The next set asks if people in each group tend to be \"intelligent\" or \"unintelligent\". A score of 1 means that you think almost all of the people in that group tend to be \"intelligent\". A score of 7 means that you think most people in the group are \"unintelligent.\" A score of 4 means that you think that most people in the group are neither particularly unintelligent nor particularly intelligent, and of course, you may choose any number in between.")
+  (doall
+   (map
+    (fn [[id grp]]
+      (question
+       (str "Where would you rate " grp " in general on this scale?")
+       (bf/radio-group id (map #(vector % %) (range 1 8)))))
+    (shuffle (vec
+              {:whites "Whites"
+               :liberals "Liberals"
+               :conservatives "Conservatives"
+               :blacks "Blacks"
+               :chinese "Chinese"
+               :ndp "Members of the NDP"
+               :indian "East Indians"
+               :quebec "members of the Block Quebecois"}))))
+
 ;;;Q46.	Question: 
 ;;;Now I’m going to read you some statements and would like to get your reaction to them. After I read each statement, please tell me if you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree with the statement.
 ;;; 
