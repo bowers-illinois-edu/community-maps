@@ -334,9 +334,8 @@ areas you highlighted")
   (doall
    (map
     (fn [[id grp]]
-      (question
-       (str "Where would you rate " grp " in general on this scale?")
-       (bf/radio-group id (map #(vector % %) (range 1 8)))))
+      (seven-point-scale id
+       (str "Where would you rate " grp " in general on this scale?")))
     (shuffle (vec
               {:whites "Whites"
                :liberals "Liberals"
@@ -353,9 +352,7 @@ areas you highlighted")
   (doall
    (map
     (fn [[id grp]]
-      (question
-       (str "Where would you rate " grp " in general on this scale?")
-       (bf/radio-group id (map #(vector % %) (range 1 8)))))
+      (seven-point-scale id (str "Where would you rate " grp " in general on this scale?")))
     (shuffle (vec
               {:whites "Whites"
                :liberals "Liberals"

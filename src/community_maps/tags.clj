@@ -97,3 +97,13 @@
     :institutions "local institutions"
     :leaders "political leaders"
     :tv "television entertainment shows"}))
+
+(defn seven-point-scale
+  "Rate from 1 to 7"
+  [id prompt]
+  (add-class
+   (question
+    prompt
+    (bf/radio-group id (map #(vector % %) (range 1 8)))
+    [:br])
+   "seven-point-scale"))
