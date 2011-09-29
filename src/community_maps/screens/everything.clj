@@ -236,7 +236,14 @@ areas you highlighted")
    "We'd also like to get your feelings about some groups in Canadian society. When I read the name of a group, we'd like you to rate it with what we call a feeling thermometer. Ratings between 50 degrees and 100 degrees mean that you feel favorably and warm toward the group; ratings between 0 and 50 degrees mean that you don't feel favorably towards the group and that you don't care too much for that group. If you don't feel particularly warm or cold toward a group you would rate them at 50 degrees. If we come to a group you don't know much about, just tell me and we'll move on to the next one.")
 
 ;;;Q29.	Question:
-;;;When it comes to social and political matters, some people think of themselves mainly as white, Chinese, or Black and that is very important to how they think of themselves. Other people don’t tend to think of themselves in these ways. When it comes to social and political matters, how important is your race or ethnicity to how you think of yourself? Is it very important, somewhat important, not very important, or not important at all?
+  (question 
+   "When it comes to social and political matters, some people think of themselves mainly as white, Chinese, or Black and that is very important to how they think of themselves. Other people don’t tend to think of themselves in these ways. When it comes to social and political matters, how important is your race or ethnicity to how you think of yourself? Is it very important, somewhat important, not very important, or not important at all?"
+   (bf/radio-group
+    :has-ethnic-identity
+    {:very-important "Very important"
+     :somewhat-important "Somewhat important"
+     :not-very-important "Not very important"
+     :not-important "Not important at all"}))
 ;;; 
 ;;;Responses:
 ;;; 
