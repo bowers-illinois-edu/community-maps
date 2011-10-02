@@ -12,10 +12,12 @@
   (question "In a moment, we will ask you to look at where you live on a map.
 Please tell us your address. (Reminder: These surveys are anonymous, and your
 address will never be used unless you explicitly give us permission to do so.)"
-            [:div.map-find-address
-             [:div.map-canvas {:style "height: 400px; width: 100%;"}]
-             (f/text-field {:class "address"} :address (:address subject))
-             (add-class (button "Find on map") "update")]) ; if preloaded 
+            (f/with-group :address-finder
+              [:div.map-find-address
+               [:div.map-canvas {:style "height: 400px; width: 100%;"}]
+               (f/hidden-field {:class "latlng"} :latlng)
+               (f/text-field {:class "address"} :address (:address subject))
+               (add-class (button "Find on map") "update")])) ; if preloaded 
 
 
 ;;;Q2.	Question: 

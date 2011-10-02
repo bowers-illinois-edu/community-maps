@@ -16,6 +16,7 @@ $(document).ready(function() {
     var updateButton = $("a.update", this);
     
     var point = null;
+    var latlngField = $("input.latlng", this);
 
     var marker = new google.maps.Marker({
       map: map,
@@ -27,6 +28,7 @@ $(document).ready(function() {
       if(e.which == 13) {
         //$(this).blur();
         updateButton.click();
+        return(false);
       }
     });
 
@@ -42,11 +44,15 @@ $(document).ready(function() {
           alert("No location matching '" + address + "' found");
         } else {
           mapDiv.slideDown(function() {
+            // set the map to the right point
             google.maps.event.trigger(map, "resize");
             point = gresult[0].geometry.location;
             marker.setPosition(point);
             map.setCenter(point);
             map.setOptions({zoom: zoomLevel});
+
+            // save the data
+            latlngField.val([point.lat(), point.lng()].join(","))
           });
 
         } 
