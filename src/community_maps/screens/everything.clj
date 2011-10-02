@@ -4,11 +4,6 @@
   (:require [hiccup.form-helpers :as f]
             [burp.forms :as bf]))
 
-(defn directions
-  "Provide a set directions inline with the questions"
-  [& body]
-  [:div.directions (doall (map #(vector :p %) body))])
-
 (defscreen basics
   [subject]
   

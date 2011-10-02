@@ -107,3 +107,8 @@
     (bf/radio-group id (map #(vector % %) (range 1 8)))
     [:br])
    "seven-point-scale"))
+
+(defn directions
+  "Provide a set directions inline with the questions"
+  [& body]
+  [:div.directions (doall (map #(vector :p %) body))])
