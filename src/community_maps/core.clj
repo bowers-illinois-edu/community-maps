@@ -41,7 +41,7 @@
 (defscreen thank-you [_] "Thank you for taking this survey.")
 
 (def survey-app
-  (-> (survey createwithid dbsave dbload layout thank-you [address basics draw-on-map])
+  (-> (survey createwithid dbsave dbload layout thank-you [address draw basics])
       wrap-burp))
 
 (ae/def-appengine-app community-maps-app #'survey-app)
