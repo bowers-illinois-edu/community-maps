@@ -24,7 +24,7 @@ address will never be used unless you explicitly give us permission to do so.)"
   (question "How long have you lived in your current home?"
             (bf/radio-group :length-of-residence
                             {:less-than-one "Less than one year"
-                             :x-years (f/text-field :x-years)
+                             :x-years [:span (f/text-field :x-years) " years"]
                              :all-my-life "All my life"}))
 ;;;Q3.	Question: 
 
