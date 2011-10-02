@@ -10,7 +10,8 @@
             [hiccup.form-helpers :as f]))
 
 (defn randomizer []
-  (randomize-subject {:condition [true false]}))
+  (randomize-subject
+   {:election-neighborhood ["national" "provincial" "like-live" "safety" "nothing"]}))
 
 (defn createwithid []
   (let [key (dbsave (randomizer))]

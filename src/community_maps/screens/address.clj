@@ -42,13 +42,28 @@ address will never be used unless you explicitly give us permission to do so.)"
    "Do you or your family own your own home/apartment, pay rent or what?"
    {:yes "We own"
     :rent "We rent"
-    :other "We have another arrangement"}))
+    :other "We have another arrangement"})
 
-;;;Q5.	Question:
-;;;Randomize:
-;;;a)	Question about whether you voted in the recent provincial election. Follow – which party did you vote for.
-;;;b)	2 questions re neighborhood:
-;;;a.	On the whole, do you like or dislike this neighborhood as a place to live. Would you say you like it a lot, like it, dislike it, dislike ti a lot?
-;;;b.	How worried are you about your safety in your neighborhood?  Are you very worried, somewhat worried, not very worried, or not at all worried?
-;;;c)	 Question about whether you voted in the national election in May. Follow – which party did you vote for.
-;;;d)	no prompt.
+  (case
+   (:election-neighborhood subject)
+   "national" (yes-no :national-election "Did you vote in the national election in May?")
+   "provincial" (yes-no :provincial-election "Did you vote in the recent provincial election?")
+   "like-live" (question
+               "On the whole, do you like or dislike this neighborhood as a place to live. Would you say you like it a lot, like it, dislike it, dislike it a lot?"
+               (bf/radio-group :like-neighborhood
+                               {:like-alot "Like it a lot."
+                                :like "Like it."
+                                :dislike "Dislike it."
+                                :dislike-alot "Dislike it a lot."}))
+   "safety" (question
+             "How worried are you about your safety in your neighborhood?  Are you very worried, somewhat worried, not very worried, or not at all worried?"
+               (bf/radio-group :safe-neighborhood
+                               {:worried "Worried"
+                                :somewhat-worried "Somewhat worried"
+                                :not-very-worried "Not very worried"
+                                :not-at-all-worried "Not at all worried"}))
+   "nothing" nil)
+
+  (when (get #{"national" "provincial"} (:election-neighborhood subject))
+    (question "For which party did you vote?"
+              (f/text-field :national-provincial-party-choice))))
