@@ -5,7 +5,7 @@
         [burp.ring :only [wrap-burp]]
         [burp.jquery :only [jquery-link jquery-ui-link]]
         ring.middleware.file
-        [community-maps.screens draw everything])
+        [community-maps.screens address draw everything])
   (:require [appengine-magic.core :as ae]
             [hiccup.form-helpers :as f]))
 
@@ -22,6 +22,7 @@
     [:title "Taking a survey"]
     (jquery-link) (jquery-ui-link)
     (include-js "burp.jquery.ui.support.js")
+    (include-js "address.js")
     (include-js "map_main.js")
     (include-js "scribble.js")
     (include-js "utilities.js")
@@ -39,7 +40,7 @@
 (defscreen thank-you [_] "Thank you for taking this survey.")
 
 (def survey-app
-  (-> (survey createwithid dbsave dbload layout thank-you [basics draw-on-map])
+  (-> (survey createwithid dbsave dbload layout thank-you [address basics draw-on-map])
       wrap-burp))
 
 (ae/def-appengine-app community-maps-app #'survey-app)
