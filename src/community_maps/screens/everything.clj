@@ -7,6 +7,7 @@
 (defscreen basics
   [subject]
   
+  (static-map-communities subject)
 ;;; 
 ;;; 
 ;;;Q5a. Map-drawing question

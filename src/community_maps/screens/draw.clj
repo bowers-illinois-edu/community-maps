@@ -9,4 +9,4 @@
                    (get-in subject [:address :address-finder :latlng])
                    #",")]
     (question "Please draw on the map"
-              (scribble-map :test-scribble lat lng))))
+              (scribble-map :community lat lng))))

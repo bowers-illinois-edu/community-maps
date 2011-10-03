@@ -2,7 +2,8 @@
   (:use [shanks core]
         hiccup.core
         [burp.core :only [add-class]]
-        [burp.ring :only [wrap-burp]])
+        [burp.ring :only [wrap-burp]]
+        [clojure.string :only [split join]])
   (:require [hiccup.form-helpers :as f]
             [burp.forms :as bf]))
 
@@ -112,3 +113,53 @@
   "Provide a set directions inline with the questions"
   [& body]
   [:div.directions (doall (map #(vector :p %) body))])
+
+(defn- subject->coords
+  [subject]
+  (map
+   (fn [path] (partition 2 (map #(Double/parseDouble %) (split path #","))))
+   (split (get-in subject [:draw :community :data]) #";")))
+
+(defn- trim-paths
+  [subject]
+  (let [coords (subject->coords subject)
+        k (count coords)
+        maxchars 2000
+        maxcoord 6
+        ; the extra stuff added to the maxcords is for negative signs,
+        ; decimal points, etc.
+        points-per-path (/ 2000 (* (inc (* 2 (+ 4 maxcoord))) k))]
+    (map
+     (fn [path]
+       (let [q (count path)
+             fmtstr (str "%." maxcoord "f,%." maxcoord "f")]
+         (take-nth
+          (max 1 (Math/floor (/ q points-per-path)))
+          (map
+           (fn [[lat lng]] (format fmtstr lat lng))
+           path))))
+     coords)))
+
+(defn- subject->paths
+  [subject]
+  (apply
+   str
+   (interpose
+    "&"
+    (map
+     (fn [path]
+       (apply
+        str
+        "path=weight:0|fillcolor:0xFF000066|color:0x000000|"
+        (interpose "|" path)))
+     (trim-paths subject)))))
+
+(defn static-map-communities
+  "Given a subject has completed the map drawing question, create a static representation"
+  [subject]
+  [:img
+   {:style "width: 100%"
+    :src
+    (str
+     "http://maps.googleapis.com/maps/api/staticmap?size=640x400&scale=2&sensor=false&"
+     (subject->paths subject))}])

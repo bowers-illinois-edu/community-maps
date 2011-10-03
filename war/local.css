@@ -28,7 +28,8 @@ div.seven-point-scale div.labeled-radio-button {
     float: left;
 }
 
-div.percentage-question br {
+div.percentage-question br,
+div.seven-point-scale br {
     float: clear;
 }
 
