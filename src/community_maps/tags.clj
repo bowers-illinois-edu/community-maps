@@ -120,24 +120,31 @@
    (fn [path] (partition 2 (map #(Double/parseDouble %) (split path #","))))
    (split (get-in subject [:draw :community :data]) #";")))
 
+(def path-prefix "path=weight:0|fillcolor:0xFF000066|color:0x000000|")
+(def static-url "http://maps.googleapis.com/maps/api/staticmap?size=640x400&scale=2&sensor=false&")
+
 (defn- trim-paths
   [subject]
   (let [coords (subject->coords subject)
         k (count coords)
         maxchars 2000
-        maxcoord 6
-        ; the extra stuff added to the maxcords is for negative signs,
-        ; decimal points, etc.
-        points-per-path (/ 2000 (* (inc (* 2 (+ 4 maxcoord))) k))]
+        digits 6
+        ; each co-ord pair is of the form: xx.digits,-yy.digits|
+        max-pair-length (+ 8 (* 2 digits))
+        points-per-path (Math/floor
+                         (/ (- 2000 k (count static-url) (* k (inc (count path-prefix))))
+                            (* k max-pair-length)))]
     (map
      (fn [path]
        (let [q (count path)
-             fmtstr (str "%." maxcoord "f,%." maxcoord "f")]
-         (take-nth
-          (max 1 (Math/floor (/ q points-per-path)))
-          (map
-           (fn [[lat lng]] (format fmtstr lat lng))
-           path))))
+             fmtstr (str "%." digits "f,%." digits "f")
+             to-remove (- q points-per-path)]
+         (map
+          (fn [[lat lng]] (format fmtstr lat lng))
+          (if (< q points-per-path)
+            (let [parts (Math/floor (/ q to-remove))]
+              (apply concat (map rest (partition parts parts [] path))))
+            path))))
      coords)))
 
 (defn- subject->paths
@@ -150,7 +157,7 @@
      (fn [path]
        (apply
         str
-        "path=weight:0|fillcolor:0xFF000066|color:0x000000|"
+        path-prefix
         (interpose "|" path)))
      (trim-paths subject)))))
 
@@ -161,5 +168,5 @@
    {:style "width: 100%"
     :src
     (str
-     "http://maps.googleapis.com/maps/api/staticmap?size=640x400&scale=2&sensor=false&"
+     static-url
      (subject->paths subject))}])
