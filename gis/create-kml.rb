@@ -32,7 +32,7 @@ def select(table)
     id = 'uapuid'
   end
 
-  "SELECT #{id}, asKML(ST_SimplifyPreserveTopology(ST_transform(the_geom, 3857), #{SIMPLIFY})) FROM #{table} LIMIT 2"
+  "SELECT #{id}, asKML(ST_SimplifyPreserveTopology(ST_transform(the_geom, 3857), #{SIMPLIFY})) FROM #{table}"
 end
 
 # DB connection
