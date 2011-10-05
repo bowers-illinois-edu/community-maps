@@ -59,6 +59,12 @@ TABLES.map {|t|
 <Document>
 <Placemark>
 #{kml}
+<Style>
+ <PolyStyle>
+  <color>#AF0000aa</color>
+  <outline>0</outline>
+ </PolyStyle>
+</Style>
 </Placemark>
 </Document>
 </kml>
