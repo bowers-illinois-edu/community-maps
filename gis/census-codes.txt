@@ -1,0 +1,15 @@
+Acronyms used in the file names:
+
+Census consolidated subdivision (CCS)
+Census division (CD)
+Census metropolitan area (CMA)
+Census subdivision (CSD)
+Census tract (CT)	
+Designated place (DPL)	
+Dissemination area (DA)	
+Dissemination block (DB)	
+Federal electoral district (FED)
+Forward sortation area (FSA)	
+Urban area (UA)
+
+Statistics Canada Census Glossary: http://geodepot.statcan.ca/Diss/Reference/COGG/Index_e.cfm
