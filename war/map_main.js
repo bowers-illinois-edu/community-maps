@@ -17,6 +17,11 @@ var homeMarker; // name the home marker so we can grab it later
 var homePoint;
 
 $(document).ready(function() {
+  // polygon defaults
+  var polycolor = "#AA0000"; // semi-transparent red
+  var fillopacity = 0.6;
+  var strokeweight = 1;
+ 
   var popups = [];
   var savePolygon = function(map, datafield, a, p, popupguard, afterdelete) {
     if (!popupguard) { popupguard = function() { return(true); }}
@@ -145,5 +150,40 @@ $(document).ready(function() {
   //   });
   // });
   
+  // Static mapping with supplied polygons in hidden fields
+  $("div.static-map").each(function(idx) {
+    
+    var bounds = new google.maps.LatLngBounds();
+    var polygons = $("input.polygon", this).map(function(idx) {
+      var polystr = $(this).val();
+      polystr = polystr.split(";")
+      var latlngs = $.map(polystr, function(pair, idx) {
+        var tmp = pair.split(",");
+        var ll = new google.maps.LatLng(tmp[0], tmp[1]);
+        bounds.extend(ll);
+        return(ll);
+      });
+      return(new google.maps.Polygon({paths: latlngs, 
+                                      fillColor: polycolor,
+                                      fillOpacity: fillopacity,
+                                      strokeColor: polycolor,
+                                      strokeWeight: strokeweight}));
+
+    }).get(); // turn into a regular array for convenience
+
+    var map = new google.maps.Map($("div.map-canvas", this).get(0),{
+      center: bounds.getCenter(),
+      zoom: 16,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      draggable: false,
+      disableDefaultUI: true,
+      disableDoubleClickZoom: true,
+      scrollwheel: false
+    });
+    map.fitBounds(bounds);
+    $.each(polygons, function(idx, p) {
+      p.setMap(map);
+    });
+  });
 });
 

@@ -120,53 +120,14 @@
    (fn [path] (partition 2 (map #(Double/parseDouble %) (split path #","))))
    (split (get-in subject [:draw :community :data]) #";")))
 
-(def path-prefix "path=weight:0|fillcolor:0xFF000066|color:0x000000|")
-(def static-url "http://maps.googleapis.com/maps/api/staticmap?size=640x400&scale=2&sensor=false&")
-
-(defn- trim-paths
-  [subject]
-  (let [coords (subject->coords subject)
-        k (count coords)
-        maxchars 2000
-        digits 6
-        ; each co-ord pair is of the form: xx.digits,-yy.digits|
-        max-pair-length (+ 8 (* 2 digits))
-        points-per-path (Math/floor
-                         (/ (- 2000 k (count static-url) (* k (inc (count path-prefix))))
-                            (* k max-pair-length)))]
-    (map
-     (fn [path]
-       (let [q (count path)
-             fmtstr (str "%." digits "f,%." digits "f")
-             to-remove (- q points-per-path)]
-         (map
-          (fn [[lat lng]] (format fmtstr lat lng))
-          (if (< q points-per-path)
-            (let [parts (Math/floor (/ q to-remove))]
-              (apply concat (map rest (partition parts parts [] path))))
-            path))))
-     coords)))
-
-(defn- subject->paths
-  [subject]
-  (apply
-   str
-   (interpose
-    "&"
-    (map
-     (fn [path]
-       (apply
-        str
-        path-prefix
-        (interpose "|" path)))
-     (trim-paths subject)))))
-
 (defn static-map-communities
   "Given a subject has completed the map drawing question, create a static representation"
   [subject]
-  [:img
-   {:style "width: 100%"
-    :src
-    (str
-     static-url
-     (subject->paths subject))}])
+  (let [coords (subject->coords subject)]
+    [:div.static-map
+     (map
+      (fn [path] [:input {:type "hidden"
+                         :class "polygon"
+                         :value (apply str (doall (flatten (interpose ";" (map #(interpose "," %) path))))) }])
+      coords)
+     [:div.map-canvas {:style "height: 400px; width: 100%;"}]]))
