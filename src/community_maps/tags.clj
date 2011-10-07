@@ -93,15 +93,18 @@
 (defn learn-about-composition
   "How did the R learn about his community."
   [id prompt]
-  (multiple-choice
-   id
-   prompt
-   {:observation "personal observation"
-    :friends "friends and families"
-    :news "news (tv, radio, online, paper)"
-    :institutions "local institutions"
-    :leaders "political leaders"
-    :tv "television entertainment shows"}))
+  (let [opts {:observation "personal observation"
+              :friends "friends and families"
+              :news "news (tv, radio, online, paper)"
+              :institutions "local institutions"
+              :leaders "political leaders"
+              :tv "television entertainment shows"}]
+    (f/with-group id
+      [:div.learn-composition 
+       [:div.mc
+        (multiple-choice :learn prompt opts)]
+       [:div.sc
+        (single-choice :important "Of these, which was most important?" opts)]])))
 
 (defn seven-point-scale
   "Rate from 1 to 7"

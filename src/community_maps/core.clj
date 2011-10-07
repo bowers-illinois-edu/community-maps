@@ -27,6 +27,7 @@
     (include-js "map_main.js")
     (include-js "scribble.js")
     (include-js "utilities.js")
+    (include-js "questions.js")
     (include-js "http://maps.google.com/maps/api/js?v=3.4&sensor=false")
     (include-css "http://yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css")
     (include-css "http://yui.yahooapis.com/2.8.2r1/build/base/base-min.css")
