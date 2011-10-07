@@ -24,8 +24,15 @@ li.burp-jquery-rank-item {
 }
 
 div.percentage-question div.labeled-radio-button,
-div.seven-point-scale div.labeled-radio-button {
+div.seven-point-scale div.labeled-radio-button,
+div.seven-point-scale span.low, 
+div.seven-point-scale span.high {
     float: left;
+}
+
+div.seven-point-scale span.low, div.seven-point-scale span.high {
+    margin-left: 1em;
+    margin-right: 1em;
 }
 
 div.percentage-question br,

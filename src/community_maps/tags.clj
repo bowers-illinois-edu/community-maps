@@ -105,12 +105,15 @@
 
 (defn seven-point-scale
   "Rate from 1 to 7"
-  [id prompt]
+  [id low high prompt]
   (add-class
    (question
     prompt
-    (bf/radio-group id (map #(vector % %) (range 1 8)))
-    [:br])
+    [:div.instrument
+     [:span.low low]
+     (bf/radio-group id (map #(vector % %) (range 1 8)))
+     [:span.high high]
+     [:br]])
    "seven-point-scale"))
 
 (defn directions

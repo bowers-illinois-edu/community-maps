@@ -293,7 +293,7 @@ areas you highlighted")
   (doall
    (map
     (fn [[id grp]]
-      (seven-point-scale id
+      (seven-point-scale id "Hard Working" "Lazy"
        (str "Where would you rate " grp " in general on this scale?")))
     (shuffle (vec
               {:whites "Whites"
@@ -311,7 +311,8 @@ areas you highlighted")
   (doall
    (map
     (fn [[id grp]]
-      (seven-point-scale id (str "Where would you rate " grp " in general on this scale?")))
+      (seven-point-scale id "Intelligent" "Unintelligent"
+                         (str "Where would you rate " grp " in general on this scale?")))
     (shuffle (vec
               {:whites "Whites"
                :liberals "Liberals"
@@ -342,7 +343,7 @@ areas you highlighted")
      "The more money spent on doctors, hospitals, and medicine for the healthcare of people in one ethnic group, the less money that will be available for the healthcare of members of other groups."}))
 
 ;;;Q50.	Question:
-  (seven-point-scale :government-improve-ethnic 
+  (seven-point-scale :government-improve-ethnic "Government should intervene" "Not the government's job"
    "Some people feel that the government in Ottawa  should make every effort to improve the social and economic position of ethnic minorities. Suppose these people are at one end of a scale, at point 1. Others feel that the government should not make any special effort to help ethnic minorities because they should help themselves. Suppose these people are at the other end, at point 7. And, of course, some other people have opinions somewhere in between. Where would you place yourself on this scale?")
 
 ;;;Q51.	Question:
