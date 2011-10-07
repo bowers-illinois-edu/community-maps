@@ -53,3 +53,8 @@ div.directions p {
     margin: 1em;
 }
 
+div.question table { width: 100%; border: 0; }
+div.question table td, div.question table tr { border: 0; }
+div.question td.group { font-weight: bold; }
+
+div.slider { margin: 0.5em; }

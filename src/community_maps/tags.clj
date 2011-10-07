@@ -5,7 +5,8 @@
         [burp.ring :only [wrap-burp]]
         [clojure.string :only [split join]])
   (:require [hiccup.form-helpers :as f]
-            [burp.forms :as bf]))
+            [burp.forms :as bf]
+            [burp.jquery :as bj]))
 
 (defelem button
   "Create a button with a txt label"
@@ -35,12 +36,7 @@
 (defelem percentage
   "Allow the user to select from a list of percentages 0 to 100"
   [id]
-  [:div.percentage-question
-   (bf/radio-group id
-                   (concat
-                    (map (fn [p] [(str "percentage-" p) (str p "%")]) (range 0 100 10))
-                    [["percentage-100" "100%"]]))
-   [:br]])
+  (bj/slider id))
          
 (defelem agree-disagree
   "Strongly agree => strongly disagree"
@@ -78,15 +74,21 @@
 
 (defn percentage-of-community
   "Asks about the list of groups we are interested in"
-  [id prompt]
-  (question 
-   prompt
-   (f/with-group id
-     [:table 
-      (doall
-       (map
-        (fn [[group-id group]] [:tr [:td group] [:td (percentage group-id)]])
-        (shuffle (vec ethnic-political-groups))))])))
+  ([id prompt] (percentage-of-community id prompt true))
+  ([id prompt percent]
+     (question 
+      prompt
+      (f/with-group id
+        [:table.groups 
+         (doall
+          (map
+           (fn [[group-id group]]
+             [:tr
+              [:td.group group]
+              [:td (str "0" (when percent "%"))]
+              [:td {:width "60%"} (percentage group-id)]
+              [:td (str "100" (when percent "%"))]])
+           (shuffle (vec ethnic-political-groups))))]))))
 
 (defn learn-about-composition
   "How did the R learn about his community."
