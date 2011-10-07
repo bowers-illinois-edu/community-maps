@@ -56,6 +56,8 @@ areas you highlighted")
    "Now, look at this map [SHOW HIGHLIGHTED Province/City/Dissemination Area MAP]. The highlighted area shows [your Province/ your City/ what the Census bureau defines as your dissemination area]."
    "Referring to this map with the Census boundary on it, I’d like to ask a series of questions just like the previous ones:")
 
+  (kml-map "/kml/pr/10.kml")
+  
 ;;;Q14.	Question:
   (percentage-of-community
    :census-community

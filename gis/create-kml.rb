@@ -20,7 +20,7 @@ require 'postgres'
 
 # Some constants for use in the data -> .kml process
 SIMPLIFY = 0.001 # how much should the geomtries be simplified before ouput
-TABLES = ['ccs', 'cd', 'cma', 'csd', 'ct', 'dpl', 'fed', 'fsa', 'pr', 'ua']
+TABLES = ['pr'] #, 'ccs', 'cma', 'csd', 'ct', 'dpl', 'fed', 'fsa', 'cd', 'ua']
 # NOTE: the tables all have an id called TABLENAMEuid, with the exception of fsa and ua
 # There the ids are census_fsa and uapid
 

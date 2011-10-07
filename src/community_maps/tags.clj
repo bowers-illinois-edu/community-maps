@@ -12,6 +12,8 @@
   [txt]
   [:a {:class "fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"} [:span.ui-button-text txt]])
 
+(def map-canvas [:div.map-canvas {:style "height: 400px; width: 100%;"}])
+
 (defelem scribble-map
   "Create a map centered on a given lat/lon"
   [id lat lon]
@@ -28,7 +30,7 @@
       (add-class
        (button {:style "display: none;"} "Reset Map")
        "action reset")]
-     [:div.map-canvas {:style "height: 400px; width: 100%;"}]]))
+     map-canvas]))
 
 (defelem percentage
   "Allow the user to select from a list of percentages 0 to 100"
@@ -130,4 +132,10 @@
                          :class "polygon"
                          :value (apply str (doall (flatten (interpose ";" (map #(interpose "," %) path))))) }])
       coords)
-     [:div.map-canvas {:style "height: 400px; width: 100%;"}]]))
+     map-canvas]))
+
+(defn kml-map
+  [url]
+  [:div.kml-map
+   [:input {:type "hidden" :value url :class "url"}]
+   map-canvas])

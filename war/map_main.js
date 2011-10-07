@@ -149,7 +149,18 @@ $(document).ready(function() {
   //     } 
   //   });
   // });
-  
+  var staticMap = function(within, center) {
+    return(new google.maps.Map($("div.map-canvas", within).get(0),{
+      center: center,
+      zoom: 8,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      draggable: false,
+      disableDefaultUI: true,
+      disableDoubleClickZoom: true,
+      scrollwheel: false
+    }));
+  }
+
   // Static mapping with supplied polygons in hidden fields
   $("div.static-map").each(function(idx) {
     
@@ -171,19 +182,22 @@ $(document).ready(function() {
 
     }).get(); // turn into a regular array for convenience
 
-    var map = new google.maps.Map($("div.map-canvas", this).get(0),{
-      center: bounds.getCenter(),
-      zoom: 16,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      draggable: false,
-      disableDefaultUI: true,
-      disableDoubleClickZoom: true,
-      scrollwheel: false
-    });
+    var map = staticMap(this, bounds.getCenter());
+
     map.fitBounds(bounds);
     $.each(polygons, function(idx, p) {
       p.setMap(map);
     });
   });
+
+  // displaying kml from URL in a hidden field
+  $("div.kml-map").each(function(idx) {
+    var url = $("input.url", this).val();
+    var map = staticMap(this, new google.maps.LatLng(48.25, -52.96));
+    var klayer = new google.maps.KmlLayer(url, {map: map});
+    google.maps.event.trigger(map, "resize");
+ 
+  });
 });
 
+ 
