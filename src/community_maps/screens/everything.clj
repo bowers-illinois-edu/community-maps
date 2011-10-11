@@ -19,7 +19,7 @@
 areas you highlighted")
 
 ;;;Q6.	Question
-  (percentage-of-community
+  (group-sliders
    :community-percentage
    "Just your best guess – what percentage of the population of this community is:")
 ;;; 
@@ -59,7 +59,7 @@ areas you highlighted")
   (kml-map "/kml/pr/10.kml")
   
 ;;;Q14.	Question:
-  (percentage-of-community
+  (group-sliders
    :census-community
    "Just your best guess - what percentage of the population in the highlighted area is:")
 
@@ -166,7 +166,7 @@ areas you highlighted")
      :other [:span "Some other mixture. Please explain:" (f/text-field :other-description)]}))
 
 ;;;Q26.	Question
-  (percentage-of-community
+  (group-sliders
    :canada-percentages
    "What is your best guess for the percentage of the Canadian population for each of the following groups?")
 
@@ -189,10 +189,10 @@ areas you highlighted")
      :same "Left the same as it is now."}))
 
 ;;;Q28.	Question:
-  (percentage-of-community
+  (group-sliders
    :group-feeling-thermometer
    "We'd also like to get your feelings about some groups in Canadian society. When I read the name of a group, we'd like you to rate it with what we call a feeling thermometer. Ratings between 50 degrees and 100 degrees mean that you feel favorably and warm toward the group; ratings between 0 and 50 degrees mean that you don't feel favorably towards the group and that you don't care too much for that group. If you don't feel particularly warm or cold toward a group you would rate them at 50 degrees. If we come to a group you don't know much about, just tell me and we'll move on to the next one."
-   false)
+   "0" "100")
 
 ;;;Q29.	Question:
   (question 
@@ -290,38 +290,17 @@ areas you highlighted")
    "Now I have some questions about different groups in our society. (randomize order)"
    "A score of 1 means that you think almost all of the people in that group tend to be \"hard-working.\" A score of 7 means that you think most people in the group are \"lazy.\" A score of 4 means that you think that most people in the group are neither particularly lazy nor particularly hardworking, and of course, you may choose any number in between.")
 
-  (doall
-   (map
-    (fn [[id grp]]
-      (seven-point-scale id "Hard Working" "Lazy"
-       (str "Where would you rate " grp " in general on this scale?")))
-    (shuffle (vec
-              {:whites "Whites"
-               :liberals "Liberals"
-               :conservatives "Conservatives"
-               :blacks "Blacks"
-               :chinese "Chinese"
-               :ndp "Members of the NDP"
-               :indian "East Indians"
-               :quebec "members of the Block Quebecois"}))))
+  (group-sliders
+   :hard-working-lazy
+   "What do you think of these groups"
+   "Lazy"
+   "Hardworking")
 
 ;;;Q45.	Question:
   (directions 
    "The next set asks if people in each group tend to be \"intelligent\" or \"unintelligent\". A score of 1 means that you think almost all of the people in that group tend to be \"intelligent\". A score of 7 means that you think most people in the group are \"unintelligent.\" A score of 4 means that you think that most people in the group are neither particularly unintelligent nor particularly intelligent, and of course, you may choose any number in between.")
-  (doall
-   (map
-    (fn [[id grp]]
-      (seven-point-scale id "Intelligent" "Unintelligent"
-                         (str "Where would you rate " grp " in general on this scale?")))
-    (shuffle (vec
-              {:whites "Whites"
-               :liberals "Liberals"
-               :conservatives "Conservatives"
-               :blacks "Blacks"
-               :chinese "Chinese"
-               :ndp "Members of the NDP"
-               :indian "East Indians"
-               :quebec "members of the Block Quebecois"}))))
+  (group-sliders :intelligent-unintelligent "Where would you rate this groups?"
+                 "Intelligent" "Untelliget")
 
 ;;;Q46, Q47, Q48, Q49
   (directions

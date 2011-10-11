@@ -33,11 +33,6 @@
        "action reset")]
      map-canvas]))
 
-(defelem percentage
-  "Allow the user to select from a list of percentages 0 to 100"
-  [id]
-  (bj/slider id))
-         
 (defelem agree-disagree
   "Strongly agree => strongly disagree"
   [id]
@@ -72,10 +67,10 @@
    :other-asian "Other Asian"
    :quebecois "Bloq Quebecois"})
 
-(defn percentage-of-community
+(defn group-sliders
   "Asks about the list of groups we are interested in"
-  ([id prompt] (percentage-of-community id prompt true))
-  ([id prompt percent]
+  ([id prompt] (group-sliders id prompt "0%" "100%"))
+  ([id prompt pre post]
      (question 
       prompt
       (f/with-group id
@@ -85,9 +80,9 @@
            (fn [[group-id group]]
              [:tr
               [:td.group group]
-              [:td (str "0" (when percent "%"))]
-              [:td {:width "60%"} (percentage group-id)]
-              [:td (str "100" (when percent "%"))]])
+              [:td pre]
+              [:td {:width "60%"} (bj/slider group-id)]
+              [:td post]])
            (shuffle (vec ethnic-political-groups))))]))))
 
 (defn learn-about-composition
@@ -109,15 +104,17 @@
 (defn seven-point-scale
   "Rate from 1 to 7"
   [id low high prompt]
-  (add-class
-   (question
-    prompt
-    [:div.instrument
-     [:span.low low]
-     (bf/radio-group id (map #(vector % %) (range 1 8)))
-     [:span.high high]
-     [:br]])
-   "seven-point-scale"))
+  (question prompt
+            [:span low] (bj/slider id) [:span high]))
+;(add-class
+; (question
+;  prompt
+;  [:div.instrument
+;   [:span.low low]
+;   (bf/radio-group id (map #(vector % %) (range 1 8)))
+;   [:span.high high]
+;   [:br]])
+; "seven-point-scale"))
 
 (defn directions
   "Provide a set directions inline with the questions"
