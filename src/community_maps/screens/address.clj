@@ -24,7 +24,7 @@ address will never be used unless you explicitly give us permission to do so.)"
   (question "How long have you lived in your current home?"
             (bf/radio-group :length-of-residence
                             {:less-than-one "Less than one year"
-                             :x-years [:span (f/text-field :x-years) " years"]
+                             :x-years [:span (f/text-field :x-years) " years" (please fill in the correct number)]
                              :all-my-life "All my life"}))
 ;;;Q3.	Question: 
 
@@ -35,7 +35,7 @@ address will never be used unless you explicitly give us permission to do so.)"
                     :province "Elsewhere in the same province"
                     :other "In another province"
                     :ex-canada "Outside Canada"})
-   (f/text-field :other-residence-name))
+   (f/text-field :other-residence-name (please explain where)))
 
 ;;;Q4.	Question:
 
