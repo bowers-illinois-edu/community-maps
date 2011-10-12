@@ -178,7 +178,12 @@ areas you highlighted")
 ;;;Q8.	Question:
   (question
    [:div
-    [:p "According to [Conservative / NDP/ BQ/ Liberal leader], the number of visible minorities is going  reach [25%/ 35%/50%] of the Canadian population in the next 10 years, largely as a result of immigration."]
+    [:p
+     "According to a "
+     (subject :leader-party),
+     " leader, the number of visible minorities is going reach "
+     (subject :minority-projection)
+     "% of the Canadian population in the next 10 years, largely as a result of immigration."]
     [:p "Do you think the number of immigrants from foreign countries who are permitted to come to Canada to live should be increased a little, increased a lot, decreased a little, decreased a lot, or left the same as it is now?"]]
    (bf/radio-group
     :increase-immigration
