@@ -11,7 +11,7 @@
 
 (defn randomizer []
   (randomize-subject
-   {:election-neighborhood ["national" "provincial" "like-live" "safety" "nothing"]
+   {:election-neighborhood ["national" "provincial" "neighborhood" "nothing"]
     :ethnic-work-up ["Chinese" "blacks"]
     :get-welfare ["ethnic minorities" "people"]
     :prefer-neighborhood ["ethnic minorities" "blacks" "Asians"]

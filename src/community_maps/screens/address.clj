@@ -50,20 +50,21 @@ address will never be used unless you explicitly give us permission to do so.)"
    (:election-neighborhood subject)
    "national" (yes-no :national-election "Did you vote in the national election in May?")
    "provincial" (yes-no :provincial-election "Did you vote in the recent provincial election?")
-   "like-live" (question
-               "On the whole, do you like or dislike this neighborhood as a place to live. Would you say you like it a lot, like it, dislike it, dislike it a lot?"
-               (bf/radio-group :like-neighborhood
-                               {:like-alot "Like it a lot."
-                                :like "Like it."
-                                :dislike "Dislike it."
-                                :dislike-alot "Dislike it a lot."}))
-   "safety" (question
-             "How worried are you about your safety in your neighborhood?  Are you very worried, somewhat worried, not very worried, or not at all worried?"
-               (bf/radio-group :safe-neighborhood
-                               {:worried "Worried"
-                                :somewhat-worried "Somewhat worried"
-                                :not-very-worried "Not very worried"
-                                :not-at-all-worried "Not at all worried"}))
+   "neighborhood" (list
+                   (question
+                    "On the whole, do you like or dislike this neighborhood as a place to live. Would you say you like it a lot, like it, dislike it, dislike it a lot?"
+                    (bf/radio-group :like-neighborhood
+                                    {:like-alot "Like it a lot."
+                                     :like "Like it."
+                                     :dislike "Dislike it."
+                                     :dislike-alot "Dislike it a lot."}))
+                   (question
+                    "How worried are you about your safety in your neighborhood?  Are you very worried, somewhat worried, not very worried, or not at all worried?"
+                    (bf/radio-group :safe-neighborhood
+                                    {:worried "Worried"
+                                     :somewhat-worried "Somewhat worried"
+                                     :not-very-worried "Not very worried"
+                                     :not-at-all-worried "Not at all worried"})))
    "nothing" nil)
 
   (when (get #{"national" "provincial"} (:election-neighborhood subject))
