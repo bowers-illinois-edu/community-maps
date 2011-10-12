@@ -256,13 +256,15 @@ areas you highlighted")
    (map
     (fn [[k p]] (question p (agree-disagree k)))
     {:special-favors 
-     "Irish, Italian, Jewish and many other minorities overcame prejudice and worked their way up. Other minorities, like [Chinese / Blacks] should do the same without any special favors."
+     (str "Irish, Italian, Jewish and many other minorities overcame prejudice and worked their way up. Other minorities, like "
+          (subject :ethnic-work-up)
+          ", should do the same without any special favors.")
 
      :try-harder
      "It's really a matter of some people not trying hard enough; if ethnic minorities would only try harder they could be just as well off as whites."
 
      :social-welfare
-     "Most [ethnic minorities / people] who receive money from social welfare programs could get along without it if they tried."
+     (str "Most " (subject :get-welfare)  " who receive money from social welfare programs could get along without it if they tried.")
 
      :gov-attention
      "Government officials usually pay less attention to a request or complaint from an ethnic minority person than from a white person."}))
@@ -278,11 +280,13 @@ areas you highlighted")
 
 ;;;Q43.	Question:
   (question
-   "If you could find the housing that you would want and like, would you rather live in a neighborhood that is mostly white, mostly [ethnic minorities/ blacks/ Asian], or some other mixture?"
+   (str "If you could find the housing that you would want and like, would you rather live in a neighborhood that is mostly white, mostly "
+        (subject :prefer-neighborhood)
+        ", or some other mixture?")
    (bf/radio-group
     :housing-ethnic
     {:white "Mostly white"
-     :ethnic "Mostly [ethnic...]"
+     :ethnic (str "Mostly " (subject :prefer-neighborhood))
      :other [:span "Some other mixture. Please explain: " (f/text-field :explain-other)]}))
 
 ;;;Q44.	Question:
@@ -332,8 +336,9 @@ areas you highlighted")
     [:p "How do you feel? Should the government in Ottawa see to it that ethnic minorities get fair treatment in jobs or is this not the federal government's business?"]]
    (agree-disagree :government-ensure-fair-treatment))
 
-;;; 
-  (yes-no :complete-additional-survey "Would you be willing to complete another survey?"))
+;;;
+  )
+(yes-no :complete-additional-survey "Would you be willing to complete another survey?")
 ;;;        -replicate local community map-drawing
 ;;;        -conduct a series of PD games with co-ethnics and non-co-ethnics
 
