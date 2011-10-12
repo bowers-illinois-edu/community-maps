@@ -84,7 +84,9 @@ areas you highlighted")
 
 ;;;Q18.	Question:
   (question
-   "Some political leaders argue that in the next 10 years, ethnic minorities will [increase their share of the population in this area by a lot / decrease their share of the population in this area by a lot].  Do you think this is a good or bad thing?"
+   (str "Some political leaders argue that in the next 10 years, ethnic minorities will "
+        (subject :minority-population-share)
+        " their share of the population in this area by a lot.  Do you think this is a good or bad thing?")
    (bf/radio-group :ethnic-growth {:good "Good thing" :bad "Bad thing"}))
 
 ;;;Assuming we know employment status from Vote Compass...
