@@ -13,14 +13,27 @@ jQuery(document).ready(function() {
     var widget = this;
     var importance = $("div.sc", this).hide();
     $("div.labeled-radio-button", importance).hide();
-    $("div.mc input", widget).click(function() { 
-      importance.show();
+
+    $("div.mc input", widget).click(function() {
+      
+      if ($("div.mc input:checked", widget).length > 0) {
+        importance.show();
+      } else {
+        importance.hide();
+      } 
+      
       $("div.mc input:checked", widget).each(function(idx) {
         var jthis = $(this);
         var splitId = jthis.attr("id").split("-");
         var lastId = splitId[splitId.length - 1];
         var radio = $("div.sc input[value='" + lastId + "']", widget).parent().show();
       });
-    });
+
+      $("div.mc input:not(:checked)", widget).each(function(idx) {
+        var jthis = $(this);
+        var splitId = jthis.attr("id").split("-");
+        var lastId = splitId[splitId.length - 1];
+        var radio = $("div.sc input[value='" + lastId + "']", widget).parent().hide();
+      });});
   });
 });
