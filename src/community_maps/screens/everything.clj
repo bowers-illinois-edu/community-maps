@@ -237,11 +237,13 @@ areas you highlighted")
      :happier-within-group
      "People of different ethnic or racial groups are generally happier when they live and socialize with others of the same background."
      :shop-ethnic
-     "Ethnic minorities should always shop in stores owned by [ethnic minorities/ other members of their same ethnic background]"}))
+     (str "Ethnic minorities should always shop in stores owned by " (subject :ethnic-shop) ".")}))
 
 ;;;Q36.	Question:
     (question
-     "How would it make you feel if a close relative of yours were planning to marry a person of different [race / ethnic background] from yours? Would you be very uneasy, somewhat uneasy, or not uneasy at all?"
+     (str "How would it make you feel if a close relative of yours were planning to marry a person of different "
+          (subject :outgroup-marry)
+          " from yours? Would you be very uneasy, somewhat uneasy, or not uneasy at all?")
      (bf/radio-group :marry-ethnic
                      {:very-uneasy "Very uneasy"
                       :somewhat-uneasy "Somewhat uneasy"

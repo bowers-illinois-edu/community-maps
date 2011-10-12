@@ -17,7 +17,9 @@
     :prefer-neighborhood ["ethnic minorities" "blacks" "Asians"]
     :leader-party ["Conservative" "NDP" "BQ" "Liberal"]
     :minority-projection ["25" "35" "50"]
-    :minority-population-share ["increase" "decrease"]}))
+    :minority-population-share ["increase" "decrease"]
+    :ethnic-shop ["ethnic minorities" "other members of their same ethnic background"]
+    :outgroup-marry ["race" "ethnic background"]}))
 
 (defn createwithid []
   (let [key (dbsave (randomizer))]
