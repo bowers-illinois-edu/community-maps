@@ -311,7 +311,7 @@ areas you highlighted")
   (directions 
    "The next set asks if people in each group tend to be \"intelligent\" or \"unintelligent\". A score of 1 means that you think almost all of the people in that group tend to be \"intelligent\". A score of 7 means that you think most people in the group are \"unintelligent.\" A score of 4 means that you think that most people in the group are neither particularly unintelligent nor particularly intelligent, and of course, you may choose any number in between.")
   (group-sliders :intelligent-unintelligent "Where would you rate this groups?"
-                 "Intelligent" "Untelliget")
+                 "Intelligent" "Unintelligent")
 
 ;;;Q46, Q47, Q48, Q49
   (directions
