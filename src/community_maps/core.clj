@@ -11,7 +11,13 @@
 
 (defn randomizer []
   (randomize-subject
-   {:election-neighborhood ["national" "provincial" "like-live" "safety" "nothing"]}))
+   {:election-neighborhood ["national" "provincial" "like-live" "safety" "nothing"]
+    :ethnic-work-up ["Chinese" "black"]
+    :get-welfare ["ethnic minorities" "people"]
+    :prefer-neighborhood ["ethnic minorities" "blacks" "Asians"]
+    :leader-party ["Conservative" "NDP" "BQ" "Liberal"]
+    :minority-projection ["25" "35" "50"]
+    :minority-population-share ["increase" "decrease"]}))
 
 (defn createwithid []
   (let [key (dbsave (randomizer))]
