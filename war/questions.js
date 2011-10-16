@@ -36,4 +36,17 @@ jQuery(document).ready(function() {
         var radio = $("div.sc input[value='" + lastId + "']", widget).parent().hide();
       });});
   });
+
+  $("div.election-choice").each(function(idx){
+    var widget = this;
+    $("div.vote-choice", widget).hide();
+
+    $("div.did-vote input[value=yes]", this).click(function() {
+      $("div.vote-choice", widget).slideDown();
+    });
+
+    $("div.did-vote input[value=no]", this).click(function() {
+      $("div.vote-choice", widget).slideUp();
+    });
+  });
 });

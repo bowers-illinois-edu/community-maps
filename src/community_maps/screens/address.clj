@@ -46,27 +46,38 @@ address will never be used unless you explicitly give us permission to do so.)"
     :rent "We rent"
     :other "We have another arrangement"})
 
-  (case
-   (:election-neighborhood subject)
-   "national" (yes-no :national-election "Did you vote in the national election in May?")
-   "provincial" (yes-no :provincial-election "Did you vote in the recent provincial election?")
-   "neighborhood" (list
-                   (question
-                    "On the whole, do you like or dislike this neighborhood as a place to live. Would you say you like it a lot, like it, dislike it, dislike it a lot?"
-                    (bf/radio-group :like-neighborhood
-                                    {:like-alot "Like it a lot."
-                                     :like "Like it."
-                                     :dislike "Dislike it."
-                                     :dislike-alot "Dislike it a lot."}))
-                   (question
-                    "How worried are you about your safety in your neighborhood?  Are you very worried, somewhat worried, not very worried, or not at all worried?"
-                    (bf/radio-group :safe-neighborhood
-                                    {:worried "Worried"
-                                     :somewhat-worried "Somewhat worried"
-                                     :not-very-worried "Not very worried"
-                                     :not-at-all-worried "Not at all worried"})))
-   "nothing" nil)
+  (when (= (:election-neighborhood subject) "neighborhood")
+    (list
+     (question
+      "On the whole, do you like or dislike this neighborhood as a place to live. Would you say you like it a lot, like it, dislike it, dislike it a lot?"
+      (bf/radio-group :like-neighborhood
+                      {:like-alot "Like it a lot."
+                       :like "Like it."
+                       :dislike "Dislike it."
+                       :dislike-alot "Dislike it a lot."}))
+     (question
+      "How worried are you about your safety in your neighborhood?  Are you very worried, somewhat worried, not very worried, or not at all worried?"
+      (bf/radio-group :safe-neighborhood
+                      {:worried "Worried"
+                       :somewhat-worried "Somewhat worried"
+                       :not-very-worried "Not very worried"
+                       :not-at-all-worried "Not at all worried"}))))
 
   (when (get #{"national" "provincial"} (:election-neighborhood subject))
-    (question "For which party did you vote?"
-              (f/text-field :national-provincial-party-choice))))
+    [:div.election-choice
+     (add-class 
+      (if (= (:election-neighborhood subject) "national")
+        (yes-no :national-election "Did you vote in the national election in May?")
+        (yes-no :provincial-election "Did you vote in the recent provincial election?"))
+      :did-vote)
+     (add-class
+      (single-choice 
+       :election-choice
+       "For which party did you vote?"
+       {:liberal "The Liberal Party"
+        :conservative "The Conservative Party"
+        :ndp "The NDP"
+        :bq "The Bloc Quebecois"
+        :green "The Green Party"
+        :other "Another party"})
+      :vote-choice)]))
