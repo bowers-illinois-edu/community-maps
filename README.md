@@ -16,7 +16,10 @@ You can also checkout the repository using git. This is required if
 you wish to push an update to the app server. Before doing so, you
 will need to install [cake](https://github.com/flatland/cake) and
 [lein](https://github.com/technomancy/leiningen) as described on the
-respective home pages.
+respective home pages. You will also need to install the (Google App
+Engine SDK (for
+Java))[http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Java]
+and put the `appcfg.sh` script in your `$PATH`. 
 
 The `Makefile` includes two convenient tasks for local development:
 
@@ -27,6 +30,7 @@ The `Makefile` includes two convenient tasks for local development:
   number in the `war/WEB-INF/appengine-web.xml` file. This wil allow
   us to rollback to the previous version if there is an error in this
   deployment.
+
 
 ### GIS development
 
