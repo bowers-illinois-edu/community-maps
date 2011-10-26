@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Preconditions:
-# - a Postgres/Postgis database called `canada`, LATIN1 encoding is necessary
+# - a Postgres/Postgis database called `canada`
 # (e.g. `$ createdb -T postgis-template canada`)
 # - all the varioius district files in a subdirectory called `files`:
 #   gccs000a06a_e.shp

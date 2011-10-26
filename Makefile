@@ -1,17 +1,18 @@
 # A make file to make sure all supporting files are ready for deployment
 
-war/kml/ccs/6208098.kml: gis/create-kml.rb
-	cd war && rm -rf kml
-	cd war && ../gis/create-kml.rb
+# KML is not being generated properly, so commenting this out for now
+# war/kml/ccs/6208098.kml: gis/create-kml.rb
+# 	cd war && rm -rf kml
+# 	cd war && ../gis/create-kml.rb
 
 appengine-prepare:
 	lein appengine-prepare
 
-deploy: war/kml/ccs/6208098.kml
+deploy: 
 	lein appengine-prepare
 	appcfg.sh update war
 
-localdev: war/kml/ccs/6208098.kml
+localdev: 
 	cake kill
 	cake swank
 
