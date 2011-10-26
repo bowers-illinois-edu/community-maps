@@ -88,5 +88,32 @@ jQuery(document).ready(function() {
       denyContinue();
     }
   });
-  
+
+  // adding current position labels to the sliders
+  $("div.slider").each(function() {
+    var slider = $(this);
+    var data = $("input.data", this);
+
+    $("div.ui-slider", this).each(function() {
+      var widget = $(this);
+      var label = $("<div class = 'ui-slider-label'>0</div>");
+      slider.append(label);
+      widget.bind("slide", function(e, ui) {
+        var delay = function() {
+          label.html(ui.value).position
+          ({
+            my: 'center top',
+            at: 'center bottom',
+            of: ui.handle,
+            offset: "0, 6"
+          });
+        };
+        
+        // wait for the ui.handle to set its position
+        setTimeout(delay, 5);
+      });
+    });
+  });
+ 
+
 });
