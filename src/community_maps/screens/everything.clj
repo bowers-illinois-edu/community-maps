@@ -111,13 +111,17 @@ areas you highlighted")
 ;;; 
 ;;;Q21.	Question:
 ;;; 
-  (multiple-choice
-   :close-to-group
-   "Do you feel close to any of the following groups"
-   (merge
-    ethnic-political-groups
-    {:local-community "People in your local community"
-     :census-community "People in this area"}))
+  (let [mc (multiple-choice
+            :close-to-group
+            "Do you feel close to any of the following groups"
+            (merge
+             (dissoc ethnic-political-groups :other-asian)
+             {:local-community "People in your local community"
+              :census-community "People in this area"}))]
+    (assoc-in mc [2 1]
+              (concat
+               (second (first (get-in mc [2 1])))
+               [(f/with-group "close-to-group" (bf/labeled-checkbox "other-asian" "Other Asian"))])))
 
   (directions "Now let’s look at the map of your local community again. [REFERRING TO MAP THEY DREW ON]")
 

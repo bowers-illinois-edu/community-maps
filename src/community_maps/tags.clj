@@ -83,7 +83,9 @@
               [:td pre]
               [:td {:width "60%"} (bj/slider group-id)]
               [:td post]])
-           (shuffle (vec ethnic-political-groups))))]))))
+           (conj 
+            (shuffle (vec (dissoc ethnic-political-groups :other-asian)))
+            [:other-asian (:other-asian ethnic-political-groups)])))]))))
 
 (defn learn-about-composition
   "How did the R learn about his community."
