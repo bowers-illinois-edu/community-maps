@@ -78,6 +78,8 @@ $(document).ready(function() {
   };
 
   $(".scribble-map").each(function(idx) {
+    var widget = $(this);
+
     var data = [];
     var map = new google.maps.Map($(".map-canvas", this).get(0),
                                   {mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -99,8 +101,15 @@ $(document).ready(function() {
       reset.show();
       
       scribbler = scribbleOn(map, {mouseup: function(p) {
-        savePolygon(map, hiddenfield, data, p, function() { return(true) },
-                    function() { if (data.length == 0) { stop.hide(); }}); 
+        savePolygon(map, 
+                    hiddenfield, 
+                    data, 
+                    p, 
+                    function() { return(true) },
+                    function() { 
+                      widget.trigger("polygon-removed", [data.length]);
+                    }); 
+        widget.trigger("polygon-added");
       }});
       start.hide();
     });

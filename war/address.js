@@ -3,6 +3,8 @@
 $(document).ready(function() {
 
   $(".map-find-address").each(function(idx) {
+    var widget = $(this);
+
     var zoomLevel = 16;
 
     var mapDiv = $("div.map-canvas", this);
@@ -42,6 +44,8 @@ $(document).ready(function() {
         if (gstatus != google.maps.GeocoderStatus.OK) {
           // TODO use diaglog for alerting the user it is not found
           alert("No location matching '" + address + "' found");
+          widget.trigger("geocode-response", [false]); // geocode
+          // unsuccessful
         } else {
           mapDiv.slideDown(function() {
             // set the map to the right point
@@ -52,7 +56,8 @@ $(document).ready(function() {
             map.setOptions({zoom: zoomLevel});
 
             // save the data
-            latlngField.val([point.lat(), point.lng()].join(","))
+            latlngField.val([point.lat(), point.lng()].join(","));
+            widget.trigger("geocode-response", [true]);
           });
 
         } 

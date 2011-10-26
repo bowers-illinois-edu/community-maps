@@ -49,4 +49,41 @@ jQuery(document).ready(function() {
       $("div.vote-choice", widget).slideUp();
     });
   });
+
+  // required questions
+  // hide and disable the continue button on pages with required items
+  $("div.scribble-map, div.map-find-address").each(function() {
+    $("input[type=submit]").attr("disabled", "disabled");
+  });
+
+
+  // Address collection:
+  // when the user supplies his/her address and it successfully
+  // geocodes, enable the button.
+  $("div.map-find-address").bind("geocode-response", function(e, status) {
+    if (status) {
+      $("input[type=submit]").attr("disabled", false);
+    } else {
+      $("input[type=submit]").attr("disabled", "disabled");
+    }
+  });
+
+  // Community maps:
+  // Enable continue button when at least one polygon is drawn.
+
+  $("div.scribble-map").bind("polygon-added", function() {
+    $("input[type=submit]").attr("disabled", false);
+  });
+
+  // either reseting the map or removing all polys causes the submit
+  // to disable
+  $("div.scribble-map .reset").click(function() {
+    $("input[type=submit]").attr("disabled", "disabled");
+  });
+  $("div.scribble-map").bind("polygon-removed", function(e, npolys) {
+    if (npolys == 0) {
+      $("input[type=submit]").attr("disabled", "disabled");
+    }
+  });
+  
 });
