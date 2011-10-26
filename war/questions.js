@@ -51,38 +51,41 @@ jQuery(document).ready(function() {
   });
 
   // required questions
-  // hide and disable the continue button on pages with required items
-  $("div.scribble-map, div.map-find-address").each(function() {
+  // helper functions
+  var allowContinue = function() {
+    $("input[type=submit]").attr("disabled", false);
+    $("span.required").css("color", "green");
+  }
+  var denyContinue = function() {
     $("input[type=submit]").attr("disabled", "disabled");
-  });
-
+    $("span.required").css("color", "red");
+  }
+  // hide and disable the continue button on pages with required items
+  $("div.scribble-map, div.map-find-address").each(denyContinue);
 
   // Address collection:
   // when the user supplies his/her address and it successfully
   // geocodes, enable the button.
   $("div.map-find-address").bind("geocode-response", function(e, status) {
     if (status) {
-      $("input[type=submit]").attr("disabled", false);
+      allowContinue();
     } else {
-      $("input[type=submit]").attr("disabled", "disabled");
+      denyContinue();
     }
   });
 
   // Community maps:
   // Enable continue button when at least one polygon is drawn.
 
-  $("div.scribble-map").bind("polygon-added", function() {
-    $("input[type=submit]").attr("disabled", false);
-  });
+  $("div.scribble-map").bind("polygon-added", allowContinue);
 
   // either reseting the map or removing all polys causes the submit
   // to disable
-  $("div.scribble-map .reset").click(function() {
-    $("input[type=submit]").attr("disabled", "disabled");
-  });
+  $("div.scribble-map .reset").click(denyContinue);
+
   $("div.scribble-map").bind("polygon-removed", function(e, npolys) {
     if (npolys == 0) {
-      $("input[type=submit]").attr("disabled", "disabled");
+      denyContinue();
     }
   });
   

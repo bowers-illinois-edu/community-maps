@@ -65,3 +65,5 @@ div.question table td, div.question table tr { border: 0; }
 div.question td.group { font-weight: bold; }
 
 div.slider { margin: 0.5em; }
+
+span.required { color: red;}
