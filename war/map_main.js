@@ -81,10 +81,18 @@ $(document).ready(function() {
     var widget = $(this);
 
     var data = [];
+
+    // NOTE: when this gets refactored into a plugin, the map options
+    // should be an argument to the function
     var map = new google.maps.Map($(".map-canvas", this).get(0),
                                   {mapTypeId: google.maps.MapTypeId.ROADMAP,
                                    scrollwheel: false,
-                                   zoom: 16});
+                                   maxZoom: 17,
+                                   zoom: 12,
+                                   minZoom: 4,
+                                   streetViewControl: false});
+
+    
                                  
     var center = new google.maps.LatLng($(".lat", this).val(), $(".lon", this).val());
     map.setOptions({center: center});
