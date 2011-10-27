@@ -92,9 +92,8 @@ areas you highlighted")
 ;;;Assuming we know employment status from Vote Compass...
 ;;;Q19.	Question:
   (question
-   "At what location do you work or study?"
-   (f/text-field :work-study-address)
-   [:em.address-note "number and street name or nearest intersection"])
+   "At what location do you work or study? Please include the entire address, including city and province. (Reminder: These surveys are anonymous, and your work/study address will never be used unless you explicitly give us permission to do so.)"
+   (f/text-field :work-study-address))
 
 ;;;Q20.	Question:
   (question 
