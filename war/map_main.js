@@ -57,7 +57,7 @@ $(document).ready(function() {
         var content = $("<div style = 'height: 7em'>").addClass("polygon-popup"); 
         content.append($("<h2>Do you want to delete this community?</h2>"));
         content.append(makeButton("Yes").click(function() {
-          var idx = a.indexOf(r);
+          var idx = $.inArray(r, a);
           if (idx != -1) { a.splice(idx, 1); }
           r.setMap(null);
           if (afterdelete) { 
