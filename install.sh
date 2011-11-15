@@ -62,5 +62,7 @@ shp2pgsql -s 4269 -I -W LATIN1 gis/files/gfsa000a06a_e.shp fsa | sudo -u postgre
 shp2pgsql -s 4269 -I -W LATIN1 gis/files/gpr_000a06a_e.shp pr | sudo -u postgres psql canada
 shp2pgsql -s 4269 -I -W LATIN1 gis/files/gua_000a06a_e.shp ua | sudo -u postgres psql canada
 
+### Install Apache and PHP, configuring for use with Postgresql
 
-  
+sudo apt-get -y install apache2
+sudo apt-get -y install php5 libapache2-mod-php5 php5-pgsql 
