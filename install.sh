@@ -66,3 +66,13 @@ shp2pgsql -s 4269 -I -W LATIN1 gis/files/gua_000a06a_e.shp ua | sudo -u postgres
 
 sudo apt-get -y install apache2
 sudo apt-get -y install php5 libapache2-mod-php5 php5-pgsql 
+
+# needed to turn on php5 for apache:
+# may give a warning about host name
+sudo apache2ctl restart 
+
+# the webserver (and thus php) runs as user www-data, which needs access to the canada db
+sudo -u postgres createuser -D -l -R -S www-data
+sudo -u postgres psql canada -c 'GRANT SELECT ON ALL TABLES IN SCHEMA public TO "www-data";'
+
+
