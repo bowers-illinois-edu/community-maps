@@ -2,7 +2,22 @@
   (:use community-maps.tags
         shanks.core)
   (:require [hiccup.form-helpers :as f]
-            [burp.forms :as bf]))
+            [burp.forms :as bf]
+            [clojure.string :as cstr]
+            [appengine-magic.services.url-fetch :as url]))
+
+(defn get-subject-district-id
+  "Look up the subject's district id, which can then be used to get a KML file"
+  [subject district]
+  (let [[lat lng] (cstr/split
+                   (get-in subject [:address :address-finder :latlng])
+                   #",")]
+    (String. (:content
+              (url/fetch
+               (str "http://192.168.2.151/district.php?"
+                    "table=" district
+                    "&lat=" lat
+                    "&lon=" lng))))))
 
 (defscreen basics
   [subject]
@@ -52,11 +67,13 @@ areas you highlighted")
     {:graffiti "If some children were painting graffiti on a local building or house, how likely is it that people in your community would do something about it?"
      :community-organize "Suppose that because of budget cuts the fire station or library closest to your home was going to be closed down by the city. How likely is it that community residents would organize to try to do something to keep the fire station open?"}))
 
-  (directions
-   "Now, look at this map [SHOW HIGHLIGHTED Province/City/Dissemination Area MAP]. The highlighted area shows [your Province/ your City/ what the Census bureau defines as your dissemination area]."
-   "Referring to this map with the Census boundary on it, I’d like to ask a series of questions just like the previous ones:")
+  (let [district-id (get-subject-district-id subject "pr")]
+    (list
+     (directions
+      "Now, look at this map [SHOW HIGHLIGHTED Province/City/Dissemination Area MAP]. The highlighted area shows [your Province/ your City/ what the Census bureau defines as your dissemination area]."
+      "Referring to this map with the Census boundary on it, I’d like to ask a series of questions just like the previous ones:" district-id)
 
-  (kml-map "/kml/pr/10.kml")
+     (kml-map (str "/kml/pr/" district-id ".kml"))))
   
 ;;;Q14.	Question:
   (group-sliders
