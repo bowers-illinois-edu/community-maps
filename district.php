@@ -51,7 +51,9 @@ if (!is_numeric($lat) || !is_numeric($lon)) {
 # For testing purposes Toronto is 43.652527,-79.381961
 $id = $tables_to_ids[$table];
 $res = pg_fetch_all(pg_query("SELECT $id FROM $table WHERE
-ST_Intersects(the_geom, Point($lon, $lat))"));
+intersects(the_geom, Transform(GeomFromEWKT('SRID=4326;POINT($lon $lat)'),
+4269));"));
+
 print_r($res);
 
 print("\n\n");
