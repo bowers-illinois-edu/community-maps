@@ -54,11 +54,11 @@ $res = pg_fetch_all(pg_query("SELECT $id FROM $table WHERE
 intersects(the_geom, Transform(GeomFromEWKT('SRID=4326;POINT($lon $lat)'),
 4269));"));
 
-print_r($res);
-
-print("\n\n");
-print("Done.\n");
-
+if (count($res) != 1) {
+	print(0);
+} else {
+	print($res[0][$id]);
+}
 
 pg_close($pgsql_conn);
 ?>
