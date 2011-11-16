@@ -8,4 +8,7 @@ build
 ./community-maps-tmp
 war/WEB-INF/appengine-generated/
 gis/files
+app/war/WEB-INF/appengine-generated/
+gis/kml/
+logfile
 war/kml
