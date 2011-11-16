@@ -5,7 +5,9 @@ information on subjective communities via online map creation and asks
 questions about respondent attitudes on racial issues both within the
 subjective communities and official tabulation areas.
 
-## Development
+## Survey
+
+All of the survey logic and text is in the `app/` directory.
 
 Editing text (i.e. "things inside quotation marks") can easily be
 accomplished by navigating the repository to the `screens`
@@ -34,11 +36,13 @@ The `Makefile` includes two convenient tasks for local development:
 
 ### GIS development
 
-For the moment, generation of KML files from source GIS documents is
-not working, so the GIS aspects of development are not required
-working with the survey. In the future, local development may require
-a Postgresql/PostGIS installation (though hopefully, I can split it up
-so that you only need PostGIS if you want to monkey with the file
-generation --- precompiled versions will be available via `git` or
-`rsync`).
+The `gis` directory contains all the build scripts to generate the Postgis based district look up server and the static KML files used for display respondent districts. These tasks are designed to run on a stock Ubuntu 11.10 installation, such as the Amazon EC2 platform, though they can also run in a virtual machine.
+
+The `gis` directory contains its own `Makefile` that runs the installation of
+software, setting up the database, and generating the KML files. Running `make
+install-gis` in the root directory will in turn run `make install` in the
+`gis` directory. Early in the build script, you will need to supply the
+password for the GIS files. Contact Jake or Mark to get it.
+
+
 

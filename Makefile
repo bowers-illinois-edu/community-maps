@@ -6,13 +6,14 @@
 # 	cd war && ../gis/create-kml.rb
 
 appengine-prepare:
-	lein appengine-prepare
+	cd app && lein appengine-prepare
 
-deploy: 
-	lein appengine-prepare
-	appcfg.sh update war
+deploy: appengine-prepare
+	cd app && jappcfg.sh update war
 
 localdev: 
-	cake kill
-	cake swank
+	cd app && cake kill
+	cd app && cake swank
 
+install-gis:
+	make -C gis install
