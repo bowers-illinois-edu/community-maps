@@ -1,4 +1,4 @@
-install: .completed/006_SET_USER_PERMS
+install: .completed/008_GENERATE_KML
 
 .completed/000_COMPLETED_DIR:
 	mkdir -p .completed
@@ -67,4 +67,15 @@ DBIN = sudo -u postgres psql canada
 	$(DBIN) -c 'GRANT SELECT ON ALL TABLES IN SCHEMA public TO "www-data";'
 	touch .completed/006_SET_USER_PERMS
 
+.completed/007_INSTALL_RUBY: .completed/000_COMPLETED_DIR
+	$(AGINSTALL) ruby libpq-dev rubygems
+	sudo gem install postgres
+	touch .completed/007_INSTALL_RUBY
 
+.completed/008_GENERATE_KML: .completed/007_INSTALL_RUBY .completed/006_SET_USER_PERMS create-kml.rb
+	mkdir -p kml 
+	sudo chown -R postgres kml # this is so we can write out the files when running the .rb script
+	sudo rm -rf kml/* # if we are rerunning this task, clear it out!
+	sudo -u postgres ./create-kml.rb # want this run as someone other than www-data for security reasons
+	touch .completed/008_GENERATE_KML
+	

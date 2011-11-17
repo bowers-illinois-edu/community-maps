@@ -26,7 +26,7 @@ MAX_POINTS = 200
 TABLES = ['pr'] #, 'ccs', 'cma', 'csd', 'ct', 'dpl', 'fed', 'fsa', 'cd', 'ua']
 
 # DB connection
-USER = 'mark'
+USER = 'postgres'
 DB = 'canada'
 db = PGconn.connect(:dbname => DB, :user => USER)
 
