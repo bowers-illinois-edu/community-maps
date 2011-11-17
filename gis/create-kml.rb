@@ -19,11 +19,10 @@ require 'postgres'
 # ua
 
 # Some constants for use in the data -> .kml process
-SIMPLIFY = [0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1]
+SIMPLIFY = [5, 4, 3,  2, 1.5, 1] + (1..20).map {|q| 1.0/(2 ** q)}
 MIN_POINTS = 25
-MAX_POINTS = 200
-
-TABLES = ['pr'] #, 'ccs', 'cma', 'csd', 'ct', 'dpl', 'fed', 'fsa', 'cd', 'ua']
+MAX_POINTS = 100
+TABLES = ['pr', 'ccs', 'cma', 'csd', 'ct', 'dpl', 'fed', 'fsa', 'cd', 'ua']
 
 # DB connection
 USER = 'postgres'
@@ -56,7 +55,7 @@ TABLES.map {|t|
 
   SIMPLIFY.map do |s| 
     db.query("INSERT INTO #{t}simp SELECT #{id}, #{s} FROM
-               (SELECT #{id}, st_npoints(simplify(the_geom, #{s})) as n FROM pr) as tmp
+               (SELECT #{id}, st_npoints(simplify(the_geom, #{s})) as n FROM #{t}) as tmp
                  WHERE n < #{MAX_POINTS} and n > #{MIN_POINTS};")
   end
   
