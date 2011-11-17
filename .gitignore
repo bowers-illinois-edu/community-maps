@@ -12,3 +12,6 @@ app/war/WEB-INF/appengine-generated/
 gis/kml/
 logfile
 war/kml
+gis/.completed
+gis/errlog.txt
+*.swp

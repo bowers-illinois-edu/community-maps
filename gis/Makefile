@@ -1,17 +1,18 @@
-install: .completed/001_INSTALL_SOFTWARE
+install: .completed/006_SET_USER_PERMS
 
-.completed:
+.completed/000_COMPLETED_DIR:
 	mkdir -p .completed
+	touch .completed/000_COMPLETED_DIR
 
 files: 
 	mkdir -p files
 
-.completed/001_FETCH_FILES: .completed 
+.completed/001_FETCH_FILES: .completed/000_COMPLETED_DIR
 	rsync -e ssh -r -Avz drubenson@direct.jakebowers.org:"~/CanadaContext/boundary\ files" files
 	touch .completed/001_FETCH_FILES
 
 AGINSTALL = sudo apt-get -y install
-.completed/002_INSTALL_SOFTWARE: .completed
+.completed/002_INSTALL_SOFTWARE: .completed/000_COMPLETED_DIR
 	$(AGINSTALL) postgresql-9.1-postgis
 	$(AGINSTALL) postgis
 	$(AGINSTALL) apache2
@@ -37,7 +38,6 @@ POSTGIS_SQL_PATH = /usr/share/postgresql/9.1/contrib/postgis-1.5/
 .completed/004_SETUP_DB: .completed/003_UNZIP_FILES .completed/002_INSTALL_SOFTWARE
 	### Creating the Postgresql user and database
 	sudo -u postgres createdb postgis-template
-	sudo -u postgres createlang plpgsql postgis-template
 	sudo -u postgres psql -d postgis-template -f $(POSTGIS_SQL_PATH)/postgis.sql
 	sudo -u postgres psql -d postgis-template -f $(POSTGIS_SQL_PATH)/spatial_ref_sys.sql
 	sudo -u postgres createdb -T postgis-template canada
@@ -47,7 +47,7 @@ POSTGIS_SQL_PATH = /usr/share/postgresql/9.1/contrib/postgis-1.5/
 # The Canadian data appears to be EPSG: 4269
 # Google uses EPSG:3857
 SHP2PGSQL = /usr/lib/postgresql/9.1/bin/shp2pgsql
-DBIN = sudo -u postgresl psql
+DBIN = sudo -u postgres psql canada
 .completed/005_POPULATE_DB: .completed/004_SETUP_DB
 	$(SHP2PGSQL) -s 4269 -I -W LATIN1 files/gccs000a06a_e.shp ccs | $(DBIN)
 	$(SHP2PGSQL) -s 4269 -I -W LATIN1 files/gcd_000a06a_e.shp cd | $(DBIN)
@@ -62,7 +62,7 @@ DBIN = sudo -u postgresl psql
 	touch .completed/005_POPULATE_DB
 
 # the webserver (and thus php) runs as user www-data, which needs access to the canada db
-.completed/006_SET_USER_PERMS: 005_POPULATE_DB
+.completed/006_SET_USER_PERMS: .completed/005_POPULATE_DB
 	sudo -u postgres createuser -D -l -R -S www-data
 	$(DBIN) -c 'GRANT SELECT ON ALL TABLES IN SCHEMA public TO "www-data";'
 	touch .completed/006_SET_USER_PERMS
