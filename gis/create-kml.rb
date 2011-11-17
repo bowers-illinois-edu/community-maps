@@ -23,6 +23,7 @@ SIMPLIFY = [5, 4, 3,  2, 1.5, 1] + (1..20).map {|q| 1.0/(2 ** q)}
 MIN_POINTS = 25
 MAX_POINTS = 100
 TABLES = ['pr', 'ccs', 'cma', 'csd', 'ct', 'dpl', 'fed', 'fsa', 'cd', 'ua']
+PRECISION = 8 # how many digits past decimal point to include in KML file
 
 # DB connection
 USER = 'postgres'
@@ -59,7 +60,7 @@ TABLES.map {|t|
                  WHERE n < #{MAX_POINTS} and n > #{MIN_POINTS};")
   end
   
-  q = "SELECT #{t}.#{id}, asKML(simplify(the_geom, s)) FROM 
+  q = "SELECT #{t}.#{id}, asKML(simplify(the_geom, s), #{PRECISION}) FROM 
           (SELECT #{id}, max(s) as s FROM #{t}simp GROUP BY #{id}) AS tmp
           LEFT JOIN #{t} ON tmp.#{id} = #{t}.#{id};"
 
