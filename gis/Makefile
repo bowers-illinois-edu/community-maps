@@ -1,4 +1,4 @@
-install: .completed/008_GENERATE_KML
+install: .completed/009_LINK_VARWWW
 
 .completed/000_COMPLETED_DIR:
 	mkdir -p .completed
@@ -79,3 +79,8 @@ DBIN = sudo -u postgres psql canada
 	sudo -u postgres ./create-kml.rb # want this run as someone other than www-data for security reasons
 	touch .completed/008_GENERATE_KML
 	
+.completed/009_LINK_VARWWW: .completed/008_GENERATE_KML .completed/006_SET_USER_PERMS
+	sudo chmod -R a+r district.php kml 
+	sudo ln -s `pwd`/district.php /var/www/
+	sudo ln -s `pwd`/kml /var/www/
+	touch .completed/009_LINK_VARWWW
