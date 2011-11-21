@@ -17,6 +17,7 @@ AGINSTALL = sudo apt-get -y install
 	$(AGINSTALL) postgis
 	$(AGINSTALL) apache2
 	$(AGINSTALL) php5 libapache2-mod-php5 php5-pgsql 
+	$(AGINSTALL) unzip
 	sudo apache2ctl restart 
 	touch .completed/002_INSTALL_SOFTWARE
 
