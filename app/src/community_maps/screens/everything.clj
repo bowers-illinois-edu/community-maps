@@ -6,6 +6,7 @@
             [clojure.string :as cstr]
             [appengine-magic.services.url-fetch :as url]))
 
+(def *ec2url* "ec2-184-72-128-232.compute-1.amazonaws.com")
 (defn get-subject-district-id
   "Look up the subject's district id, which can then be used to get a KML file"
   [subject district]
@@ -14,7 +15,7 @@
                    #",")]
     (String. (:content
               (url/fetch
-               (str "http://192.168.2.151/district.php?"
+               (str "http://" *ec2url* "/district.php?"
                     "table=" district
                     "&lat=" lat
                     "&lon=" lng))))))
@@ -73,7 +74,7 @@ areas you highlighted")
       "Now, look at this map [SHOW HIGHLIGHTED Province/City/Dissemination Area MAP]. The highlighted area shows [your Province/ your City/ what the Census bureau defines as your dissemination area]."
       "Referring to this map with the Census boundary on it, I’d like to ask a series of questions just like the previous ones:" district-id)
 
-     (kml-map (str "/kml/pr/" district-id ".kml"))))
+     (kml-map (str "http://" *ec2url* "/kml/pr/" district-id ".kml"))))
   
 ;;;Q14.	Question:
   (group-sliders
