@@ -7,7 +7,8 @@
         ring.middleware.file
         [community-maps.screens address draw everything])
   (:require [appengine-magic.core :as ae]
-            [hiccup.form-helpers :as f]))
+            [hiccup.form-helpers :as f]
+            [community-maps.gis :as gis]))
 
 (defn randomizer []
   (randomize-subject
@@ -19,7 +20,8 @@
     :minority-projection ["25" "35" "50"]
     :minority-population-share ["increase" "decrease"]
     :ethnic-shop ["ethnic minorities" "other members of their same ethnic background"]
-    :outgroup-marry ["race" "ethnic background"]}))
+    :outgroup-marry ["race" "ethnic background"]
+    :display-district (keys gis/*districts*)}))
 
 (defn createwithid []
   (let [key (dbsave (randomizer))]

@@ -3,22 +3,7 @@
         shanks.core)
   (:require [hiccup.form-helpers :as f]
             [burp.forms :as bf]
-            [clojure.string :as cstr]
-            [appengine-magic.services.url-fetch :as url]))
-
-(def *ec2url* "ec2-184-72-128-232.compute-1.amazonaws.com")
-(defn get-subject-district-id
-  "Look up the subject's district id, which can then be used to get a KML file"
-  [subject district]
-  (let [[lat lng] (cstr/split
-                   (get-in subject [:address :address-finder :latlng])
-                   #",")]
-    (String. (:content
-              (url/fetch
-               (str "http://" *ec2url* "/district.php?"
-                    "table=" district
-                    "&lat=" lat
-                    "&lon=" lng))))))
+            [community-maps.gis :as gis]))
 
 (defscreen basics
   [subject]
@@ -68,37 +53,44 @@ areas you highlighted")
     {:graffiti "If some children were painting graffiti on a local building or house, how likely is it that people in your community would do something about it?"
      :community-organize "Suppose that because of budget cuts the fire station or library closest to your home was going to be closed down by the city. How likely is it that community residents would organize to try to do something to keep the fire station open?"}))
 
-  (let [district-id (get-subject-district-id subject "pr")]
-    (list
-     (directions
-      "Now, look at this map [SHOW HIGHLIGHTED Province/City/Dissemination Area MAP]. The highlighted area shows [your Province/ your City/ what the Census bureau defines as your dissemination area]."
-      "Referring to this map with the Census boundary on it, I’d like to ask a series of questions just like the previous ones:" district-id)
+  ;;; District Map Related Questions (if we can't look up the
+  ;;; district, they are skipped entirely.
+  (let [dst (:display-district subject)
+        district-id (gis/get-subject-district-id subject dst)]
+    (when (not (= 0 district-id))
+      (list
+       (directions
+        (str "Now, look at this map. The highlighted area shows your " (get gis/*districts* dst) ".")
+        "Referring to this map with the Census boundary on it, I’d like to ask a series of questions just like the previous ones:")
+       (kml-map (gis/kml-url dst district-id))
+       
+      ;;;Q14.	Question:
+       (group-sliders
+        :census-community
+        "Just your best guess - what percentage of the population in the highlighted area is:")
 
-     (kml-map (str "http://" *ec2url* "/kml/pr/" district-id ".kml"))))
-  
-;;;Q14.	Question:
-  (group-sliders
-   :census-community
-   "Just your best guess - what percentage of the population in the highlighted area is:")
+      ;;;Q15.	Question:
+       (learn-about-composition
+        :census-composition
+        "How did you learn about the composition of this area?")
+       
+      ;;;Q16.	Question:
+       (question
+        (str "On the whole, do you like or dislike this "
+             (get gis/*districts* dst)
+             " as a place to live? Would you say you like it a lot, like it, dislike it, or dislike it a lot?")
+        (bf/radio-group
+         :like-dislike-census
+         {:like-alot "Like it a lot"
+          :like "Like it"
+          :dislike "Dislike it"
+          :dislike-alot "Dislike it a lot"}))
 
-;;;Q15.	Question:
-  (learn-about-composition
-   :census-composition
-   "How did you learn about the composition of this area?")
- 
-;;;Q16.	Question:
-  (question
-   "On the whole, do you like or dislike this [province/city/Dissemination area] as a place to live? Would you say you like it a lot, like it, dislike it, or dislike it a lot?"
-   (bf/radio-group
-    :like-dislike-census
-    {:like-alot "Like it a lot"
-     :like "Like it"
-     :dislike "Dislike it"
-     :dislike-alot "Dislike it a lot"}))
-
-;;;Q17.	Question:
-  (yes-no :census-feel-community 
-          "On the whole, do you think that people who live in this [province/city/Dissemination area] feel a sense of community?")
+      ;;;Q17.	Question:
+       (yes-no :census-feel-community 
+               (str "On the whole, do you think that people who live in this "
+                    (get gis/*districts* dst)
+                    " feel a sense of community?")))))
 
 ;;;Q18.	Question:
   (question
@@ -366,9 +358,5 @@ areas you highlighted")
     [:p "How do you feel? Should the government in Ottawa see to it that ethnic minorities get fair treatment in jobs or is this not the federal government's business?"]]
    (agree-disagree :government-ensure-fair-treatment))
 
-;;;
-  )
-(yes-no :complete-additional-survey "Would you be willing to complete another survey?")
-;;;        -replicate local community map-drawing
-;;;        -conduct a series of PD games with co-ethnics and non-co-ethnics
 
+  (yes-no :complete-additional-survey "Would you be willing to complete another survey?"))
