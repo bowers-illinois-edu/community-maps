@@ -22,8 +22,8 @@
     :ethnic-shop ["ethnic minorities" "other members of their same ethnic background"]
     :outgroup-marry ["race" "ethnic background"]
     :display-district (keys gis/*districts*)
-    :election-sortition [:election :sortition]
-    :draw-district-display [:federal :community :none]}))
+    :election-sortition ["election"  "sortition"]
+    :draw-district-display ["federal" "community" "none"]}))
 
 (defn createwithid []
   (let [key (dbsave (randomizer))]
