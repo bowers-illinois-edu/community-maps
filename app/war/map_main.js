@@ -93,9 +93,18 @@ $(document).ready(function() {
                                    streetViewControl: false});
 
     
-                                 
+    // save the map for other scripts
+    this.gmap = map;
+
     var center = new google.maps.LatLng($(".lat", this).val(), $(".lon", this).val());
     map.setOptions({center: center});
+    
+    $("input.url", this).each(function() {
+      // in this function, this is input.url
+      // the layer is auto-added to the map
+      new google.maps.KmlLayer($(this).val(), {map: map});
+    });
+    google.maps.event.trigger(map, "resize");
 
     var start = $(".start", this);
     var stop = $(".stop", this);
@@ -215,6 +224,8 @@ $(document).ready(function() {
     google.maps.event.trigger(map, "resize");
  
   });
+
+
 });
 
  
