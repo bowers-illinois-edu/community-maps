@@ -102,7 +102,7 @@ $(document).ready(function() {
     $("input.url", this).each(function() {
       // in this function, this is input.url
       // the layer is auto-added to the map
-      new google.maps.KmlLayer($(this).val(), {map: map});
+      new google.maps.KmlLayer($(this).val(), {map: map, suppressInfoWindows: true, clickable: false});
     });
     google.maps.event.trigger(map, "resize");
 
