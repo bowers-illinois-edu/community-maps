@@ -9,7 +9,7 @@ appengine-prepare:
 	cd app && lein appengine-prepare
 
 deploy: appengine-prepare
-	cd app && jappcfg.sh update war
+	cd app && appcfg.sh update war
 
 localdev: 
 	cd app && cake kill
