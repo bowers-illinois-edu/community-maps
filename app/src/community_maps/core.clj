@@ -5,7 +5,7 @@
         [burp.ring :only [wrap-burp]]
         [burp.jquery :only [jquery-link jquery-ui-link]]
         ring.middleware.file
-        [community-maps.screens address draw everything own-community minorities-community])
+        [community-maps.screens address draw everything own-community minorities-community snowball])
   (:require [appengine-magic.core :as ae]
             [hiccup.form-helpers :as f]
             [community-maps.gis :as gis]))
@@ -21,7 +21,8 @@
     :minority-population-share ["increase" "decrease"]
     :ethnic-shop ["ethnic minorities" "other members of their same ethnic background"]
     :outgroup-marry ["race" "ethnic background"]
-    :display-district (keys gis/*districts*)}))
+    :display-district (keys gis/*districts*)
+    :snowball-prompt ["politics" "important issues"]}))
 
 (defn createwithid []
   (let [key (dbsave (randomizer))]
@@ -52,7 +53,7 @@
 (defscreen thank-you [_] "Thank you for taking this survey.")
 
 (def survey-app
-  (-> (survey createwithid dbsave dbload layout thank-you [address draw own-community basics minorities-community])
+  (-> (survey createwithid dbsave dbload layout thank-you [address draw own-community basics minorities-community snowball])
       wrap-burp))
 
 (ae/def-appengine-app community-maps-app #'survey-app)
