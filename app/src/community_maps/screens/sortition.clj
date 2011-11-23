@@ -25,9 +25,7 @@
       
       (when (and (not (= 0 dst)) (= "federal" (:draw-district-display subject))) "The map displays your current riding to give you a sense of scale. You do not have to follow this district for your drawing, though you may if you wish.")
 
-      (when (= "community" (:draw-district-display subject)) "The map displays the community you created on a previous step of this survey. You do not have to follow this community for your drawing, though you may if you wish."))
-
      (if (and (not (= 0 dst)) (= "federal" (:draw-district-display subject)))
        (scribble-map :community lat lng (gis/kml-url "fed" dst))
-       (scribble-map :community lat lng)))))
+       (scribble-map :community lat lng))))))
 

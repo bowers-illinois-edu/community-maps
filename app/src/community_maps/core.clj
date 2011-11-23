@@ -23,7 +23,7 @@
     :outgroup-marry ["race" "ethnic background"]
     :display-district (keys gis/*districts*)
     :election-sortition ["election"  "sortition"]
-    :draw-district-display ["federal" "community" "none"]}))
+    :draw-district-display ["federal" "none"]}))
 
 (defn createwithid []
   (let [key (dbsave (randomizer))]
