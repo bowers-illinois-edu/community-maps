@@ -12,7 +12,7 @@
   ;;; district, they are skipped entirely.
   (let [dst (:display-district subject)
         district-id (gis/get-subject-district-id subject dst)]
-    (when (not (= 0 district-id))
+    (when (and (not (= 0 district-id)) (not (= "" district-id)))
       (list
        (directions
         (str "Now, look at this map. The highlighted area shows your " (get gis/*districts* dst) ".")
