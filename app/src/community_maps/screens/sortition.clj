@@ -13,19 +13,20 @@
         dst (if (= "federal" (:draw-district-display subject))
               (gis/get-subject-district-id subject "fed")
               0)]
-    (question
-     (list
-      "For this next map, we are asking you to draw again. This time, imagine that you are in-charge of drawing a district that will send a representative to the House of Commons."
+    (list (directions
+           "For this next map, we are asking you to draw again. This time, imagine that you are in-charge of drawing a district that will send a representative to the House of Commons."
 
-      (str
-       (if (= "election" (:election-sortition subject))
-         " The representative will be elected by the citizens of the district you draw."
-         " Instead of an election, the representative will be selected at random from the population, similar to jury selection.")
-       " The representative will serve a standard term in the House of Commons (4 years or until dissolution of parliment).")
-      
-      (when (and (not (= 0 dst)) (= "federal" (:draw-district-display subject))) "The map displays your current riding to give you a sense of scale. You do not have to follow this district for your drawing, though you may if you wish.")
+           (str
+            (if (= "election" (:election-sortition subject))
+              " <strong>The representative will be elected by the citizens of the district you draw.</strong>"
+              " <strong>Instead of an election, the representative will be selected at random from the population of the district, similar to jury selection.</strong>")
+            " The representative will serve a standard term in the House of Commons (4 years or until dissolution of parliment)."))
 
-     (if (and (not (= 0 dst)) (= "federal" (:draw-district-display subject)))
-       (scribble-map :community lat lng (gis/kml-url "fed" dst))
-       (scribble-map :community lat lng))))))
+          (question
+           "Please draw the district that you think would result in your getting the best possible representation in the House of Commons."
+           (when (and (not (= 0 dst)) (= "federal" (:draw-district-display subject))) "The map displays your current riding to give you a sense of scale. You do not have to follow this district for your drawing, though you may if you wish.")
+
+           (if (and (not (= 0 dst)) (= "federal" (:draw-district-display subject)))
+             (scribble-map :community lat lng (gis/kml-url "fed" dst))
+             (scribble-map :community lat lng))))))
 
