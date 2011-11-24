@@ -16,7 +16,7 @@ jQuery(document).ready(function() {
 
     $("div.mc input", widget).click(function() {
       
-      if ($("div.mc input:checked", widget).length > 0) {
+      if ($("div.mc input:checked", widget).length > 1) {
         importance.show();
       } else {
         importance.hide();
