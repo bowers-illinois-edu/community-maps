@@ -253,18 +253,12 @@
      "As more good housing and neighborhoods go to people in one ethnic group, there will be fewer good houses and neighborhoods for members of other groups."
 
      :healthcare-spending
-     "The more money spent on doctors, hospitals, and medicine for the healthcare of people in one ethnic group, the less money that will be available for the healthcare of members of other groups."}))
+     "The more money spent on doctors, hospitals, and medicine for the healthcare of people in one ethnic group, the less money that will be available for the healthcare of members of other groups."
 
-;;;Q50.	Question:
-  (seven-point-scale :government-improve-ethnic "Government should intervene" "Not the government's job"
-   "Some people feel that the government in Ottawa  should make every effort to improve the social and economic position of ethnic minorities. Suppose these people are at one end of a scale, at point 1. Others feel that the government should not make any special effort to help ethnic minorities because they should help themselves. Suppose these people are at the other end, at point 7. And, of course, some other people have opinions somewhere in between. Where would you place yourself on this scale?")
+     :government-improve
+     "The government in Ottawa  should make every effort to improve the social and economic position of ethnic minorities."
 
-;;;Q51.	Question:
-  (question
-   [:div
-    [:p "Some people feel that if ethnic minorities are not getting fair treatment in jobs, the government in Ottawa ought to see to it that they do. Others feel that this is not the federal government's business."]
-    [:p "How do you feel? Should the government in Ottawa see to it that ethnic minorities get fair treatment in jobs or is this not the federal government's business?"]]
-   (agree-disagree :government-ensure-fair-treatment))
-
+     :government-fair-treatment
+     "The government in Ottawa see to it that ethnic minorities get fair treatment in jobs."}))
 
   (yes-no :complete-additional-survey "Would you be willing to complete another survey?"))
