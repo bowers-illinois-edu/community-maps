@@ -73,13 +73,16 @@ address will never be used unless you explicitly give us permission to do so.)")
         (yes-no :provincial-election "Did you vote in the recent provincial election?"))
       :did-vote)
      (add-class
-      (single-choice 
-       :election-choice
+      (question 
        "For which party did you vote?"
-       {:liberal "The Liberal Party"
-        :conservative "The Conservative Party"
-        :ndp "The NDP"
-        :bq "The Bloc Quebecois"
-        :green "The Green Party"
-        :other "Another party"})
+       (bf/radio-group :election-choice
+                       (conj
+                        (shuffle
+                         (vec
+                          {:liberal "The Liberal Party"
+                           :conservative "The Conservative Party"
+                           :ndp "The NDP"
+                           :bq "The Bloc Quebecois"
+                           :green "The Green Party"}))
+                        [:other "Another party"])))
       :vote-choice)]))
