@@ -16,13 +16,14 @@
 (def map-canvas [:div.map-canvas {:style "height: 400px; width: 100%;"}])
 
 (defelem scribble-map
-  "Create a map centered on a given lat/lon"
-  [id lat lon]
+  "Create a map centered on a given lat/lon, with optional kml URLS for overlays"
+  [id lat lon & kmls]
   (f/with-group id
     [:div.scribble-map
      (f/hidden-field {:class "lat"} :lat lat)
      (f/hidden-field {:class "lon"} :lon lon)
      (f/hidden-field {:class "map-data"} :data)
+     (doall (map #(f/hidden-field {:class "url"} :kml %) kmls))
      [:div.actions
       (add-class (button "Start Drawing") "action start")
       (add-class
