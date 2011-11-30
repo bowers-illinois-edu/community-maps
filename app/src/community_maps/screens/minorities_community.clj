@@ -10,6 +10,7 @@
 
   (directions "Now let’s look at the map of your local community again.")
 
+  
 ;;;Q22.	Question:
   (question 
    "Thinking about your local community: is it mostly white, mostly ethnic minorities, about half and half, or some other mixture of people?"
@@ -47,7 +48,7 @@
 
 ;;;Q25.	Question:
   (question 
-   "Are your friends mostly conservatives, mostly liberals, mostly NDP, or some other mixture? [if Quebec, add \"mostly Bloc Quebecois\"]"
+   "Are your friends mostly conservatives, mostly liberals, mostly NDP, mostly Bloc Quebecois, or some other mixture?"
    (bf/radio-group
     :political-friends-composition
     {:conservative "Mostly conservatives"
