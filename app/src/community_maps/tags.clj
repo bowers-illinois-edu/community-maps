@@ -23,6 +23,7 @@
      (f/hidden-field {:class "lat"} :lat lat)
      (f/hidden-field {:class "lon"} :lon lon)
      (f/hidden-field {:class "map-data"} :data)
+     (f/hidden-field {:class "events"} :events)
      [:div.actions
       (add-class (button "Start Drawing") "action start")
       (add-class
