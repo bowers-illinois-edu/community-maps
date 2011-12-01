@@ -16,7 +16,7 @@ jQuery(document).ready(function() {
 
     $("div.mc input", widget).click(function() {
       
-      if ($("div.mc input:checked", widget).length > 0) {
+      if ($("div.mc input:checked", widget).length > 1) {
         importance.show();
       } else {
         importance.hide();
@@ -61,7 +61,7 @@ jQuery(document).ready(function() {
     $("span.required").css("color", "red");
   }
   // hide and disable the continue button on pages with required items
-  $("div.scribble-map, div.map-find-address").each(denyContinue);
+  $("div.scribble-map, div.map-find-address, input#consent-consent").each(denyContinue);
 
   // Address collection:
   // when the user supplies his/her address and it successfully
@@ -85,6 +85,14 @@ jQuery(document).ready(function() {
 
   $("div.scribble-map").bind("polygon-removed", function(e, npolys) {
     if (npolys == 0) {
+      denyContinue();
+    }
+  });
+
+  $("input#consent-consent").click(function() {
+    if($(this).is(':checked')) {
+      allowContinue();
+    } else {
       denyContinue();
     }
   });

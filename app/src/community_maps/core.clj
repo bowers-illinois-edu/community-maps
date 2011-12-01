@@ -5,7 +5,7 @@
         [burp.ring :only [wrap-burp]]
         [burp.jquery :only [jquery-link jquery-ui-link]]
         ring.middleware.file
-        [community-maps.screens address draw everything own-community minorities-community snowball sortition])
+        [community-maps.screens address draw everything own-community minorities-community snowball sortition consent])
   (:require [appengine-magic.core :as ae]
             [hiccup.form-helpers :as f]
             [community-maps.gis :as gis]))
@@ -56,7 +56,14 @@
 
 (def survey-app
   (-> (survey createwithid dbsave dbload layout thank-you
-              [address draw own-community basics minorities-community sortition-election-district-drawining snowball])
+              [consent
+               address
+               draw
+               own-community
+               basics
+               minorities-community
+               sortition-election-district-drawining
+               snowball])
       wrap-burp))
 
 (ae/def-appengine-app community-maps-app #'survey-app)

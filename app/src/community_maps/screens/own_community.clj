@@ -6,15 +6,8 @@
 
 (defscreen own-community
   [subject]
-  
   (static-map-communities subject)
-;;; 
-;;; 
-;;;Q5a. Map-drawing question
-;;; 
-;;;[IF HAVING TROUBLE: If you are having trouble with the drawing, please name major cross streets, parks, stores or other landmarks that you think of as boundaries of your local community.]
-;;; 
-  ; Some inter-question directions:
+
   (directions "Now, for these next few questions we’ll be referring to the
 areas you highlighted")
 
@@ -22,17 +15,13 @@ areas you highlighted")
   (group-sliders
    :community-percentage
    "Just your best guess – what percentage of the population of this community is:")
-;;; 
+
 ;;;Q7.	Question:
   (learn-about-composition
    :community-composition
    "How did you learn about the composition of your local community?")
-;;;[IF R ASKS: Composition is the percentage of whites, unemployed, etc. in your local community.]
-;;; 
-;;;if more than one is checked, which is the main source of information.
-;;;Does this differ by target (race, party, unemployment)
 
-  (directions "Here are some statements about things that people in your local community that you have drawn on this map [REFERRING TO MAP THEY DREW ON] may or may not do. For each of these statements, please tell me whether you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree.")
+  (directions "Here are some statements about things that people in your local community that you have drawn may or may not do. For each of these statements, please tell me whether you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree.")
 
 ;;;Q9, Q10, Q11	
 

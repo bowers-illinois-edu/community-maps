@@ -71,7 +71,7 @@
 ;;;What is the largest nonwhite group?
 
   (directions
-   "Now I'm going to read the names of some groups in Canadian society. When I read the name of a group, we'd like you to tell us if you feel particularly close to people in that group --- if you feel the people in that group are like you in their ideas and interests and feelings about things. If you do not feel particularly close to the people in a group, I'd like to know that, too. If we come to a group you don't know much about, just tell me and we'll move on to the next one.")
+   "We would like you to tell us if you feel particularly close to people in the following groups, if you feel the people in the groups are like you in their ideas and interests and feelings about things. If you do not feel particularly close to the people in a group, we would like to know that, too. If there is a group you don't know much about, just move on to the next one.")
 ;;; 
 ;;;Q21.	Question:
 ;;; 
@@ -119,34 +119,30 @@
 ;;;Q28.	Question:
   (group-sliders
    :group-feeling-thermometer
-   "We'd also like to get your feelings about some groups in Canadian society. When I read the name of a group, we'd like you to rate it with what we call a feeling thermometer. Ratings between 50 degrees and 100 degrees mean that you feel favorably and warm toward the group; ratings between 0 and 50 degrees mean that you don't feel favorably towards the group and that you don't care too much for that group. If you don't feel particularly warm or cold toward a group you would rate them at 50 degrees. If we come to a group you don't know much about, just tell me and we'll move on to the next one."
+   "We would also like to get your feelings about some groups in Canadian society. For each of the following groups, we would like you to rate it with what we call a feeling thermometer. Ratings between 50 degrees and 100 degrees mean that you feel favorably and warm toward the group; ratings between 0 and 50 degrees mean that you don't feel favorably towards the group and that you don't care too much for that group. If you don't feel particularly warm or cold toward a group you would rate them at 50 degrees. If you come to a group you don't know much about, just move on to the next one."
    "0" "100")
 
 ;;;Q29.	Question:
   (question 
-   "When it comes to social and political matters, some people think of themselves mainly as white, Chinese, or Black and that is very important to how they think of themselves. Other people don’t tend to think of themselves in these ways. When it comes to social and political matters, how important is your race or ethnicity to how you think of yourself? Is it very important, somewhat important, not very important, or not important at all?"
+   "When it comes to social and political matters, some people think of themselves mainly as white, Chinese, or Black and that is very important to how they think of themselves. Other people don’t tend to think of themselves in these ways. When it comes to social and political matters, how important is your race or ethnicity to how you think of yourself?"
    (bf/radio-group
     :has-ethnic-identity
     {:very-important "Very important"
      :somewhat-important "Somewhat important"
      :not-very-important "Not very important"
      :not-important "Not important at all"}))
-;;;Q30.	Question:
-  (question
-   "Some people say that it is better for Canada if different racial and ethnic groups maintain their distinct cultures as in a cultural mosaic. Others say that it is better if groups change so that they blend into the larger society as in the idea of a melting pot. Where would you place yourself on this scale?"
-   "Todo: slider")
-;;;Responses:
-;;;One end of slider: "racial and ethnic groups should maintain their distinct cultures"
-;;;Other end: "groups should change so that they blend into the larger society.  
 
   (directions 
-   "Now I’m going to read you some statements and would like to get your reaction to them. After I read each statement, please tell me if you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree with the statement.")
+   "Please read the following statements and for each one, please tell us if you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree with the statement.")
 ;;; 
-;;;Q31. Q32, Q33, Q34, Q35
+;;;Q 30, 31. Q32, Q33, Q34, Q35
   (doall
    (map
     (fn [[k p]] (question p (agree-disagree k)))
-    {:fewer-opportunities
+    {:melting-pot
+     "It is better for Canada if different racial and ethnic groups maintain their distinct cultures in a cultural mosaic rather than blend together."
+
+     :fewer-opportunities
      "Members of certain ethnic or racial groups have fewer opportunities to get ahead than other people."
 
      :vote-ethnic 
@@ -180,7 +176,7 @@
 
 ;;;Q38, Q39, Q40, Q41
   (directions 
-   "Now I’m going to read you some statements and would like to get your reaction to them. After I read each statement, please tell me if you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree with the statement.")
+   "For each of the following statements, please tell us if you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree with the statement.")
 
   (doall
    (map
@@ -221,24 +217,21 @@
 
 ;;;Q44.	Question:
   (directions
-   "Now I have some questions about different groups in our society. (randomize order)"
-   "A score of 1 means that you think almost all of the people in that group tend to be \"hard-working.\" A score of 7 means that you think most people in the group are \"lazy.\" A score of 4 means that you think that most people in the group are neither particularly lazy nor particularly hardworking, and of course, you may choose any number in between.")
-
+   "The next few questions ask you to match groups in Canada to pairs of words. If you think the group is more like the word on the left, move the slider to the left. If you think the group is more like the word on the right, move the slider to the right. If you think both words equally describe the groups, place the slider in the middle.")
+  
   (group-sliders
    :hard-working-lazy
-   "What do you think of these groups"
+   "Are the following groups <em>lazy</em> or <em>hardworking</em>?"
    "Lazy"
    "Hardworking")
-
 ;;;Q45.	Question:
-  (directions 
-   "The next set asks if people in each group tend to be \"intelligent\" or \"unintelligent\". A score of 1 means that you think almost all of the people in that group tend to be \"intelligent\". A score of 7 means that you think most people in the group are \"unintelligent.\" A score of 4 means that you think that most people in the group are neither particularly unintelligent nor particularly intelligent, and of course, you may choose any number in between.")
-  (group-sliders :intelligent-unintelligent "Where would you rate this groups?"
+  (group-sliders :intelligent-unintelligent
+                 "Are the following groups <em>intelligent</em> or <em>unintelligent</em>?"
                  "Intelligent" "Unintelligent")
 
 ;;;Q46, Q47, Q48, Q49
   (directions
-   "Now I’m going to read you some statements and would like to get your reaction to them. After I read each statement, please tell me if you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree with the statement.")
+   "For each of the following statements, please tell us if you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree with the statement.")
  
   (doall
    (map
@@ -253,18 +246,12 @@
      "As more good housing and neighborhoods go to people in one ethnic group, there will be fewer good houses and neighborhoods for members of other groups."
 
      :healthcare-spending
-     "The more money spent on doctors, hospitals, and medicine for the healthcare of people in one ethnic group, the less money that will be available for the healthcare of members of other groups."}))
+     "The more money spent on doctors, hospitals, and medicine for the healthcare of people in one ethnic group, the less money that will be available for the healthcare of members of other groups."
 
-;;;Q50.	Question:
-  (seven-point-scale :government-improve-ethnic "Government should intervene" "Not the government's job"
-   "Some people feel that the government in Ottawa  should make every effort to improve the social and economic position of ethnic minorities. Suppose these people are at one end of a scale, at point 1. Others feel that the government should not make any special effort to help ethnic minorities because they should help themselves. Suppose these people are at the other end, at point 7. And, of course, some other people have opinions somewhere in between. Where would you place yourself on this scale?")
+     :government-improve
+     "The government in Ottawa  should make every effort to improve the social and economic position of ethnic minorities."
 
-;;;Q51.	Question:
-  (question
-   [:div
-    [:p "Some people feel that if ethnic minorities are not getting fair treatment in jobs, the government in Ottawa ought to see to it that they do. Others feel that this is not the federal government's business."]
-    [:p "How do you feel? Should the government in Ottawa see to it that ethnic minorities get fair treatment in jobs or is this not the federal government's business?"]]
-   (agree-disagree :government-ensure-fair-treatment))
-
+     :government-fair-treatment
+     "The government in Ottawa see to it that ethnic minorities get fair treatment in jobs."}))
 
   (yes-no :complete-additional-survey "Would you be willing to complete another survey?"))

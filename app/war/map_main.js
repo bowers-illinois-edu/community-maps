@@ -77,6 +77,26 @@ $(document).ready(function() {
     });
   };
 
+  // record map events
+  // map is a Google Map object,
+  // hiddenField is an input into which events are appended
+  var mapRecorder = function(map, hiddenField) {
+    var f = $(hiddenField);
+    f.val("(Started," + (new Date().getTime()) + ")");
+    var record = function(msg) {
+      f.val(f.val() + ";(" + msg + "," + (new Date().getTime()) + ")");
+    };
+
+    // records zoom, moving
+    google.maps.event.addListener(map, 
+                                  "zoom_changed", 
+                                  function() { record("zoom:" + map.getZoom())});
+
+    google.maps.event.addListener(map,
+                                  "center_changed",
+                                   function() { record("center:" + map.getCenter().toString())});
+  }
+
   $(".scribble-map").each(function(idx) {
     var widget = $(this);
 
@@ -105,6 +125,10 @@ $(document).ready(function() {
       new google.maps.KmlLayer($(this).val(), {map: map, suppressInfoWindows: true, clickable: false});
     });
     google.maps.event.trigger(map, "resize");
+    this.gmap = map;
+
+    // record user interations
+    mapRecorder(map, $("input.events", this))
 
     var start = $(".start", this);
     var stop = $(".stop", this);
@@ -144,8 +168,7 @@ $(document).ready(function() {
         item.setMap(null);
       });
       data = [];
-    });
-  });
+    });});
 
   // make the "Find my location" button the result of hitting enter
   // $("#address").keypress(function(e) {
