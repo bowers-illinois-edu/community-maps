@@ -12,8 +12,7 @@
   (question
    (list [:span.required "Required: "]
          "In a moment, we will ask you to look at where you live on a map.
-Please tell us your address. (Reminder: These surveys are anonymous, and your
-address will never be used unless you explicitly give us permission to do so.)")
+Please tell us your address. (Reminder: Responses to this survey are confidential and will only be used for scientific research.)")
             (f/with-group :address-finder
               [:div.map-find-address
                [:div.map-canvas {:style "height: 400px; width: 100%;"}]
