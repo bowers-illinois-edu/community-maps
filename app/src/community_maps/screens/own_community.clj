@@ -39,4 +39,4 @@ areas you highlighted")
    (map
     (fn [[id prompt]] (question prompt (likelihood id)))
     {:graffiti "If some children were painting graffiti on a local building or house, how likely is it that people in your community would do something about it?"
-     :community-organize "Suppose that because of budget cuts the fire station or library closest to your home was going to be closed down by the city. How likely is it that community residents would organize to try to do something to keep the fire station open?"})))
+     :community-organize "Suppose that because of budget cuts the fire station closest to your home was going to be closed down by the city. How likely is it that community residents would organize to try to do something to keep the fire station open?"})))
