@@ -12,13 +12,14 @@
   (question
    (list [:span.required "Required: "]
          "In a moment, we will ask you to look at where you live on a map.
-Please tell us your address. (Reminder: Responses to this survey are confidential and will only be used for scientific research.)")
+Please enter your postal code in the box. (Reminder: Responses to this survey are confidential and will only be used for scientific research.)")
             (f/with-group :address-finder
               [:div.map-find-address
-               [:div.map-canvas {:style "height: 400px; width: 100%;"}]
                (f/hidden-field {:class "latlng"} :latlng)
                (f/text-field {:class "address"} :address (:address subject))
-               (add-class (button "Find on map") "update")])) ; if preloaded 
+               (add-class (button "Find on map") "update")
+               [:div.map-canvas {:style "height: 400px; width: 100%;"}]
+                 ])) ; if preloaded 
 
 
 ;;;Q2.	Question: 
