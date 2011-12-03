@@ -216,20 +216,6 @@
      :ethnic (str "Mostly " (subject :prefer-neighborhood))
      :other [:span "Some other mixture. Please explain: " (f/text-field :explain-other)]}))
 
-;;;Q44.	Question:
-  (directions
-   "The next few questions ask you to match groups in Canada to pairs of words. If you think the group is more like the word on the left, move the slider to the left. If you think the group is more like the word on the right, move the slider to the right. If you think both words equally describe the groups, place the slider in the middle.")
-  
-  (group-sliders
-   :hard-working-lazy
-   "Are the following groups <em>lazy</em> or <em>hardworking</em>?"
-   "Lazy"
-   "Hardworking")
-;;;Q45.	Question:
-  (group-sliders :intelligent-unintelligent
-                 "Are the following groups <em>intelligent</em> or <em>unintelligent</em>?"
-                 "Intelligent" "Unintelligent")
-
 ;;;Q46, Q47, Q48, Q49
   (directions
    "For each of the following statements, please tell us if you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree with the statement.")
