@@ -54,20 +54,7 @@
         " their share of the population in this area by a lot.  Do you think such a change would be a good or bad thing if it happened?")
    (bf/radio-group :ethnic-growth {:good "Good thing" :bad "Bad thing"}))
 
-;;;Assuming we know employment status from Vote Compass...
-;;;Q19.	Question:
-  (question
-   "If you are currently employed and/or a student, would you please tell us where you work or study? Please provide the postal code."
-   (f/text-field :work-study-address))
 
-;;;Q20.	Question:
-  (question 
-   "Are the people at your work (or school) mostly white, mostly ethnic minorities, about half and half, or some other mixture?"
-   (bf/radio-group :work-ethnicity
-                   {:white "Mostly white"
-                    :ethnic "Mostly ethnic minorities"
-                    :half "About half and half"
-                    :other [:span "Some other mixture. Please explain:" (f/text-field :other-description)]}))
 ;;;What is the largest nonwhite group?
 
   (directions
@@ -87,6 +74,20 @@
                (second (first (get-in mc [2 1])))
                [(f/with-group "close-to-group" (bf/labeled-checkbox "other-asian" "Other Asian"))])))
 
+;;;Assuming we know employment status from Vote Compass...
+;;;Q19.  Question:
+  (question
+   "If you are currently employed and/or a student, would you please tell us where you work or study? Please provide the postal code."
+   (f/text-field :work-study-address))
+
+;;;Q20.	Question:
+  (question 
+   "Are the people at your work (or school) mostly white, mostly ethnic minorities, about half and half, or some other mixture?"
+   (bf/radio-group :work-ethnicity
+                   {:white "Mostly white"
+                    :ethnic "Mostly ethnic minorities"
+                    :half "About half and half"
+                    :other [:span "Some other mixture. Please explain:" (f/text-field :other-description)]}))
 
 ;;;Q26.	Question
   (group-sliders
