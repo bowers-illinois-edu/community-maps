@@ -236,9 +236,9 @@
      "The more money spent on doctors, hospitals, and medicine for the healthcare of people in one ethnic group, the less money that will be available for the healthcare of members of other groups."
 
      :government-improve
-     "The government in Ottawa  should make every effort to improve the social and economic position of ethnic minorities."
+     "The government in Ottawa should make every effort to improve the social and economic position of ethnic minorities."
 
      :government-fair-treatment
-     "The government in Ottawa see to it that ethnic minorities get fair treatment in jobs."}))
+     "The government in Ottawa should see to it that ethnic minorities get fair treatment in jobs."}))
 
-  (yes-no :complete-additional-survey "Would you be willing to complete another survey?"))
+  (yes-no :complete-additional-survey "Would you be willing to participate in another survey?"))
