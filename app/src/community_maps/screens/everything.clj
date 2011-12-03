@@ -198,16 +198,16 @@
 
 ;;;Q42.	Question
   (question
-   "If you could find the housing that you would want and like, would you rather live in a neighborhood that is mostly [co-partisans], mostly members of other political parties, or some mixture of them?"
+   "If you could find housing that you liked, would you rather live with neighbors who mostly support your political party, mostly support other political parties, or support some other mixture of political parties?"
    (bf/radio-group
     :housing-political
     {:co-partisans "Mostly co-partisans"
      :other "Mostly members of other political parties"
-     :mixture [:span "Some mixture of them. Please explain: " (f/text-field :explain-other)]}))
+     :mixture [:span "Some mixture. Please explain: " (f/text-field :explain-other)]}))
 
 ;;;Q43.	Question:
   (question
-   (str "If you could find the housing that you would want and like, would you rather live in a neighborhood that is mostly white, mostly "
+   (str "If you could find housing that you liked, would you rather live with neighbors who are mostly white, mostly "
         (subject :prefer-neighborhood)
         ", or some other mixture?")
    (bf/radio-group
