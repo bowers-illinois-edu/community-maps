@@ -194,7 +194,7 @@
      (str "Most " (subject :get-welfare)  " who receive money from social welfare programs could get along without it if they tried.")
 
      :gov-attention
-     "Government officials usually pay less attention to a request or complaint from an ethnic minority person than from a white person."}))
+     "Government officials usually pay less attention to a request or complaint from someone who is an ethnic minority than from someone who is white."}))
 
 ;;;Q42.	Question
   (question
