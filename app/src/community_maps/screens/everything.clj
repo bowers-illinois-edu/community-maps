@@ -68,7 +68,7 @@
             (merge
              (dissoc ethnic-political-groups :other-asian)
              {:local-community "People in your local community"
-              :census-community "People in this area"}))]
+              :census-community (str "People in this " (get gis/*districts* dst) "."))})
     (assoc-in mc [2 1]
               (concat
                (second (first (get-in mc [2 1])))
