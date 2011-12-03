@@ -15,8 +15,8 @@
     (when (and (not (= 0 district-id)) (not (= "" district-id)))
       (list
        (directions
-        (str "Now, look at this map. The highlighted area shows your " (get gis/*districts* dst) ".")
-        "Referring to this map with the Census boundary on it, I’d like to ask a series of questions just like the previous ones:")
+        (str "Please look at this map. The highlighted area shows your " (get gis/*districts* dst) ".")
+        "Referring to this map with the Census boundary on it, we would like to ask a series of questions just like the previous ones:")
        (kml-map (gis/kml-url dst district-id))
        
       ;;;Q14.	Question:
