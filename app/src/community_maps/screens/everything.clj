@@ -57,7 +57,7 @@
 ;;;Assuming we know employment status from Vote Compass...
 ;;;Q19.	Question:
   (question
-   "At what location do you work or study? Please provide your postal code."
+   "If you are currently employed and/or a student, would you please tell us where you work or study? Please provide the postal code."
    (f/text-field :work-study-address))
 
 ;;;Q20.	Question:
