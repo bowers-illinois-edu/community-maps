@@ -51,13 +51,13 @@
   (question
    (str "Some political leaders argue that in the next 10 years, ethnic minorities will "
         (subject :minority-population-share)
-        " their share of the population in this area by a lot.  Do you think this is a good or bad thing?")
+        " their share of the population in this area by a lot.  Do you think such a change would be a good or bad thing if it happened?")
    (bf/radio-group :ethnic-growth {:good "Good thing" :bad "Bad thing"}))
 
 ;;;Assuming we know employment status from Vote Compass...
 ;;;Q19.	Question:
   (question
-   "At what location do you work or study? Please include the entire address, including city and province. (Reminder: These surveys are anonymous, and your work/study address will never be used unless you explicitly give us permission to do so.)"
+   "At what location do you work or study? Please provide your postal code."
    (f/text-field :work-study-address))
 
 ;;;Q20.	Question:
