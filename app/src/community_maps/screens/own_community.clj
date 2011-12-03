@@ -21,7 +21,7 @@ areas you highlighted")
    :community-composition
    "How did you learn about the composition of your local community?")
 
-  (directions "Here are some statements about things that people in your local community that you have drawn may or may not do. For each of these statements, please tell me whether you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree.")
+  (directions "Here are some statements about the people in your local community. Please tell us whether you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree with each of these statements.")
 
 ;;;Q9, Q10, Q11	
 
@@ -32,7 +32,7 @@ areas you highlighted")
      :get-along "People in this community generally don’t get along with each other."
      :share-values "People in this community do not share the same values."}))
 
-  (directions "For each of the following, please tell me if it is very likely, likely, unlikely or very unlikely that people in your community would act in the following manner.")
+  (directions "For each of the following, please tell us if it is very likely, likely, unlikely or very unlikely that people in your community would act in the following manner.")
 
 ;;;Q12., Q13.
   (doall
