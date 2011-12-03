@@ -32,7 +32,7 @@ areas you highlighted")
      :get-along "People in this community generally don’t get along with each other."
      :share-values "People in this community do not share the same values."}))
 
-  (directions "For each of the following, please tell us if it is very likely, likely, unlikely or very unlikely that people in your community would act in the following manner.")
+  (directions "For each of the following, please tell us if it is very likely, likely, unlikely or very unlikely that people in your local community would act in the following manner.")
 
 ;;;Q12., Q13.
   (doall
