@@ -53,11 +53,11 @@ jQuery(document).ready(function() {
   // required questions
   // helper functions
   var allowContinue = function() {
-    $("input[type=submit]").attr("disabled", false);
+    $("input[type=submit]").attr("disabled", false).removeClass("disabledButton");
     $("span.required").css("color", "green");
   }
   var denyContinue = function() {
-    $("input[type=submit]").attr("disabled", "disabled");
+    $("input[type=submit]").attr("disabled", "disabled").addClass("disabledButton");
     $("span.required").css("color", "red");
   }
   // hide and disable the continue button on pages with required items

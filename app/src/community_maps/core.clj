@@ -40,6 +40,13 @@
     [:div#bd
      [:div.yui-g body]]])
   
+(defn screen-form-button
+  "Wrap a screen in a form with a funky button"
+  [scrn subject]
+  (f/form-to [:post "/"]
+             (f/hidden-field :id (:id subject))
+             (scrn subject)
+             (f/submit-button {:class "fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"} "Continue")))
 (defmethod layout :default [subject screen]
   (xhtml
    [:head
@@ -53,7 +60,7 @@
     (include-js "questions.js")
     (include-js "http://maps.google.com/maps/api/js?v=3.4&sensor=false")
     css]
-   (body (str "Survey Step " (:step subject 0)) (screen-form screen subject))))
+   (body (str "Survey Step " (:step subject 0)) (screen-form-button screen subject))))
 
 ;; other screens defined in screens.* namespaces
 ;; the thank you screen is special.
@@ -75,7 +82,7 @@
     (include-js "burp.jquery.ui.support.js")
     (include-js "questions.js")
     css]
-   (body "Welcome" (screen-form screen subject))))
+   (body "Welcome" (screen-form-button screen subject))))
 
 (def survey-app
   (-> (survey createwithid dbsave dbload layout 

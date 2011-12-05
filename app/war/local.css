@@ -70,3 +70,5 @@ div.slider { margin: 0.5em; }
 span.required { color: red;}
 
 div.ui-slider-label { width: 3em; text-align: center; }
+
+input.disabledButton { color: #aaa; }
