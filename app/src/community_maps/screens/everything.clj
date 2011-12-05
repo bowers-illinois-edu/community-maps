@@ -5,7 +5,7 @@
             [burp.forms :as bf]
             [community-maps.gis :as gis]))
 
-(defscreen basics
+(defscreen randomized-district
   [subject]
   
   ;;; District Map Related Questions (if we can't look up the
@@ -45,36 +45,37 @@
        (yes-no :census-feel-community 
                (str "On the whole, do you think that people who live in this "
                     (get gis/*districts* dst)
-                    " feel a sense of community?")))))
+                    " feel a sense of community?"))))
 
 ;;;Q18.	Question:
-  (question
-   (str "Some political leaders argue that in the next 10 years, ethnic minorities will "
-        (subject :minority-population-share)
-        " their share of the population in this area by a lot.  Do you think such a change would be a good or bad thing if it happened?")
-   (bf/radio-group :ethnic-growth {:good "Good thing" :bad "Bad thing"}))
+    (question
+     (str "Some political leaders argue that in the next 10 years, ethnic minorities will "
+          (subject :minority-population-share)
+          " their share of the population in this area by a lot.  Do you think such a change would be a good or bad thing if it happened?")
+     (bf/radio-group :ethnic-growth {:good "Good thing" :bad "Bad thing"}))
 
 
 ;;;What is the largest nonwhite group?
 
-  (directions
-   "We would like you to tell us if you feel particularly close to people in the following groups, if you feel the people in the groups are like you in their ideas and interests and feelings about things.  If there is a group you don't know much about, just move on to the next one.")
+    (directions
+     "We would like you to tell us if you feel particularly close to people in the following groups, if you feel the people in the groups are like you in their ideas and interests and feelings about things.  If there is a group you don't know much about, just move on to the next one.")
 ;;; 
 ;;;Q21.	Question:
 ;;; 
-  (let [mc (multiple-choice
-            :close-to-group
-            "Do you feel close to any of the following groups"
-            (merge
-             (dissoc ethnic-political-groups :other-asian)
-             {:local-community "People in your local community"
-              :census-community (str "People in this " (get gis/*districts* dst) "."))})
-    (assoc-in mc [2 1]
-              (concat
-               (second (first (get-in mc [2 1])))
-               [(f/with-group "close-to-group" (bf/labeled-checkbox "other-asian" "Other Asian"))])))
+    (let [mc (multiple-choice
+              :close-to-group
+              "Do you feel close to any of the following groups"
+              (merge
+               (dissoc ethnic-political-groups :other-asian)
+               {:local-community "People in your local community"
+                :census-community (str "People in this " (get gis/*districts* dst) ".")}))]
+      (assoc-in mc [2 1]
+                (concat
+                 (second (first (get-in mc [2 1])))
+                 [(f/with-group "close-to-group" (bf/labeled-checkbox "other-asian" "Other Asian"))])))))
 
-;;;Assuming we know employment status from Vote Compass...
+(defscreen canada-population [subject]
+
 ;;;Q19.  Question:
   (question
    "If you are currently employed and/or a student, would you please tell us where you work or study? Please provide the postal code."
@@ -121,8 +122,9 @@
   (group-sliders
    :group-feeling-thermometer
    "We would also like to get your feelings about some groups in Canadian society. For each of the following groups, we would like you to rate it with what we call a feeling thermometer. Ratings between 50 degrees and 100 degrees mean that you feel favorably and warm toward the group; ratings between 0 and 50 degrees mean that you don't feel favorably towards the group and that you don't care too much for that group. If you don't feel particularly warm or cold toward a group you would rate them at 50 degrees. If you come to a group you don't know much about, just move on to the next one."
-   "0" "100")
+   "0" "100"))
 
+(defscreen racial-ethnic [subject]
 ;;;Q29.	Question:
   (question 
    "When it comes to social and political matters, some people think of themselves mainly as white, Chinese, or Black and that is very important to how they think of themselves. Other people don’t tend to think of themselves in these ways. When it comes to social and political matters, how important is your race or ethnicity to how you think of yourself?"
@@ -214,8 +216,9 @@
     :housing-ethnic
     {:white "Mostly white"
      :ethnic (str "Mostly " (subject :prefer-neighborhood))
-     :other [:span "Some other mixture. Please explain: " (f/text-field :explain-other)]}))
+     :other [:span "Some other mixture. Please explain: " (f/text-field :explain-other)]})))
 
+(defscreen racial-conflict [subject]
 ;;;Q46, Q47, Q48, Q49
   (directions
    "For each of the following statements, please tell us if you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree with the statement.")
