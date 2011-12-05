@@ -46,34 +46,34 @@
        (yes-no :census-feel-community 
                (str "On the whole, do you think that people who live in this "
                     (get gis/*districts* dst)
-                    " feel a sense of community?"))))
+                    " feel a sense of community?"))
 
 ;;;Q18.	Question:
-    (question
-     (str "Some political leaders argue that in the next 10 years, ethnic minorities will "
-          (subject :minority-population-share)
-          " their share of the population in this area by a lot.  Do you think such a change would be a good or bad thing if it happened?")
-     (bf/radio-group :ethnic-growth {:good "Good thing" :bad "Bad thing"}))
+       (question
+        (str "Some political leaders argue that in the next 10 years, ethnic minorities will "
+             (subject :minority-population-share)
+             " their share of the population in this area by a lot.  Do you think such a change would be a good or bad thing if it happened?")
+        (bf/radio-group :ethnic-growth {:good "Good thing" :bad "Bad thing"}))
 
 
 ;;;What is the largest nonwhite group?
 
-    (directions
-     "We would like you to tell us if you feel particularly close to people in the following groups, if you feel the people in the groups are like you in their ideas and interests and feelings about things.  If there is a group you don't know much about, just move on to the next one.")
+       (directions
+        "We would like you to tell us if you feel particularly close to people in the following groups, if you feel the people in the groups are like you in their ideas and interests and feelings about things.  If there is a group you don't know much about, just move on to the next one.")
 ;;; 
 ;;;Q21.	Question:
 ;;; 
-    (let [mc (multiple-choice
-              :close-to-group
-              "Do you feel close to any of the following groups"
-              (merge
-               (dissoc ethnic-political-groups :other-asian)
-               {:local-community "People in your local community"
-                :census-community (str "People in this " (get gis/*districts* dst) ".")}))]
-      (assoc-in mc [2 1]
-                (concat
-                 (second (first (get-in mc [2 1])))
-                 [(f/with-group "close-to-group" (bf/labeled-checkbox "other-asian" "Other Asian"))])))))
+       (let [mc (multiple-choice
+                 :close-to-group
+                 "Do you feel close to any of the following groups"
+                 (merge
+                  (dissoc ethnic-political-groups :other-asian)
+                  {:local-community "People in your local community"
+                   :census-community (str "People in this " (get gis/*districts* dst) ".")}))]
+         (assoc-in mc [2 1]
+                   (concat
+                    (second (first (get-in mc [2 1])))
+                    [(f/with-group "close-to-group" (bf/labeled-checkbox "other-asian" "Other Asian"))])))))))
 
 (defscreen canada-population [subject]
 
