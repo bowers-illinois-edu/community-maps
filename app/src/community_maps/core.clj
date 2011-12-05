@@ -15,7 +15,7 @@
    {:election-neighborhood ["national" "provincial" "neighborhood" "nothing"]
     :ethnic-work-up ["Chinese" "blacks"]
     :get-welfare ["ethnic minorities" "people"]
-    :prefer-neighborhood ["ethnic minorities" "blacks" "Asians"]
+    :prefer-neighborhood ["ethnic minorities" "black" "Asian"]
     :leader-party ["Conservative" "NDP" "BQ" "Liberal"]
     :minority-projection ["25" "35" "50"]
     :minority-population-share ["increase" "decrease"]
