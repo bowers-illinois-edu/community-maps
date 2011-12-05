@@ -120,10 +120,11 @@
      :same "Left the same as it is now."}))
 
 ;;;Q28.	Question:
-  (group-sliders
-   :group-feeling-thermometer
-   "We would also like to get your feelings about some groups in Canadian society. For each of the following groups, we would like you to rate it with what we call a feeling thermometer. Ratings between 50 degrees and 100 degrees mean that you feel favorably and warm toward the group; ratings between 0 and 50 degrees mean that you don't feel favorably towards the group and that you don't care too much for that group. If you don't feel particularly warm or cold toward a group you would rate them at 50 degrees. If you come to a group you don't know much about, just move on to the next one."
-   "0" "100"))
+  )
+(group-sliders
+ :group-feeling-thermometer
+ "We would also like to get your feelings about some groups in Canadian society. For each of the following groups, we would like you to rate it with what we call a feeling thermometer. Ratings between 50 degrees and 100 degrees mean that you feel favorably and warm toward the group; ratings between 0 and 50 degrees mean that you don't feel favorably towards the group and that you don't care too much for that group. If you don't feel particularly warm or cold toward a group you would rate them at 50 degrees. If you come to a group you don't know much about, just move on to the next one."
+ "0" "100")
 
 (defscreen racial-ethnic [subject]
 ;;;Q29.	Question:
@@ -245,42 +246,39 @@
      :government-fair-treatment
      "The government in Ottawa should see to it that ethnic minorities get fair treatment in jobs."}))
 
-  (when (= (:election-neighborhood subject) "neighborhood")
-    (list
-     (question
-      "On the whole, do you like or dislike this neighborhood as a place to live. Would you say you like it a lot, like it, dislike it, dislike it a lot?"
-      (bf/radio-group :like-neighborhood
-                      {:like-alot "Like it a lot."
-                       :like "Like it."
-                       :dislike "Dislike it."
-                       :dislike-alot "Dislike it a lot."}))
-     (question
-      "How worried are you about your safety in your neighborhood?  Are you very worried, somewhat worried, not very worried, or not at all worried?"
-      (bf/radio-group :safe-neighborhood
-                      {:worried "Worried"
-                       :somewhat-worried "Somewhat worried"
-                       :not-very-worried "Not very worried"
-                       :not-at-all-worried "Not at all worried"}))))
+  (question
+   "On the whole, do you like or dislike this neighborhood as a place to live. Would you say you like it a lot, like it, dislike it, dislike it a lot?"
+   (bf/radio-group :like-neighborhood
+                   {:like-alot "Like it a lot."
+                    :like "Like it."
+                    :dislike "Dislike it."
+                    :dislike-alot "Dislike it a lot."}))
+  (question
+   "How worried are you about your safety in your neighborhood?  Are you very worried, somewhat worried, not very worried, or not at all worried?"
+   (bf/radio-group :safe-neighborhood
+                   {:worried "Worried"
+                    :somewhat-worried "Somewhat worried"
+                    :not-very-worried "Not very worried"
+                    :not-at-all-worried "Not at all worried"}))
 
-  (when (get #{"national" "provincial"} (:election-neighborhood subject))
-    [:div.election-choice
-     (add-class 
-      (if (= (:election-neighborhood subject) "national")
-        (yes-no :national-election "Did you vote in the national election in May?")
-        (yes-no :provincial-election "Did you vote in the recent provincial election?"))
-      :did-vote)
-     (add-class
-      (question 
-       "For which party did you vote?"
-       (bf/radio-group :election-choice
-                       (conj
-                        (shuffle
-                         (vec
-                          {:liberal "The Liberal Party"
-                           :conservative "The Conservative Party"
-                           :ndp "The NDP"
-                           :bq "The Bloc Quebecois"
-                           :green "The Green Party"}))
-                        [:other "Another party"])))
-      :vote-choice)])
+  [:div.election-choice
+   (add-class 
+    (if (= (:election-neighborhood subject) "national")
+      (yes-no :national-election "Did you vote in the national election in May?")
+      (yes-no :provincial-election "Did you vote in the recent provincial election?"))
+    :did-vote)
+   (add-class
+    (question 
+     "For which party did you vote?"
+     (bf/radio-group :election-choice
+                     (conj
+                      (shuffle
+                       (vec
+                        {:liberal "The Liberal Party"
+                         :conservative "The Conservative Party"
+                         :ndp "The NDP"
+                         :bq "The Bloc Quebecois"
+                         :green "The Green Party"}))
+                      [:other "Another party"])))
+    :vote-choice)]
   (yes-no :complete-additional-survey "Would you be willing to participate in another survey?"))
