@@ -60,7 +60,7 @@
     (include-js "questions.js")
     (include-js "http://maps.google.com/maps/api/js?v=3.4&sensor=false")
     css]
-   (body (str "Survey Step " (:step subject 0)) (screen-form-button screen subject))))
+   (body "Mapping Communities Survey" (screen-form-button screen subject))))
 
 ;; other screens defined in screens.* namespaces
 ;; the thank you screen is special.
