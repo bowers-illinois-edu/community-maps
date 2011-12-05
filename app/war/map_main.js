@@ -18,8 +18,8 @@ var homePoint;
 
 $(document).ready(function() {
   // polygon defaults
-  var polycolor = "#AA0000"; // semi-transparent red
-  var fillopacity = 0.6;
+  var polycolor = "#000000"; // black turns grey with opacity
+  var fillopacity = 0.5;
   var strokeweight = 1;
  
   var popups = [];
