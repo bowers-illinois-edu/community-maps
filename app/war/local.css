@@ -52,8 +52,9 @@ div.directions {
     border: 1px solid #eee;
     margin: 1em 0 1em 0;
     font-size: 120%;
-    color: #aa1122;
+    color: #000088;
     padding: 1em 1.5em 1em 1.5em;
+    font-weight: bold;
 }
 
 div.directions p {
