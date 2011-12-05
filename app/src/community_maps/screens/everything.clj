@@ -1,6 +1,7 @@
 (ns community-maps.screens.everything
   (:use community-maps.tags
-        shanks.core)
+        shanks.core
+        [burp.core :only [add-class]])
   (:require [hiccup.form-helpers :as f]
             [burp.forms :as bf]
             [community-maps.gis :as gis]))
@@ -244,4 +245,42 @@
      :government-fair-treatment
      "The government in Ottawa should see to it that ethnic minorities get fair treatment in jobs."}))
 
+  (when (= (:election-neighborhood subject) "neighborhood")
+    (list
+     (question
+      "On the whole, do you like or dislike this neighborhood as a place to live. Would you say you like it a lot, like it, dislike it, dislike it a lot?"
+      (bf/radio-group :like-neighborhood
+                      {:like-alot "Like it a lot."
+                       :like "Like it."
+                       :dislike "Dislike it."
+                       :dislike-alot "Dislike it a lot."}))
+     (question
+      "How worried are you about your safety in your neighborhood?  Are you very worried, somewhat worried, not very worried, or not at all worried?"
+      (bf/radio-group :safe-neighborhood
+                      {:worried "Worried"
+                       :somewhat-worried "Somewhat worried"
+                       :not-very-worried "Not very worried"
+                       :not-at-all-worried "Not at all worried"}))))
+
+  (when (get #{"national" "provincial"} (:election-neighborhood subject))
+    [:div.election-choice
+     (add-class 
+      (if (= (:election-neighborhood subject) "national")
+        (yes-no :national-election "Did you vote in the national election in May?")
+        (yes-no :provincial-election "Did you vote in the recent provincial election?"))
+      :did-vote)
+     (add-class
+      (question 
+       "For which party did you vote?"
+       (bf/radio-group :election-choice
+                       (conj
+                        (shuffle
+                         (vec
+                          {:liberal "The Liberal Party"
+                           :conservative "The Conservative Party"
+                           :ndp "The NDP"
+                           :bq "The Bloc Quebecois"
+                           :green "The Green Party"}))
+                        [:other "Another party"])))
+      :vote-choice)])
   (yes-no :complete-additional-survey "Would you be willing to participate in another survey?"))
