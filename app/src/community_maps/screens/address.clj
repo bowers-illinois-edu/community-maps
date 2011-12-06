@@ -46,4 +46,30 @@ Please enter your postal code in the box. (Reminder: Responses to this survey ar
     :rent-own
     {:yes "We own"
      :rent "We rent"
-     :other "We have another arrangement"})))
+     :other "We have another arrangement"}))
+
+  (when (not (= "control" (subject :feel-close-to)))
+    (list
+     (question
+      (str
+       "Thinking about where you live, how close do you feel to "
+       (when (not (= "Canada" (:feel-close-to subject))) "your ")
+       (:feel-close-to subject) "?")
+      (bf/radio-group
+       :feel-close-to-district
+       {:very "Very Close"
+        :somewhat "Somewhat Close"
+        :neutral "Neither close nor not close"
+        :not-close "Not Close"
+        :distant "Very distant"}))
+     (question
+      (str
+       "If you could improve your work or living conditions, how willing or unwilling would you be to move to another "
+       (if (= "Canada" (:feel-close-to subject)) "country"  (:feel-close-to subject)) "?")
+      (bf/radio-group
+       :willing-to-move
+       {:very "Very Willing"
+        :somewhat "Somewhat Willing"
+        :neutral "Neither willing nor not willing"
+        :not-willing "Not willing"
+        :not-move "I would never move"})))))
