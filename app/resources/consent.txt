@@ -1,6 +1,8 @@
 This is a paragraph.
 
-This is also a paragraph.
+During this survey, please do not use your back button on your
+browser. You will not be able to go back and change your answers, so
+consider your responses carefully.
 
 We recommend you take this survey using one of the following browsers:
 Firefox (version 4 or later), Internet Explorer (version 8 or later),
