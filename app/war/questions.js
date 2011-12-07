@@ -61,18 +61,8 @@ jQuery(document).ready(function() {
     $("span.required").css("color", "red");
   }
   // hide and disable the continue button on pages with required items
-  $("div.scribble-map, div.map-find-address, input#consent-consent").each(denyContinue);
+  $("div.scribble-map, input#consent-consent").each(denyContinue);
 
-  // Address collection:
-  // when the user supplies his/her address and it successfully
-  // geocodes, enable the button.
-  $("div.map-find-address").bind("geocode-response", function(e, status) {
-    if (status) {
-      allowContinue();
-    } else {
-      denyContinue();
-    }
-  });
 
   // Community maps:
   // Enable continue button when at least one polygon is drawn.
@@ -123,6 +113,52 @@ jQuery(document).ready(function() {
     });
   });
  
+
+  // Address collection:
+  // when the user supplies his/her address and it successfully
+  // geocodes, enable the button.
+  var addrSubmitQuery = "div#address ~ input[type=submit]";
+ var addrButtonState = true; 
+
+  var addressDirectContinue = function() {
+    addrButtonState = true;
+    $(addrSubmitQuery).unbind("click");
+  }
+  
+  var addrClickCount = 0;
+ 
+  var addressAskForInput = function() {
+    if (addrButtonState) {
+      
+      addrButtonState = false;
+
+      $(addrSubmitQuery).bind("click", function() {
+        addrClickCount = addrClickCount + 1;
+        if (addrClickCount > 5) {
+          alert("Thank you for your participation. If you later decide to share your postal code or city information, feel free to try the survey again.")
+          window.location.replace("/");
+          return(false);
+        } else {
+          alert("This survey involves maps. If you are uncomfortable providing a postal code, could you please enter the name of your city or town?");
+        }
+ 
+        $("#address-address-finder-address").focus();
+        return(false);
+      });
+    }
+  }
+
+  $("div.map-find-address").bind("geocode-response", function(e, status) {
+    if (status) {
+      addressDirectContinue();
+    } else {
+      addressAskForInput();
+    }
+  });
+
+  // initial state is asking for postal code input.
+  addressAskForInput();
+
   // fix for number #60: not getting proper focus on a form element
   $("#address-length-of-residence-x-years").click(function() { $("#address-x-years").focus();});
 });
