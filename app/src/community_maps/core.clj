@@ -5,6 +5,7 @@
         [burp.ring :only [wrap-burp]]
         [burp.jquery :only [jquery-link jquery-ui-link]]
         ring.middleware.file
+        community-maps.mail
         [community-maps.screens address draw everything own-community minorities-community consent])
   (:require [appengine-magic.core :as ae]
             [hiccup.form-helpers :as f]
@@ -48,6 +49,7 @@
              (f/hidden-field :id (:id subject))
              (scrn subject)
              (f/submit-button {:class "fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"} "Continue")))
+
 (defmethod layout :default [subject screen]
   (xhtml
    [:head
@@ -59,9 +61,17 @@
     (include-js "scribble.js")
     (include-js "utilities.js")
     (include-js "questions.js")
+    (include-js "resume.js")
     (include-js "http://maps.google.com/maps/api/js?v=3.4&sensor=false")
     css]
-   (body "Mapping Communities Survey" (screen-form-button screen subject))))
+   (body "Mapping Communities Survey"
+         (list
+          [:a#resume {:class "fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"}
+           [:span.ui-button-text "Resume Later"]]
+          [:div#resume-popup
+           [:p "You can pick up where you left off later. Just enter your email address, and we will send you a link to start from where you stopped."]
+           [:input.email]]
+          (screen-form-button screen subject)))))
 
 ;; other screens defined in screens.* namespaces
 ;; the thank you screen is special.
@@ -97,7 +107,8 @@
                racial-conflict
                minorities-community
                thank-you])
-      wrap-burp))
+      wrap-burp
+      wrap-resume-link))
 
 (ae/def-appengine-app community-maps-app #'survey-app)
 
