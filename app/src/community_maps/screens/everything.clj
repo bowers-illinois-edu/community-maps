@@ -82,6 +82,9 @@
    "If you are currently employed and/or a student, would you please tell us where you work or study? Please provide the postal code."
    (f/text-field :work-study-address))
 
+  (single-choice :party-id
+                 "Which party would say you most closely associate?"
+                 (merge political-groups {:independent "I am an independent" :none "None of the above"}))
 ;;;Q20.	Question:
   (question 
    "Are the people at your work (or school) mostly white, mostly ethnic minorities, about half and half, or some other mixture?"
@@ -120,11 +123,11 @@
      :same "Left the same as it is now."}))
 
 ;;;Q28.	Question:
-  )
-(group-sliders
- :group-feeling-thermometer
- "We would also like to get your feelings about some groups in Canadian society. For each of the following groups, we would like you to rate it with what we call a feeling thermometer. Ratings between 50 degrees and 100 degrees mean that you feel favorably and warm toward the group; ratings between 0 and 50 degrees mean that you don't feel favorably towards the group and that you don't care too much for that group. If you don't feel particularly warm or cold toward a group you would rate them at 50 degrees. If you come to a group you don't know much about, just move on to the next one."
- "0" "100")
+  
+  (group-sliders
+   :group-feeling-thermometer
+   "We would also like to get your feelings about some groups in Canadian society. For each of the following groups, we would like you to rate it with what we call a feeling thermometer. Ratings between 50 degrees and 100 degrees mean that you feel favorably and warm toward the group; ratings between 0 and 50 degrees mean that you don't feel favorably towards the group and that you don't care too much for that group. If you don't feel particularly warm or cold toward a group you would rate them at 50 degrees. If you come to a group you don't know much about, just move on to the next one."
+   "0" "100"))
 
 (defscreen racial-ethnic [subject]
 ;;;Q29.	Question:
@@ -201,13 +204,20 @@
      "Government officials usually pay less attention to a request or complaint from someone who is an ethnic minority than from someone who is white."}))
 
 ;;;Q42.	Question
-  (question
-   "If you could find housing that you liked, would you rather live with neighbors who mostly support your political party, mostly support other political parties, or support some other mixture of political parties?"
-   (bf/radio-group
-    :housing-political
-    {:co-partisans "Mostly co-partisans"
-     :other "Mostly members of other political parties"
-     :mixture [:span "Some mixture. Please explain: " (f/text-field :explain-other)]}))
+  
+   (let [party (get-in subject [:canada-population :party-id])
+         prompt (if (#{"liberal" "conservative" "ndp" "quebecois"} party)
+                  (str "the " (political-groups (keyword party)) (when-not (= "ndp" party) " party"))
+                  "your political party")]
+     (question
+      (str "If you could find housing that you liked, would you rather live with neighbors who mostly support "
+           prompt
+           ", mostly support other political parties, or support some other mixture of political parties?")
+      (bf/radio-group
+       :housing-political
+       {:co-partisans (str "Mostly support " prompt)
+        :other "Mostly support other political parties"
+        :mixture [:span "Some mixture. Please explain: " (f/text-field :explain-other)]})))
 
 ;;;Q43.	Question:
   (question

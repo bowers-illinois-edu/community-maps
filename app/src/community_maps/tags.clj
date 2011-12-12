@@ -54,19 +54,24 @@
                   :unlikely "Unlikely"
                   :very-unlikely "Very unlikely"}))
 
-(def ethnic-political-groups
+
+(def ethnic-groups
   {:black "Black"
    :white "White"
-   :liberal "Liberal"
-   :conservative "Conservative"
    :unemployed "Unemployed"
-   :ndp "NDP"
    :chinese "Chinese"
    :east-indian "East Indian"
    :aboriginal "Canadian Aboriginal"
    :latin "Latin American"
-   :other-asian "Other Asian"
+   :other-asian "Other Asian"})
+
+(def political-groups
+  {:liberal "Liberal"
+   :conservative "Conservative"
+   :ndp "NDP"
    :quebecois "Bloq Quebecois"})
+
+(def ethnic-political-groups (merge ethnic-groups political-groups))
 
 (defn group-sliders
   "Asks about the list of groups we are interested in"
