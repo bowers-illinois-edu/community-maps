@@ -5,7 +5,6 @@
         [burp.ring :only [wrap-burp]]
         [burp.jquery :only [jquery-link jquery-ui-link]]
         ring.middleware.file
-        community-maps.mail
         [community-maps.screens address draw everything own-community minorities-community consent])
   (:require [appengine-magic.core :as ae]
             [hiccup.form-helpers :as f]
@@ -107,8 +106,7 @@
                racial-conflict
                minorities-community
                thank-you])
-      wrap-burp
-      wrap-resume-link))
+      wrap-burp))
 
 (ae/def-appengine-app community-maps-app #'survey-app)
 

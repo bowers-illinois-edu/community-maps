@@ -20,10 +20,11 @@ $(document).ready(function() {
     buttons: {
       "Send me a link": function() {
         var dlog = this;
-        $.get("/resume", {email: $("#resume-popup input.email").val(), id: $("input#id").val()}, function() {
+        // commenting out until EC2 instance is online.
+        //$.get("/resume", {email: $("#resume-popup input.email").val(), id: $("input#id").val()}, function() {
           $(dlog).dialog("close");
           sent.dialog("open");
-        });
+        //});
       },
       "Cancel": function() {
         $(this).dialog("close");
