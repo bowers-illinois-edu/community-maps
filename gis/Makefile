@@ -21,7 +21,7 @@ AGINSTALL = sudo apt-get -y install
 	sudo apache2ctl restart 
 	touch .completed/002_INSTALL_SOFTWARE
 
-.completed/003_UNZIP_FILES: .completed/001_FETCH_FILES
+.completed/003_UNZIP_FILES: .completed/001_FETCH_FILES .completed/002_INSTALL_SOFTWARE
 	unzip "files/boundary files/gccs000a06a_e.zip" -d files
 	unzip "files/boundary files/gcd_000a06a_e.zip" -d files
 	unzip "files/boundary files/gcma000a06a_e.zip" -d files
