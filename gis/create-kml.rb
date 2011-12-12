@@ -76,7 +76,7 @@ TABLES.map {|t|
 #{kml}
 <Style>
  <PolyStyle>
-  <color>#000000aa</color>
+  <color>#aa000000</color>
   <outline>0</outline>
  </PolyStyle>
 </Style>

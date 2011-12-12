@@ -1,5 +1,6 @@
 (ns community-maps.tags
   (:use [shanks core]
+        [appengine-magic.core :only [appengine-environment-type]]
         hiccup.core
         [burp.core :only [add-class]]
         [burp.ring :only [wrap-burp]]
@@ -150,5 +151,7 @@
 (defn kml-map
   [url]
   [:div.kml-map
-   [:input {:type "hidden" :value url :class "url"}]
+   [:input {:type "hidden"
+            :value (if-not (= (appengine-environment-type) :development) (str url "?ts=" (System/currentTimeMillis)) url)
+            :class "url"}]
    map-canvas])
