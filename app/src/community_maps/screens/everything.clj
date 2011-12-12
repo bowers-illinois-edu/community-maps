@@ -237,9 +237,6 @@
      :ethnic-housing-pressure
      "As more good housing and neighborhoods go to people in one ethnic group, there will be fewer good houses and neighborhoods for members of other groups."
 
-     :healthcare-spending
-     "The more money spent on doctors, hospitals, and medicine for the healthcare of people in one ethnic group, the less money that will be available for the healthcare of members of other groups."
-
      :government-improve
      "The government in Ottawa should make every effort to improve the social and economic position of ethnic minorities."
 
