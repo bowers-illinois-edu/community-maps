@@ -17,7 +17,8 @@
       (list
        (directions
         (str "Please look at this map. The highlighted area shows your " (get gis/*districts* dst) ".")
-        "Referring to this map with this boundary on it, we would like to ask a series of questions just like the previous ones:")
+        (str "Referring to this map with the " (get gis/*districts* dst)
+             " it, we would like to ask a series of questions just like the previous ones:"))
        (kml-map (gis/kml-url dst district-id))
        
       ;;;Q14.	Question:
