@@ -78,22 +78,28 @@
 (defscreen canada-population [subject]
 
 ;;;Q19.  Question:
-  (question
-   "If you are currently employed and/or a student, would you please tell us where you work or study? Please provide the postal code."
-   (f/text-field :work-study-address))
+  (single-choice {:id "employed-student"} :employed
+                 "Are you currently employed or enrolled as a student?"
+                 {:employed "I am employed"
+                  :student "I am a student"
+                  :unemployed "I am not employed"})
+  [:div.employment-follow-up
+   (question
+    "Would you please tell us where you work or study? Please provide the postal code, or if you don't know the postal code, please provide an intersection or address."
+    (f/text-field :work-study-address))
+
+;;;Q20.	Question:
+   (question 
+    "Are the people at your work (or school) mostly white, mostly ethnic minorities, about half and half, or some other mixture?"
+    (bf/radio-group :work-ethnicity
+                    {:white "Mostly white"
+                     :ethnic "Mostly ethnic minorities"
+                     :half "About half and half"
+                     :other [:span "Some other mixture. Please explain:" (f/text-field :other-description)]}))]
 
   (single-choice :party-id
                  "Which party would say you most closely associate?"
                  (merge political-groups {:independent "I am an independent" :none "None of the above"}))
-;;;Q20.	Question:
-  (question 
-   "Are the people at your work (or school) mostly white, mostly ethnic minorities, about half and half, or some other mixture?"
-   (bf/radio-group :work-ethnicity
-                   {:white "Mostly white"
-                    :ethnic "Mostly ethnic minorities"
-                    :half "About half and half"
-                    :other [:span "Some other mixture. Please explain:" (f/text-field :other-description)]}))
-
 ;;;Q26.	Question
   (group-sliders
    :canada-percentages

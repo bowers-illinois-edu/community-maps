@@ -161,4 +161,15 @@ jQuery(document).ready(function() {
 
   // fix for number #60: not getting proper focus on a form element
   $("#address-length-of-residence-x-years").click(function() { $("#address-x-years").focus();});
+
+  // hiding employment follow ups appropriately
+  
+  var employmentFollowUps = $("div#canada-population div.employment-follow-up").hide();
+  $("div#employed-student input").click(function() {
+    if ($(this).val() == "unemployed") {
+      employmentFollowUps.hide();
+    } else {
+      employmentFollowUps.show();
+    }
+  });
 });
