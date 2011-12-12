@@ -21,7 +21,7 @@ areas you highlighted")
    :community-composition
    "How did you learn about the composition of your local community?")
 
-  (directions "Here are some statements about the people in your local community. Please tell us whether you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree with each of these statements.")
+  (directions "Here are some statements about the people in your local community. Please tell us how strongly you agree or disagree with each of these statements.")
 
 ;;;Q9, Q10, Q11	
 

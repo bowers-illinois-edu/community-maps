@@ -148,7 +148,7 @@
      :not-important "Not important at all"}))
 
   (directions 
-   "Please read the following statements and for each one, please tell us if you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree with the statement.")
+   "Please read the following statements and for each one, tell us how strongly you agree or disagree.")
 ;;; 
 ;;;Q 30, 31. Q32, Q33, Q34, Q35
   (doall
@@ -191,7 +191,7 @@
 
 ;;;Q38, Q39, Q40, Q41
   (directions 
-   "For each of the following statements, please tell us if you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree with the statement.")
+   "Please read the following statements and for each one, tell us how strongly you agree or disagree.")
 
   (doall
    (map
@@ -238,7 +238,7 @@
 (defscreen racial-conflict [subject]
 ;;;Q46, Q47, Q48, Q49
   (directions
-   "For each of the following statements, please tell us if you strongly agree, agree, neither agree nor disagree, disagree, or strongly disagree with the statement.")
+   "For each of the following statements, please tell us how strongly you agree or disagree.")
  
   (doall
    (map
