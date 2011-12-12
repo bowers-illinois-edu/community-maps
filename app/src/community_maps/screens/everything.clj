@@ -190,9 +190,7 @@
    (map
     (fn [[k p]] (question p (agree-disagree k)))
     {:special-favors 
-     (str "Irish, Italian, Jewish and many other minorities overcame prejudice and worked their way up. Other minorities, like "
-          (subject :ethnic-work-up)
-          ", should do the same without any special favors.")
+     "Irish, Italian, Jewish and many other minorities overcame prejudice and worked their way up. Other minorities should do the same without any special favors."
 
      :try-harder
      "It's really a matter of some people not trying hard enough; if ethnic minorities would only try harder they could be just as well off as whites."

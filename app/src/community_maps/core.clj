@@ -13,7 +13,6 @@
 (defn randomizer []
   (randomize-subject
    {:feel-close-to ["control" "neighborhood" "city" "province" "Canada"]
-    :ethnic-work-up ["Chinese" "blacks"]
     :get-welfare ["ethnic minorities" "people"]
     :prefer-neighborhood ["ethnic minorities" "black" "Asian"]
     :leader-party ["Conservative" "NDP" "BQ" "Liberal"]
