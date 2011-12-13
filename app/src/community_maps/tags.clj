@@ -1,5 +1,6 @@
 (ns community-maps.tags
-  (:use [shanks core]
+  (:use [community-maps.util :only [map-vals]]
+        [shanks core]
         [appengine-magic.core :only [appengine-environment-type]]
         hiccup.core
         [burp.core :only [add-class]]
@@ -67,12 +68,16 @@
    :other-asian "Other Asian"})
 
 (def political-groups
-  {:liberal "Liberal supporters"
-   :conservative "Conservative supporters"
-   :ndp "NDP supporters"
-   :quebecois "Bloq Quebecois supporters"})
+  {:liberal "Liberal Party"
+   :conservative "Conservative Party"
+   :ndp "NDP"
+   :quebecois "Bloq Quebecois"})
 
-(def ethnic-political-groups (merge ethnic-groups political-groups))
+;; take on "supporters" to the political groups
+(def ethnic-political-groups
+  (merge
+   ethnic-groups
+   (map-vals #(str % " supporters") political-groups)))
 
 (defn group-sliders
   "Asks about the list of groups we are interested in"
