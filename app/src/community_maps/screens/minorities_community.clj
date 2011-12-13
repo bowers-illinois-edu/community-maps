@@ -25,11 +25,9 @@
   (single-choice
    :community-political-makeup
    "Thinking about your local community, is it mostly:"
-   {:conservatives "Conservatives"
-    :liberals "Liberals"
-    :ndp "NDP"
-    :quebec "Bloc Quebecois"
-    :other [:span "Some other mixture. Please explain: " (f/text-field :other-description)]})
+   (assoc political-groups
+     :other
+     [:span "Some other mixture. Please explain: " (f/text-field :other-description)]))
   
 ;;;Q24.	Question:
   (yes-no :ethnic-friends "Are any of your friends of a different race or ethnic background than you?")
@@ -48,11 +46,11 @@
 
 ;;;Q25.	Question:
   (question 
-   "Are your friends mostly conservatives, mostly liberals, mostly NDP, mostly Bloc Quebecois, or some other mixture?"
+   (str "Are your friends mostly "
+        (apply str (interpose ", " (vals political-groups)))
+        " or some other mixture?")
    (bf/radio-group
     :political-friends-composition
-    {:conservative "Mostly conservatives"
-     :liberal "Mostly liberal"
-     :ndp "Mostly NDP"
-     :quebec "Mostly Bloc Quebecois"
-     :other [:span "Some other mixture. Please explain:" (f/text-field :other-description)]})))
+    (conj
+     (vec (map (fn [[k v]] [k (str "Mostly " v)]) political-groups))
+     [ :other [:span "Some other mixture. Please explain:" (f/text-field :other-description)]]))))

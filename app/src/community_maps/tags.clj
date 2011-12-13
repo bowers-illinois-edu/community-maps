@@ -67,10 +67,10 @@
    :other-asian "Other Asian"})
 
 (def political-groups
-  {:liberal "Liberal"
-   :conservative "Conservative"
-   :ndp "NDP"
-   :quebecois "Bloq Quebecois"})
+  {:liberal "Liberal supporters"
+   :conservative "Conservative supporters"
+   :ndp "NDP supporters"
+   :quebecois "Bloq Quebecois supporters"})
 
 (def ethnic-political-groups (merge ethnic-groups political-groups))
 
