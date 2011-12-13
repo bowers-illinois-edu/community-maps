@@ -32,11 +32,11 @@ Please enter your postal code in the box. If the map does not look right, please
   (question
    "What city and province did you live in before moving to this home? Please select the best description and fill in the name of the location below."
    (bf/radio-group :other-residence
-                   {:city "Elsewhere in the same city"
-                    :province "Elsewhere in the same province"
-                    :other "In another province"
-                    :ex-canada "Outside Canada"})
-   [:span (f/text-field :other-residence-name) " (please explain where)"])
+                   (map (fn [[k [v1 v2]]] [k [:span v1 " " [:span.followup v2 " " (f/with-group k (f/text-field :details))]]])
+                        {:city ["Elsewhere in the same city." "Please tell us the postal code if you recall it."]
+                         :province ["Elsewhere in the same province." "Please tell us the name of the city or the postal code."]
+                         :other ["In another province." "Please tell us the name of the city or the postal code."]
+                         :ex-canada ["Outside Canada." "Please tell us the name of the country."]})))
 
 ;;;Q4.	Question:
   (question 
