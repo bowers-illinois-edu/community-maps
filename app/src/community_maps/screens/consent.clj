@@ -18,6 +18,6 @@
   (bf/labeled-checkbox
    :consent
    (str
-    "I understand the general nature of this experiment and this policy. "
-    "I am 18 years of age or older and I voluntarily agree to participate in this experiment.")))
+    "I understand the general nature of this survey, "
+    "I am 18 years of age or older, and I voluntarily agree to participate in this survey.")))
 

@@ -1,8 +1,25 @@
-This is a paragraph.
+Thank you for completing Vote Compass during the 2011 Federal Election
+and agreeing to be contacted for future studies.
 
+We are currently conducting a study of Canadians' perceptions of their
+communities and their political views. To that end, we invite you to
+answer a short online survey involving making drawings on maps and
+answering questions about Canada's changing society. The survey aims
+to help researchers and policy makers learn about about Canada’s
+changing society and also to test a new way to ask people questions
+(specifically, it involves the first ever use of drawings on maps), it
+will take less than 20 minutes to complete.
+
+Your responses are confidential and secure. Once you begin the survey,
+you can choose not to answer any particular question. You can also
+take a break from the survey and come back to finish it later.
 During this survey, please do not use your back button on your
 browser. You will not be able to go back and change your answers, so
 consider your responses carefully.
+
+If you have any questions, please do not hesitate to contact us at <a
+href="mailto:canadacontext@ryerson.ca">canadacontext@ryerson.ca</a>. We
+greatly appreciate your participation.
 
 We recommend you take this survey using one of the following browsers:
 Firefox (version 4 or later), Internet Explorer (version 8 or later),
@@ -11,4 +28,4 @@ browsers may work, but have not been tested. We have tested
 successfully on some mobile devices, but some devices may not be
 supported. If you have any questions or comments about browswer
 support, please email <a
-href="mailto:tech@OURDOMAIN.ca">tech@OURDOMAIN.ca</a>.
+href="mailto:canadacontext@ryerson.ca">canadacontext@ryerson.ca</a>.
