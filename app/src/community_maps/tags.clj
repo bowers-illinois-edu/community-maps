@@ -106,7 +106,7 @@
     (f/with-group id
       [:div.learn-composition 
        [:div.mc
-        (multiple-choice :learn prompt opts)]
+        (multiple-choice :learn (str prompt " Please check all that apply.") opts)]
        [:div.sc
         (single-choice :important "Of these, which was most important?" opts)]])))
 
