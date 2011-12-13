@@ -177,4 +177,16 @@ jQuery(document).ready(function() {
       employmentFollowUps.show();
     }
   });
+
+  // #87: hiding follow ups for "where did you live before"
+  $("div#address span.followup").hide().each(function() {
+    var followup = $(this);
+    $("#" + followup.parents("label").attr("for")).click(function() {
+      $("div#address span.followup").hide();
+      followup.fadeIn(function() {
+        // this happens after the fade in
+        $("input", followup).focus();
+      });
+    });
+  });
 });
