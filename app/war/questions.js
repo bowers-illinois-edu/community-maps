@@ -159,8 +159,13 @@ jQuery(document).ready(function() {
   // initial state is asking for postal code input.
   addressAskForInput();
 
-  // fix for number #60: not getting proper focus on a form element
-  $("#address-length-of-residence-x-years").click(function() { $("#address-x-years").focus();});
+  // any input in a label should get focus
+  $("label input").each(function(idx) {
+    var jthis = $(this);
+    $("#" + $(this).parents("label").attr("for")).click(function() {
+      jthis.focus();
+    });
+  });
 
   // hiding employment follow ups appropriately
   
