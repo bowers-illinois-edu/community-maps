@@ -212,7 +212,7 @@
   
    (let [party (get-in subject [:canada-population :party-id])
          prompt (if (#{"liberal" "conservative" "ndp" "quebecois"} party)
-                  (str "the " (political-groups (keyword party)) (when-not (= "ndp" party) " party"))
+                  (str "the " (political-groups (keyword party)))
                   "your political party")]
      (question
       (str "If you could find housing that you liked, would you rather live with neighbors who mostly support "
@@ -284,13 +284,7 @@
      "For which party did you vote?"
      (bf/radio-group :election-choice
                      (conj
-                      (shuffle
-                       (vec
-                        {:liberal "The Liberal Party"
-                         :conservative "The Conservative Party"
-                         :ndp "The NDP"
-                         :bq "The Bloc Quebecois"
-                         :green "The Green Party"}))
+                      (shuffle (vec political-groups))
                       [:other "Another party"])))
     :vote-choice)]
   (yes-no :complete-additional-survey "Would you be willing to participate in another survey?"))

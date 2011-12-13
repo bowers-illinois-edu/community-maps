@@ -71,7 +71,8 @@
   {:liberal "Liberal Party"
    :conservative "Conservative Party"
    :ndp "NDP"
-   :quebecois "Bloq Quebecois"})
+   :quebecois "Bloq Quebecois"
+   :green "Green Party"})
 
 ;; take on "supporters" to the political groups
 (def ethnic-political-groups
