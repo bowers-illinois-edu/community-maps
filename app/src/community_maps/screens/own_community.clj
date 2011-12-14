@@ -13,6 +13,7 @@ areas you highlighted")
 
 ;;;Q6.	Question
   (group-sliders
+   subject
    :community-percentage
    "Just your best guess – what percentage of the population of this community is:")
 

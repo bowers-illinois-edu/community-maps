@@ -23,6 +23,7 @@
        
       ;;;Q14.	Question:
        (group-sliders
+        subject
         :census-community
         "Just your best guess - what percentage of the population in the highlighted area is:")
 
@@ -68,7 +69,7 @@
                  :close-to-group
                  "Do you feel close to any of the following groups"
                  (merge
-                  (dissoc ethnic-political-groups :other-asian)
+                  (dissoc (ethnic-political-groups subject) :other-asian)
                   {:local-community "People in your local community"
                    :census-community (str "People in this " (get gis/*districts* dst) ".")}))]
          (assoc-in mc [2 1]
@@ -100,9 +101,10 @@
 
   (single-choice :party-id
                  "Which party would say you most closely associate?"
-                 (merge political-groups {:independent "I am an independent" :none "None of the above"}))
+                 (merge (political-groups subject) {:independent "I am an independent" :none "None of the above"}))
 ;;;Q26.	Question
   (group-sliders
+   subject
    :canada-percentages
    "What is your best guess for the percentage of the Canadian population for each of the following groups?")
 
@@ -132,6 +134,7 @@
 ;;;Q28.	Question:
   
   (group-sliders
+   subject
    :group-feeling-thermometer
 
    "We would also like to get your feelings about some groups in Canadian society. For each of the following groups, we would like you to rate it with what we call a feeling thermometer. 
@@ -218,7 +221,7 @@ If you don't feel particularly warm or cold toward a group you would rate them a
   
    (let [party (get-in subject [:canada-population :party-id])
          prompt (if (#{"liberal" "conservative" "ndp" "quebecois"} party)
-                  (str "the " (political-groups (keyword party)))
+                  (str "the " ((political-groups subject) (keyword party)))
                   "your political party")]
      (question
       (str "If you could find housing that you liked, would you rather live with neighbors who mostly support "
@@ -290,7 +293,7 @@ If you don't feel particularly warm or cold toward a group you would rate them a
      "For which party did you vote?"
      (bf/radio-group :election-choice
                      (conj
-                      (shuffle (vec political-groups))
+                      (shuffle (vec (political-groups subject)))
                       [:other "Another party"])))
     :vote-choice)]
   (yes-no :complete-additional-survey "Would you be willing to participate in another survey?"))

@@ -25,7 +25,7 @@
   (single-choice
    :community-political-makeup
    "Thinking about your local community, is it mostly:"
-   (assoc political-groups
+   (assoc (political-groups subject)
      :other
      [:span "Some other mixture. Please explain: " (f/text-field :other-description)]))
   
@@ -47,10 +47,10 @@
 ;;;Q25.	Question:
   (question 
    (str "Are your friends mostly "
-        (apply str (interpose ", " (vals political-groups)))
+        (apply str (interpose ", " (vals (political-groups subject))))
         " or some other mixture?")
    (bf/radio-group
     :political-friends-composition
     (conj
-     (vec (map (fn [[k v]] [k (str "Mostly " v)]) political-groups))
+     (vec (map (fn [[k v]] [k (str "Mostly " v)]) (political-groups subject)))
      [ :other [:span "Some other mixture. Please explain:" (f/text-field :other-description)]]))))

@@ -5,7 +5,8 @@
         hiccup.core
         [burp.core :only [add-class]]
         [burp.ring :only [wrap-burp]]
-        [clojure.string :only [split join]])
+        [clojure.string :only [split join]]
+        [community-maps.gis :only [from-quebec?]])
   (:require [hiccup.form-helpers :as f]
             [burp.forms :as bf]
             [burp.jquery :as bj]))
@@ -67,38 +68,46 @@
    :latin "Latin American"
    :other-asian "Other Asian"})
 
-(def political-groups
-  {:liberal "Liberal Party"
-   :conservative "Conservative Party"
-   :ndp "NDP"
-   :quebecois "Bloq Quebecois"
-   :green "Green Party"})
+(defn political-groups
+  "The political groups, with BQ if the subject is in Quebec"
+  [subject]
+  (let [all-see 
+        {:liberal "Liberal Party"
+         :conservative "Conservative Party"
+         :ndp "NDP"
+         :green "Green Party"}]
+    (if (from-quebec? subject)
+      (assoc all-see :quebecois "Bloq Quebecois")
+      all-see)))
 
 ;; take on "supporters" to the political groups
-(def ethnic-political-groups
+(defn ethnic-political-groups
+  "Combines the ethnic and political groups, with BQ added for Quebec subjects"
+  [subject]
   (merge
    ethnic-groups
-   (map-vals #(str % " supporters") political-groups)))
+   (map-vals #(str % " supporters") (political-groups subject))))
 
 (defn group-sliders
   "Asks about the list of groups we are interested in"
-  ([id prompt] (group-sliders id prompt "0%" "100%"))
-  ([id prompt pre post]
-     (question 
-      prompt
-      (f/with-group id
-        [:table.groups 
-         (doall
-          (map
-           (fn [[group-id group]]
-             [:tr
-              [:td.group group]
-              [:td pre]
-              [:td {:width "60%"} (bj/slider group-id)]
-              [:td post]])
-           (conj 
-            (shuffle (vec (dissoc ethnic-political-groups :other-asian)))
-            [:other-asian (:other-asian ethnic-political-groups)])))]))))
+  ([subject id prompt] (group-sliders subject id prompt "0%" "100%"))
+  ([subject id prompt pre post]
+     (let [grps (ethnic-political-groups subject)]
+       (question 
+        prompt
+        (f/with-group id
+          [:table.groups 
+           (doall
+            (map
+             (fn [[group-id group]]
+               [:tr
+                [:td.group group]
+                [:td pre]
+                [:td {:width "60%"} (bj/slider group-id)]
+                [:td post]])
+             (conj 
+              (shuffle (vec (dissoc grps :other-asian)))
+              [:other-asian (:other-asian grps)])))])))))
 
 (defn learn-about-composition
   "How did the R learn about his community."
