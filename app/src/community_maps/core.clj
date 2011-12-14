@@ -5,8 +5,10 @@
         [burp.ring :only [wrap-burp]]
         [burp.jquery :only [jquery-link jquery-ui-link]]
         ring.middleware.file
-        [community-maps.screens address draw everything own-community minorities-community consent])
+        [community-maps.screens address draw everything own-community minorities-community]
+        [clojure.string :only [split]])
   (:require [appengine-magic.core :as ae]
+            [burp.forms :as bf]
             [hiccup.form-helpers :as f]
             [community-maps.gis :as gis]))
 
@@ -71,17 +73,31 @@
            [:input.email]]
           (screen-form-button screen subject)))))
 
-;; other screens defined in screens.* namespaces
-;; the thank you screen is special.
-(defscreen thank-you [_] "Thank you for taking this survey.")
-(defmethod layout thank-you [subject screen]
-  (xhtml
-   [:head
-    [:title "Thank You"]
-    css]
-   (body "Thank You" (screen subject))))
+;;; The consent and thank you pages have special layout functions,
+;;; which makes writing them out a little more verbose (i.e. two
+;;; functions), but it works best with the backend infrastructure this
+;;; way
 
-;; Consent also gets a special layout function
+(defn load-and-process-txt
+  "Load a text file and turn it into basic HTML. Returns a vector of [[:p \"paragraph 1\"] ...]"
+  [filename]
+  (map #(vector :p %)
+       (split
+        (slurp
+         (ae/resource-url filename))
+        #"\n\n")))
+
+;; load this text at compile time to save processing
+(def consent-text (load-and-process-txt "consent.txt"))
+(defscreen consent
+  [_]
+  consent-text
+  (bf/labeled-checkbox
+   :consent
+   (str
+    "I understand the general nature of this survey, "
+    "I am 18 years of age or older, and I voluntarily agree to participate in this survey.")))
+
 (defmethod layout consent [subject screen]
   (xhtml
    [:head
@@ -93,6 +109,18 @@
     css]
    (body "Welcome" (screen-form-button screen subject))))
 
+(def thank-text (load-and-process-txt "thank.txt"))
+
+(defscreen thank-you [_] thank-text)
+
+(defmethod layout thank-you [subject screen]
+  (xhtml
+   [:head
+    [:title "Thank You"]
+    css]
+   (body "Thank You" (screen subject))))
+
+;;; this is the app as called by the appengine-magic library
 (def survey-app
   (-> (survey createwithid dbsave dbload layout 
               [consent
