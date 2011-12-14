@@ -1,4 +1,5 @@
 (ns community-maps.gis
+  (:use [shanks.appengine-magic :only [dbsave]])
   (:require [clojure.string :as cstr]
             [appengine-magic.services.url-fetch :as url]))
 
@@ -36,3 +37,14 @@
   [type k]
   (str "http://" *gisurl* "/kml/" type "/" k ".kml"))
 
+(defn from-quebec?
+  "Returns true if the subject is from Quebec, false otherwise. If the subject does not already have a :quebec key,
+   this function calls the EC2 server to find the subject's 'pr' value and saves it to the db for future look ups.
+   It would be a good idea to cache this return value within a screen to avoid multiple HTTP calls to EC2."
+  [subject]
+  (let [q (subject :quebec)]
+    (if (nil? q)
+      (let [pr (get-subject-district-id subject "pr")]
+        (dbsave (assoc subject :quebec (= "24" pr)))
+        (= "24" pr))
+      q)))
