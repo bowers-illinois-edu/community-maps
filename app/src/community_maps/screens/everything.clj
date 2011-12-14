@@ -166,8 +166,9 @@
      :special-programs
      "Members of particular ethnic groups use special programs to get more benefits than they deserve."
 
-     :happier-within-group
-     "People of different ethnic or racial groups are generally happier when they live and socialize with others of the same background."
+     :happier-with-other-groups
+     "People are generally happier when they live and socialize with others of different racial and ethnic backgrounds."
+
      :shop-ethnic
      (str "Ethnic minorities should always shop in stores owned by " (subject :ethnic-shop) ".")}))
 
