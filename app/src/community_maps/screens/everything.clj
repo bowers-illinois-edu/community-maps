@@ -232,25 +232,37 @@ If you don't feel particularly warm or cold toward a group you would rate them a
      (str "Most " (subject :get-welfare)  " who receive money from social welfare programs could get along without it if they tried.")
 
      :gov-attention
-     "Government officials usually pay less attention to a request or complaint from someone who is an ethnic minority than from someone who is white."}))
+     "Government officials usually pay less attention to a request or complaint from someone who is an ethnic minority than from someone who is white."})))
 
-;;;Q42.	Question
-  
-   (let [party (get-in subject [:canada-population :party-id])
-         prompt (if (#{"liberal" "conservative" "ndp" "quebecois"} party)
-                  (str "the " ((political-groups subject) (keyword party)))
-                  "your political party")]
-     (question
-      (str "If you could find housing that you liked, would you rather live with neighbors who mostly support "
-           prompt
-           ", mostly support other political parties, or support some other mixture of political parties?")
-      (bf/radio-group
-       :housing-political
-       {:co-partisans (str "Mostly support " prompt)
-        :other "Mostly support other political parties"
-        :mixture [:span "Some mixture. Please explain: " (f/text-field :explain-other)]})))
+(defscreen racial-conflict [subject]
+  (question
+   "On the whole, do you like or dislike this neighborhood as a place to live. Would you say you like it a lot, like it, dislike it, dislike it a lot?"
+   (bf/radio-group :like-neighborhood
+                   {:like-alot "Like it a lot."
+                    :like "Like it."
+                    :dislike "Dislike it."
+                    :dislike-alot "Dislike it a lot."}))
+  (question
+   "How worried are you about your safety in your neighborhood?  Are you very worried, somewhat worried, not very worried, or not at all worried?"
+   (bf/radio-group :safe-neighborhood
+                   {:worried "Worried"
+                    :somewhat-worried "Somewhat worried"
+                    :not-very-worried "Not very worried"
+                    :not-at-all-worried "Not at all worried"}))
 
-;;;Q43.	Question:
+  (let [party (get-in subject [:canada-population :party-id])
+        prompt (if (#{"liberal" "conservative" "ndp" "quebecois"} party)
+                 (str "the " ((political-groups subject) (keyword party)))
+                 "your political party")]
+    (question
+     (str "If you could find housing that you liked, would you rather live with neighbors who mostly support "
+          prompt
+          ", mostly support other political parties, or support some other mixture of political parties?")
+     (bf/radio-group
+      :housing-political
+      {:co-partisans (str "Mostly support " prompt)
+       :other "Mostly support other political parties"
+       :mixture [:span "Some mixture. Please explain: " (f/text-field :explain-other)]})))
   (question
    (str "If you could find housing that you liked, would you rather live with neighbors who are mostly white, mostly "
         (subject :prefer-neighborhood)
@@ -259,10 +271,8 @@ If you don't feel particularly warm or cold toward a group you would rate them a
     :housing-ethnic
     {:white "Mostly white"
      :ethnic (str "Mostly " (subject :prefer-neighborhood))
-     :other [:span "Some other mixture. Please explain: " (f/text-field :explain-other)]})))
+     :other [:span "Some other mixture. Please explain: " (f/text-field :explain-other)]}))
 
-(defscreen racial-conflict [subject]
-;;;Q46, Q47, Q48, Q49
   (directions
    "For each of the following statements, please tell us how strongly you agree or disagree.")
  
@@ -302,20 +312,6 @@ If you don't feel particularly warm or cold toward a group you would rate them a
                      :ethnic "Mostly ethnic minorities"
                      :half "About half and half"
                      :other [:span "Some other mixture. Please explain:" (f/text-field :other-description)]}))]
-  (question
-   "On the whole, do you like or dislike this neighborhood as a place to live. Would you say you like it a lot, like it, dislike it, dislike it a lot?"
-   (bf/radio-group :like-neighborhood
-                   {:like-alot "Like it a lot."
-                    :like "Like it."
-                    :dislike "Dislike it."
-                    :dislike-alot "Dislike it a lot."}))
-  (question
-   "How worried are you about your safety in your neighborhood?  Are you very worried, somewhat worried, not very worried, or not at all worried?"
-   (bf/radio-group :safe-neighborhood
-                   {:worried "Worried"
-                    :somewhat-worried "Somewhat worried"
-                    :not-very-worried "Not very worried"
-                    :not-at-all-worried "Not at all worried"}))
 
   
   (yes-no :complete-additional-survey "Would you be willing to participate in another survey?"))
