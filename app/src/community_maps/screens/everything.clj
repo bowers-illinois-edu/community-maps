@@ -103,9 +103,7 @@
                      :half "About half and half"
                      :other [:span "Some other mixture. Please explain:" (f/text-field :other-description)]}))]
 
-  (single-choice :party-id
-                 "Which party would say you most closely associate?"
-                 (merge (political-groups subject) {:independent "I am an independent" :none "None of the above"}))
+  
 ;;;Q26.	Question
   (group-sliders
    subject
@@ -146,7 +144,38 @@
 Ratings between 50 degrees and 100 degrees mean that you feel favorably and warm toward the group; ratings between 0 and 50 degrees mean that you don't feel favorably towards the group and that you don't care too much for that group. 
 
 If you don't feel particularly warm or cold toward a group you would rate them at 50 degrees."
-   "0" "100"))
+   "0" "100")
+
+  ;; Party ID and vote choice questions
+  (single-choice :party-id
+                            "Which party would say you most closely associate?"
+                            (merge (political-groups subject) {:independent "I am an independent" :none "None of the above"}))
+
+  [:div.election-choice.national-election-choice
+   (add-class 
+      (yes-no :national-election "Did you vote in the national election in May?")
+      :did-vote)
+   (add-class
+    (question 
+     "For which party did you vote?"
+     (bf/radio-group :national-election-choice
+                     (conj
+                      (shuffle (vec (political-groups subject)))
+                      [:other "Another party"])))
+    :vote-choice)]
+
+  [:div.election-choice.provincial-election-choice
+                   (add-class 
+                    (yes-no :provincial-election "Did you vote in the most recent provincial election?")
+                    :did-vote)
+                   (add-class
+                    (question 
+                     "For which party did you vote?"
+                     (bf/radio-group :provincial-election-choice
+                                     (conj
+                                      (shuffle (vec (political-groups subject)))
+                                      [:other "Another party"])))
+                    :vote-choice)])
 
 (defscreen racial-ethnic [subject]
 ;;;Q29.	Question:
@@ -286,18 +315,5 @@ If you don't feel particularly warm or cold toward a group you would rate them a
                     :not-very-worried "Not very worried"
                     :not-at-all-worried "Not at all worried"}))
 
-  [:div.election-choice
-   (add-class 
-    (if (= (:election-neighborhood subject) "national")
-      (yes-no :national-election "Did you vote in the national election in May?")
-      (yes-no :provincial-election "Did you vote in the recent provincial election?"))
-    :did-vote)
-   (add-class
-    (question 
-     "For which party did you vote?"
-     (bf/radio-group :election-choice
-                     (conj
-                      (shuffle (vec (political-groups subject)))
-                      [:other "Another party"])))
-    :vote-choice)]
+  
   (yes-no :complete-additional-survey "Would you be willing to participate in another survey?"))
