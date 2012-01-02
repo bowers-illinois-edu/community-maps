@@ -12,12 +12,13 @@
   ;;; District Map Related Questions (if we can't look up the
   ;;; district, they are skipped entirely.
   (let [dst (:display-district subject)
+        dst-name (get gis/*districts* dst)
         district-id (gis/get-subject-district-id subject dst)]
     (when (and (not (= 0 district-id)) (not (= "" district-id)))
       (list
        (directions
         (str "Please look at this map. The highlighted area shows your " (get gis/*districts* dst) ".")
-        (str "Referring to this map with the " (get gis/*districts* dst)
+        (str "Referring to this map with the " dst-name 
              " it, we would like to ask a series of questions just like the previous ones:"))
        (kml-map (gis/kml-url dst district-id))
        
@@ -30,13 +31,13 @@
       ;;;Q15.	Question:
        (learn-about-composition
         :census-composition
-        "How did you learn about the composition of this area?")
+        (str "How did you learn about the composition of this " dst-name "?"))
        
       ;;;Q16.	Question:
        (question
         (str "On the whole, do you like or dislike this "
-             (get gis/*districts* dst)
-             " as a place to live? Would you say you like it a lot, like it, dislike it, or dislike it a lot?")
+             dst-name
+             " as a place to live?")
         (bf/radio-group
          :like-dislike-census
          {:like-alot "Like it a lot"
@@ -47,14 +48,17 @@
       ;;;Q17.	Question:
        (yes-no :census-feel-community 
                (str "On the whole, do you think that people who live in this "
-                    (get gis/*districts* dst)
+                    dst-name
                     " feel a sense of community?"))
 
 ;;;Q18.	Question:
        (question
         (str "Some political leaders argue that in the next 10 years, ethnic minorities will "
              (subject :minority-population-share)
-             " their share of the population in this area by a lot.  Do you think such a change would be a good or bad thing if it happened?")
+             " their share of the population in this "
+             dst-name
+             " by a lot. "
+             "Do you think such a change would be a good or bad thing if it happened?")
         (bf/radio-group :ethnic-growth {:good "Good thing" :bad "Bad thing"}))
 
 
