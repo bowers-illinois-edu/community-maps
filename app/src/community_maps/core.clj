@@ -16,7 +16,6 @@
   (randomize-subject
    {:feel-close-to ["control" "neighborhood" "city" "province" "Canada"]
     :get-welfare ["ethnic minorities" "people"]
-    :prefer-neighborhood ["ethnic minorities" "black" "Asian"]
     :minority-projection ["none" "25" "35" "50"]
     :minority-population-share ["increase" "decrease"]
     :ethnic-shop ["ethnic minorities" "other members of their same ethnic background"]

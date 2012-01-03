@@ -249,28 +249,22 @@ If you don't feel particularly warm or cold toward a group you would rate them a
                     :not-very-worried "Not very worried"
                     :not-at-all-worried "Not at all worried"}))
 
-  (let [party (get-in subject [:canada-population :party-id])
-        prompt (if (#{"liberal" "conservative" "ndp" "quebecois"} party)
-                 (str "the " ((political-groups subject) (keyword party)))
-                 "your political party")]
-    (question
-     (str "If you could find housing that you liked, would you rather live with neighbors who mostly support "
-          prompt
-          ", mostly support other political parties, or support some other mixture of political parties?")
-     (bf/radio-group
-      :housing-political
-      {:co-partisans (str "Mostly support " prompt)
-       :other "Mostly support other political parties"
-       :mixture [:span "Some mixture. Please explain: " (f/text-field :explain-other)]})))
   (question
-   (str "If you could find housing that you liked, would you rather live with neighbors who are mostly white, mostly "
-        (subject :prefer-neighborhood)
-        ", or some other mixture?")
+   "If you could find housing that you liked, would you rather live with neighbors who mostly share your political beliefs and values or who hold a wide range of political beliefs and values, or is it not important to you?"
+   (bf/radio-group
+    :housing-political
+    {:share "Mostly share my political beliefs and values"
+     :diversity "Mostly hold a wide range of political beliefs and values"
+     :not-important "This is not important to me"}))
+  
+  (question
+   
+   "What about when it comes to the race and ethnicity of your neighbors? If you could find housing that you liked, would you prefer neighbors who share your racial and ethnic background or who represent a mix of racial and ethnic backgrounds, or is it not important to you?"
    (bf/radio-group
     :housing-ethnic
-    {:white "Mostly white"
-     :ethnic (str "Mostly " (subject :prefer-neighborhood))
-     :other [:span "Some other mixture. Please explain: " (f/text-field :explain-other)]}))
+    {:same "Share my racial and ethnic background"
+     :diversity "A mix of racial and ethnic backgrounds"
+     :not-important "This is not important to me"}))
 
   (directions
    "For each of the following statements, please tell us how strongly you agree or disagree.")
