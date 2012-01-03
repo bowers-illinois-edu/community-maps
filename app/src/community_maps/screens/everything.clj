@@ -100,12 +100,11 @@
 ;;;Q8.	Question:
   (question
    [:div
-    [:p
-     "According to a "
-     (subject :leader-party),
-     " leader, the number of visible minorities is going reach "
-     (subject :minority-projection)
-     "% of the Canadian population in the next 10 years, largely as a result of immigration."]
+    (when-not (= "none" (subject :minority-projection))
+      [:p
+       "According to the most recent census the number of visible minorities is going reach "
+       (subject :minority-projection)
+       "% of the Canadian population in the next 10 years, largely as a result of immigration."])
     [:p "Do you think the number of immigrants from foreign countries who are permitted to come to Canada to live should be increased a little, increased a lot, decreased a little, decreased a lot, or left the same as it is now?"]]
    (bf/radio-group
     :increase-immigration
