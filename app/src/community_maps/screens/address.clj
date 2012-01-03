@@ -56,19 +56,18 @@ Please enter your postal code in the box. If the map does not look right, please
        (:feel-close-to subject) "?")
       (bf/radio-group
        :feel-close-to-district
-       {:very "Very Close"
-        :somewhat "Somewhat Close"
-        :neutral "Neither close nor not close"
+       {:very-close "Very Close"
+        :close "Close"
         :not-close "Not Close"
-        :distant "Very distant"}))
+        :not-close-at-all "Not close at all"}))
      (question
       (str
        "If you could improve your work or living conditions, how willing or unwilling would you be to move to another "
        (if (= "Canada" (:feel-close-to subject)) "country"  (:feel-close-to subject)) "?")
       (bf/radio-group
        :willing-to-move
-       {:very "Very Willing"
-        :somewhat "Somewhat Willing"
-        :neutral "Neither willing nor not willing"
-        :not-willing "Not willing"
-        :not-move "I would never move"})))))
+       {:very-willing "Very Willing"
+        :fairly-willing "Fairly Willing"
+        :neutral "Neither willing nor unwilling"
+        :fairly-unwilling "Fairly unwilling"
+        :very-unwilling "Very unwilling"})))))
