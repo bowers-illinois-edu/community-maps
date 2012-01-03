@@ -13,7 +13,7 @@
   
 ;;;Q22.	Question:
   (question 
-   "Thinking about your local community: is it mostly white, mostly ethnic minorities, about half and half, or some other mixture of people?"
+   "Thinking about your local community again: is it mostly white, mostly ethnic minorities, about half and half, or some other mixture of people?"
    (bf/radio-group :community-ethnic-makeup
                    {:white "Mostly white"
                     :ethnic "Mostly ethnic minorities"

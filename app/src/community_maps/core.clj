@@ -128,8 +128,8 @@
                randomized-district
                canada-population
                racial-ethnic
-               racial-conflict
                minorities-community
+               racial-conflict
                thank-you])
       wrap-burp))
 
