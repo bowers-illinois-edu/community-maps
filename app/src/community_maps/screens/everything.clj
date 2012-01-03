@@ -98,21 +98,7 @@
    "How did you learn about the composition of Canada?")
 
 ;;;Q8.	Question:
-  (question
-   [:div
-    (when-not (= "none" (subject :minority-projection))
-      [:p
-       "According to the most recent census the number of visible minorities is going reach "
-       (subject :minority-projection)
-       "% of the Canadian population in the next 10 years, largely as a result of immigration."])
-    [:p "Do you think the number of immigrants from foreign countries who are permitted to come to Canada to live should be increased a little, increased a lot, decreased a little, decreased a lot, or left the same as it is now?"]]
-   (bf/radio-group
-    :increase-immigration
-    {:increase-little "Increased a little"
-     :increase-much "Increased a lot"
-     :decrease-little "Decreased a little"
-     :decrease-much "Decreased a lot"
-     :same "Left the same as it is now."}))
+  
 
 ;;;Q28.	Question:
   
@@ -126,7 +112,14 @@ Ratings between 50 degrees and 100 degrees mean that you feel favorably and warm
 
 If you don't feel particularly warm or cold toward a group you would rate them at 50 degrees."
    "0" "100")
-
+(question 
+   "When it comes to social and political matters, some people think of themselves mainly as white, Chinese, or Black and that is very important to how they think of themselves. Other people don’t tend to think of themselves in these ways. When it comes to social and political matters, how important is your race or ethnicity to how you think of yourself?"
+   (bf/radio-group
+    :has-ethnic-identity
+    {:very-important "Very important"
+     :somewhat-important "Somewhat important"
+     :not-very-important "Not very important"
+     :not-important "Not important at all"}))
   ;; Party ID and vote choice questions
   (single-choice :party-id
                             "Which party would say you most closely associate?"
@@ -158,14 +151,21 @@ If you don't feel particularly warm or cold toward a group you would rate them a
                                       [:other "Another party"])))
                     :vote-choice)]
 
-  (question 
-   "When it comes to social and political matters, some people think of themselves mainly as white, Chinese, or Black and that is very important to how they think of themselves. Other people don’t tend to think of themselves in these ways. When it comes to social and political matters, how important is your race or ethnicity to how you think of yourself?"
+  (question
+   [:div
+    (when-not (= "none" (subject :minority-projection))
+      [:p
+       "According to the most recent census the number of visible minorities is going reach "
+       (subject :minority-projection)
+       "% of the Canadian population in the next 10 years, largely as a result of immigration."])
+    [:p "Do you think the number of immigrants from foreign countries who are permitted to come to Canada to live should be increased a little, increased a lot, decreased a little, decreased a lot, or left the same as it is now?"]]
    (bf/radio-group
-    :has-ethnic-identity
-    {:very-important "Very important"
-     :somewhat-important "Somewhat important"
-     :not-very-important "Not very important"
-     :not-important "Not important at all"})))
+    :increase-immigration
+    {:increase-little "Increased a little"
+     :increase-much "Increased a lot"
+     :decrease-little "Decreased a little"
+     :decrease-much "Decreased a lot"
+     :same "Left the same as it is now."})))
 
 (defscreen racial-ethnic [subject]
 ;;;Q29.	Question:
