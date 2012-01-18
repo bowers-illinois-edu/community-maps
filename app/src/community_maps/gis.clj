@@ -5,7 +5,7 @@
 
 
 ;;; Some useful constants
-(def *gisurl* "ec2-50-19-157-116.compute-1.amazonaws.com") 
+(def *gisurl* "gis.mappingcommunities.ca")
 
 (def *districts* {"pr" "Province"
                   "ccs" "Census consolidated subdivision"
