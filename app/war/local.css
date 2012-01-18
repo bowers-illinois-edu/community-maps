@@ -72,3 +72,11 @@ span.required { color: red;}
 div.ui-slider-label { width: 3em; text-align: center; }
 
 input.disabledButton { color: #aaa; }
+
+textarea { width: 100%; height: 8em; }
+
+.continue { margin-top: 2em; }
+
+h4.comments-label { margin-top: 1em; color: #1C94C4; }
+
+div.comments-subform div.email { margin-top: 1em; }

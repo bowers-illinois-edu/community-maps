@@ -189,4 +189,9 @@ jQuery(document).ready(function() {
       });
     });
   });
+
+  var questionsComments = $("div.comments-subform").hide();
+  $("h4.comments-label label").click(function() {
+    questionsComments.slideDown();
+  });
 });
