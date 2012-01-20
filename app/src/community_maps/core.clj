@@ -6,7 +6,9 @@
         [burp.jquery :only [jquery-link jquery-ui-link]]
         ring.middleware.file
         [community-maps.screens address draw everything own-community minorities-community]
-        [clojure.string :only [split]])
+        [clojure.string :only [split]]
+        community-maps.output
+        compojure.core)
   (:require [appengine-magic.core :as ae]
             [burp.forms :as bf]
             [hiccup.form-helpers :as f]
@@ -124,6 +126,14 @@
     css]
    (body "Thank You" (screen subject))))
 
+
+;;; add an extra route for the comments/ url
+(defn add-comments-url
+  [app]
+  (routes
+   (GET "/comments" [] comments-page)
+   app))
+
 ;;; this is the app as called by the appengine-magic library
 (def survey-app
   (-> (survey createwithid dbsave dbload layout 
@@ -137,7 +147,8 @@
                minorities-community
                racial-conflict
                thank-you])
-      wrap-burp))
+      wrap-burp
+      add-comments-url))
 
 (ae/def-appengine-app community-maps-app #'survey-app)
 
