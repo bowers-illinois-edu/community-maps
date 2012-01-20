@@ -21,12 +21,17 @@
   [_]
   (let [steps (range 1 9)
         all-comments (zipmap steps (map fetch-comments steps))]
-    (xhtml (map
-            (fn [[step comments]]
-               [:div.comments
-                [:h2 "Page: " step]
-                (map #(list [:div (.getProperty % (str ":comments-" step))]
-                            [:div (.getProperty % ":email-address")])
-                     (.asIterable comments))])
-             all-comments))))
+    (xhtml
+     [:head [:title "Comments Display Page"]]
+     [:body
+      (map
+       (fn [[step comments]]
+         [:div.comments
+          [:h2 "Page: " step]
+          [:table
+           [:th "Comments"] [:th "Email"]
+           (map #(vector :tr [:td (.getProperty % (str ":comments-" step))]
+                         [:td (.getProperty % ":email-address")])
+                (.asIterable comments))]])
+       all-comments)])))
 
