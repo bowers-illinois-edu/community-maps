@@ -128,11 +128,14 @@
 
 
 ;;; add an extra route for the comments/ url
-(defn add-comments-url
+(defn add-data-urls
   [app]
   (routes
+   (GET "/data.csv" [] csv)
    (GET "/comments" [] comments-page)
    app))
+
+
 
 ;;; this is the app as called by the appengine-magic library
 (def survey-app
@@ -148,7 +151,7 @@
                racial-conflict
                thank-you])
       wrap-burp
-      add-comments-url))
+      add-data-urls))
 
 (ae/def-appengine-app community-maps-app #'survey-app)
 
