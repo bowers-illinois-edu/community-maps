@@ -46,7 +46,7 @@
   ([coll] (prefix-flatten coll ""))
   ([coll prefix]
      (let [pfx (if (= prefix "") "" (str (safe-name prefix) "-"))
-           ckeys (keys coll)
+           ckeys (keys (dissoc coll :id :name-in-parent))
            [maps atoms] (split-pred #(map? (get coll %)) ckeys)
            flattened (map #(prefix-flatten (get coll %) %) maps)]
        (into {}
@@ -57,23 +57,12 @@
                   (select-keys coll atoms)
                   flattened))))))
 
-(defn get-all-subjects
-  []
-  (let [usersQuery (.asIterable
-                    (.prepare
-                     (ds/get-datastore-service)
-                     (doto (Query. "Map")
-                       (.addFilter ":step"
-                                   com.google.appengine.api.datastore.Query$FilterOperator/GREATER_THAN
-                                   0))))
-        ids (map #(.getId (.getKey %)) usersQuery)]
-    (map dbload ids)))
 
 (defn csv
   [_]
   (let [sep " | "
-        subjects (map prefix-flatten (get-all-subjects))
-        headers (reduce (fn [a i] (into a (keys i))) #{} subjects)]
+        subjects (map prefix-flatten (dbload-all))
+        headers (sort (reduce (fn [a i] (into a (keys i))) #{} subjects))]
     {:status 200
      :headers {"Content-Type" "text/plain"}
      :body (str
