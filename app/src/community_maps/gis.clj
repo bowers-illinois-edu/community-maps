@@ -42,7 +42,7 @@
    this function calls the EC2 server to find the subject's 'pr' value and saves it to the db for future look ups.
    It would be a good idea to cache this return value within a screen to avoid multiple HTTP calls to EC2."
   [subject]
-  (let [q (subject :quebec)]
+  (let [q (:quebec subject)]
     (if (nil? q)
       (let [pr (get-subject-district-id subject "pr")]
         (dbsave (assoc subject :quebec (= "24" pr)))

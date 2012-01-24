@@ -54,7 +54,7 @@
 ;;;Q18.	Question:
        (question
         (str "Some political leaders argue that in the next 10 years, ethnic minorities will "
-             (subject :minority-population-share)
+             (:minority-population-share subject)
              " their share of the population in this "
              dst-name
              " by a lot. "
@@ -153,10 +153,10 @@ If you don't feel particularly warm or cold toward a group you would rate them a
 
   (question
    [:div
-    (when-not (= "none" (subject :minority-projection))
+    (when-not (= "none" (:minority-projection subject))
       [:p
        "According to the most recent census the number of visible minorities is going reach "
-       (subject :minority-projection)
+       (:minority-projection subject)
        "% of the Canadian population in the next 10 years, largely as a result of immigration."])
     [:p "Do you think the number of immigrants from foreign countries who are permitted to come to Canada to live should be increased a little, increased a lot, decreased a little, decreased a lot, or left the same as it is now?"]]
    (bf/radio-group
@@ -194,12 +194,12 @@ If you don't feel particularly warm or cold toward a group you would rate them a
      "People are generally happier when they live and socialize with others of different racial and ethnic backgrounds."
 
      :shop-ethnic
-     (str "Ethnic minorities should always shop in stores owned by " (subject :ethnic-shop) ".")}))
+     (str "Ethnic minorities should always shop in stores owned by " (:ethnic-shop subject) ".")}))
 
 ;;;Q36.	Question:
     (question
      (str "How would it make you feel if a close relative of yours were planning to marry a person of different "
-          (subject :outgroup-marry)
+          (:outgroup-marry subject)
           " from yours? Would you be very uneasy, somewhat uneasy, or not uneasy at all?")
      (bf/radio-group :marry-ethnic
                      {:very-uneasy "Very uneasy"
@@ -228,7 +228,7 @@ If you don't feel particularly warm or cold toward a group you would rate them a
      "It's really a matter of some people not trying hard enough; if ethnic minorities would only try harder they could be just as well off as whites."
 
      :social-welfare
-     (str "Most " (subject :get-welfare)  " who receive money from social welfare programs could get along without it if they tried.")
+     (str "Most " (:get-welfare subject)  " who receive money from social welfare programs could get along without it if they tried.")
 
      :gov-attention
      "Government officials usually pay less attention to a request or complaint from someone who is an ethnic minority than from someone who is white."})))

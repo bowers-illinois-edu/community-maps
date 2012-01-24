@@ -47,7 +47,7 @@ Please enter your postal code in the box. If the map does not look right, please
      :rent "We rent"
      :other "We have another arrangement"}))
 
-  (when (not (= "control" (subject :feel-close-to)))
+  (when (not (= "control" (:feel-close-to subject)))
     (list
      (question
       (str

@@ -10,6 +10,7 @@
         community-maps.output
         compojure.core)
   (:require [appengine-magic.core :as ae]
+            [appengine-magic.services.datastore :as ds]
             [burp.forms :as bf]
             [hiccup.form-helpers :as f]
             [community-maps.gis :as gis]))
@@ -26,7 +27,7 @@
 
 (defn createwithid []
   (let [key (dbsave (randomizer))]
-    (dbload (.getId key))))
+    (dbload (ds/key-id key))))
 
 (defmulti layout (fn [subject screen] screen))
 
