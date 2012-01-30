@@ -122,8 +122,8 @@ If you don't feel particularly warm or cold toward a group you would rate them a
      :not-important "Not important at all"}))
   ;; Party ID and vote choice questions
   (single-choice :party-id
-                            "Which party would say you most closely associate?"
-                            (merge (political-groups subject) {:independent "I am an independent" :none "None of the above"}))
+                            "In federal politics, do you usually think of yourself as a:"
+                            (merge (political-groups subject) {:dk "I don't know"}))
 
   [:div.election-choice.national-election-choice
    (add-class 
