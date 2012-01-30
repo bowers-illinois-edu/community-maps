@@ -17,5 +17,10 @@
                  "You may make as many shapes as you like."
                  "Even though we have centered the map on your postal code, you should feel free to zoom in or out and to move 		the map if it does not contain the areas that you consider your local community."
                  "If you left click on a completed shape you will have the chance to delete that community."
-                 "You may Erase the Map to delete all of your shapes."])])
+                 "You may Erase the Map to delete all of your shapes."])]
+      [:div#more-help [:a {:href "#"} "More help"]
+       [:div#more-help-hidden
+        [:ul
+         [:li "Some trackpads use a single tap to indicate mouse down and then automatically keep the mouse button, as if you had your finger on the button. To release the drawing, tap the trackpad again to signal that you are done drawing."]
+         [:li "After releasing the mouse button, you have 5 seconds to start drawing again from that position. If 5 seconds elapse, or you move the mouse, the region automatically close."]]]])
               (scribble-map :community lat lng))))

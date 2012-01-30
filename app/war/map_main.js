@@ -238,6 +238,13 @@ $(document).ready(function() {
     google.maps.event.trigger(map, "resize");
  
   });
+
+  // hidden help text
+  $("#more-help-hidden").hide();
+  $("#more-help > a").click(function() {
+    $("#more-help-hidden").slideDown();
+    $(this).hide();
+  });
 });
 
  
