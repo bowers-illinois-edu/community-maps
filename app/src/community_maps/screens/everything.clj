@@ -113,7 +113,7 @@ Ratings between 50 degrees and 100 degrees mean that you feel favorably and warm
 If you don't feel particularly warm or cold toward a group you would rate them at 50 degrees."
    "0" "100")
 (question 
-   "When it comes to social and political matters, some people think of themselves mainly as white, Chinese, or Black and that is very important to how they think of themselves. Other people don’t tend to think of themselves in these ways. When it comes to social and political matters, how important is your race or ethnicity to how you think of yourself?"
+   "When it comes to social and political matters, some people think of themselves mainly as White, Chinese, or Black and that is very important to how they think of themselves. Other people don’t tend to think of themselves in these ways. When it comes to social and political matters, how important is your race or ethnicity to how you think of yourself?"
    (bf/radio-group
     :has-ethnic-identity
     {:very-important "Very important"
