@@ -16,8 +16,9 @@
                  "Hold down the mouse button to make a line. Open shapes will be enclosed if you lift your mouse for a few 		seconds."
                  "You may make as many shapes as you like."
                  "Even though we have centered the map on your postal code, you should feel free to zoom in or out and to move 		the map if it does not contain the areas that you consider your local community."
+                 "If you need to zoom in or out, or move the map, after you have begun drawing, click Stop Drawing, adjust the map, and then click Start Drawing to finish drawing your community."
                  "If you left click on a completed shape you will have the chance to delete that community."
-                 "You may Erase the Map to delete all of your shapes."])]
+                 "You may Reset Map to delete all of your shapes to start over."])]
       [:div#more-help [:a {:href "#"} "More help"]
        [:div#more-help-hidden
         [:ul
