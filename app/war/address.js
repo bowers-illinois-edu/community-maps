@@ -1,6 +1,31 @@
 // Use a map to locate R's address
 
 $(document).ready(function() {
+  var enteredValidAddress = false;
+  var geocode = function(alerter, f) {
+    var address = $("#address-address-finder-address").val();    
+    var geocoder = new google.maps.Geocoder();
+    
+    geocoder.geocode({address: address}, function(gresult, gstatus) {
+      
+      if (gstatus != google.maps.GeocoderStatus.OK) {
+        // TODO use diaglog for alerting the user it is not found
+        if(alerter) {
+          modal("No location matching '" + address + "' found. Please enter your postal code or address again.");
+        }
+        enteredValidAddress = false;
+      } else {
+        enteredValidAddress = true;
+
+        if(f) {
+          f(gresult);
+        }
+        // save the data
+        var point = gresult[0].geometry.location;
+        $("input.latlng").val([point.lat(), point.lng()].join(","));
+      } 
+    });
+  };
 
   $(".map-find-address").each(function(idx) {
     var widget = $(this);
@@ -35,32 +60,17 @@ $(document).ready(function() {
     });
 
     updateButton.click(function() {
-      // TODO lock the screen
-      var address = addressField.val();    
-      var geocoder = new google.maps.Geocoder();
+      geocode(true, function(gresult) {
+        mapDiv.slideDown(function() {
+          // set the map to the right point
+          google.maps.event.trigger(map, "resize");
+          point = gresult[0].geometry.location;
+          marker.setPosition(point);
+          map.setCenter(point);
+          map.setOptions({zoom: zoomLevel});
+
       
-      geocoder.geocode({address: address}, function(gresult, gstatus) {
-        
-        if (gstatus != google.maps.GeocoderStatus.OK) {
-          // TODO use diaglog for alerting the user it is not found
-          modal("No location matching '" + address + "' found. Please enter your postal code or address again.");
-          widget.trigger("geocode-response", [false]); // geocode
-          // unsuccessful
-        } else {
-          mapDiv.slideDown(function() {
-            // set the map to the right point
-            google.maps.event.trigger(map, "resize");
-            point = gresult[0].geometry.location;
-            marker.setPosition(point);
-            map.setCenter(point);
-            map.setOptions({zoom: zoomLevel});
-
-            // save the data
-            latlngField.val([point.lat(), point.lng()].join(","));
-            widget.trigger("geocode-response", [true]);
-          });
-
-        } 
+        });
       });
     });
   }); 
@@ -68,50 +78,32 @@ $(document).ready(function() {
     // Address collection:
   // when the user supplies his/her address and it successfully
   // geocodes, enable the button.
-  var addrSubmitQuery = "div#address ~ input[type=submit]";
- var addrButtonState = true; 
 
-  var addressDirectContinue = function() {
-    addrButtonState = true;
-    $(addrSubmitQuery).unbind("click");
-  }
-  
   var addrClickCount = 0;
  
-  var addressAskForInput = function() {
-    if (addrButtonState) {
-      
-      addrButtonState = false;
-
-      $(addrSubmitQuery).bind("click", function() {
-        addrClickCount = addrClickCount + 1;
-        if (addrClickCount > 5) {
-          // using alert instead of modal() because I don't want to
-          // bump until after a "ok" click, and I don't want to make
-          // modal any more complicated.
-          alert("Thank you for your participation. If you later decide to share your postal code or city information, feel free to try the survey again.")
-          window.location.replace("/");
-          return(false);
-        } else {
-          $("#address-address-finder-address").focus();
-          modal("This survey involves maps. If you are uncomfortable providing a postal code, could you please enter the name of your city or town?");
-        }
- 
-        
-        return(false);
-      });
+  $("div#address ~ input[type=submit]").click(function() {
+    if (enteredValidAddress) {
+      return(true);
     }
-  }
 
-  $("div.map-find-address").bind("geocode-response", function(e, status) {
-    if (status) {
-      addressDirectContinue();
+    geocode(false, false);
+    
+    if (enteredValidAddress) {
+      return(true);
+    }
+
+    addrClickCount = addrClickCount + 1;
+    if (addrClickCount > 5) {
+      // using alert instead of modal() because I don't want to
+      // bump until after a "ok" click, and I don't want to make
+      // modal any more complicated.
+      alert("Thank you for your participation. If you later decide to share your postal code or city information, feel free to try the survey again.")
+      window.location.replace("/");
     } else {
-      addressAskForInput();
+      $("#address-address-finder-address").focus();
+      modal("This survey involves maps. If you are uncomfortable providing a postal code, could you please enter the name of your city or town?");
     }
+    return(false);
   });
-
-  // initial state is asking for postal code input.
-  addressAskForInput();
 
 }); 
