@@ -2,7 +2,7 @@
 
 $(document).ready(function() {
   var enteredValidAddress = false;
-  var geocode = function(alerter, f) {
+  var geocode = function(fail, success) {
     var address = $("#address-address-finder-address").val();    
     var geocoder = new google.maps.Geocoder();
     
@@ -10,19 +10,18 @@ $(document).ready(function() {
       
       if (gstatus != google.maps.GeocoderStatus.OK) {
         // TODO use diaglog for alerting the user it is not found
-        if(alerter) {
-          modal("No location matching '" + address + "' found. Please enter your postal code or address again.");
+        if (fail) {
+          fail();
         }
         enteredValidAddress = false;
       } else {
         enteredValidAddress = true;
-
-        if(f) {
-          f(gresult);
-        }
         // save the data
         var point = gresult[0].geometry.location;
         $("input.latlng").val([point.lat(), point.lng()].join(","));
+        if(success) {
+          success(gresult);
+        }
       } 
     });
   };
@@ -60,7 +59,11 @@ $(document).ready(function() {
     });
 
     updateButton.click(function() {
-      geocode(true, function(gresult) {
+      var fail = function() {
+          modal("No location matching this postal code or address found. Please enter your postal code or address again.");
+      };
+
+      geocode(fail, function(gresult) {
         mapDiv.slideDown(function() {
           // set the map to the right point
           google.maps.event.trigger(map, "resize");
@@ -68,7 +71,6 @@ $(document).ready(function() {
           marker.setPosition(point);
           map.setCenter(point);
           map.setOptions({zoom: zoomLevel});
-
       
         });
       });
@@ -78,7 +80,6 @@ $(document).ready(function() {
     // Address collection:
   // when the user supplies his/her address and it successfully
   // geocodes, enable the button.
-
   var addrClickCount = 0;
  
   $("div#address ~ input[type=submit]").click(function() {
@@ -86,23 +87,23 @@ $(document).ready(function() {
       return(true);
     }
 
-    geocode(false, false);
+    var fail = function() {
+      addrClickCount = addrClickCount + 1;
+      if (addrClickCount > 5) {
+        // using alert instead of modal() because I don't want to
+        // bump until after a "ok" click, and I don't want to make
+        // modal any more complicated.
+        alert("Thank you for your participation. If you later decide to share your postal code or city information, feel free to try the survey again.")
+        window.location.replace("/");
+      } else {
+        $("#address-address-finder-address").focus();
+        modal("This survey involves maps. If you are uncomfortable providing a postal code, could you please enter the name of your city or town?");
+      }
+    }
     
-    if (enteredValidAddress) {
-      return(true);
-    }
+    var success = function() { $("form").submit() };
+    geocode(fail, success);
 
-    addrClickCount = addrClickCount + 1;
-    if (addrClickCount > 5) {
-      // using alert instead of modal() because I don't want to
-      // bump until after a "ok" click, and I don't want to make
-      // modal any more complicated.
-      alert("Thank you for your participation. If you later decide to share your postal code or city information, feel free to try the survey again.")
-      window.location.replace("/");
-    } else {
-      $("#address-address-finder-address").focus();
-      modal("This survey involves maps. If you are uncomfortable providing a postal code, could you please enter the name of your city or town?");
-    }
     return(false);
   });
 
