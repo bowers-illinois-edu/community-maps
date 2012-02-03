@@ -71,7 +71,7 @@
 ;;; 
        (let [mc (multiple-choice
                  :close-to-group
-                 "Do you feel close to any of the following groups"
+                 "Please click on all of the groups to which you feel close."
                  (merge
                   (dissoc (ethnic-political-groups subject) :other-asian)
                   {:local-community "People in your local community"
