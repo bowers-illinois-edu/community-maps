@@ -64,4 +64,54 @@ $(document).ready(function() {
       });
     });
   }); 
+
+    // Address collection:
+  // when the user supplies his/her address and it successfully
+  // geocodes, enable the button.
+  var addrSubmitQuery = "div#address ~ input[type=submit]";
+ var addrButtonState = true; 
+
+  var addressDirectContinue = function() {
+    addrButtonState = true;
+    $(addrSubmitQuery).unbind("click");
+  }
+  
+  var addrClickCount = 0;
+ 
+  var addressAskForInput = function() {
+    if (addrButtonState) {
+      
+      addrButtonState = false;
+
+      $(addrSubmitQuery).bind("click", function() {
+        addrClickCount = addrClickCount + 1;
+        if (addrClickCount > 5) {
+          // using alert instead of modal() because I don't want to
+          // bump until after a "ok" click, and I don't want to make
+          // modal any more complicated.
+          alert("Thank you for your participation. If you later decide to share your postal code or city information, feel free to try the survey again.")
+          window.location.replace("/");
+          return(false);
+        } else {
+          $("#address-address-finder-address").focus();
+          modal("This survey involves maps. If you are uncomfortable providing a postal code, could you please enter the name of your city or town?");
+        }
+ 
+        
+        return(false);
+      });
+    }
+  }
+
+  $("div.map-find-address").bind("geocode-response", function(e, status) {
+    if (status) {
+      addressDirectContinue();
+    } else {
+      addressAskForInput();
+    }
+  });
+
+  // initial state is asking for postal code input.
+  addressAskForInput();
+
 }); 
