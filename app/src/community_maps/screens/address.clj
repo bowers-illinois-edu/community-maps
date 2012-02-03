@@ -11,7 +11,7 @@
 ;;;Q1.
   (question
    "In a moment, we will ask you to look at where you live on a map.
-Please enter your postal code in the box and then click the "Find On Map" button. 
+Please enter your postal code in the box and then click the \"Find On Map\" button. 
 
 If the map does not look right, please try entering the postal code (or an intersection or address) again. (Reminder: These surveys are confidential, and your postal code will not be used for any purpose aside from this survey.)"
             (f/with-group :address-finder
