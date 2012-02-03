@@ -59,7 +59,7 @@
              dst-name
              " by a lot. "
              "Do you think such a change would be a good or bad thing if it happened?")
-        (bf/radio-group :ethnic-growth {:good "Good thing" :bad "Bad thing"}))
+        (bf/radio-group :ethnic-growth {:good "Good thing" :neutral "Neither Good nor Bad" :bad "Bad thing"}))
 
 
 ;;;What is the largest nonwhite group?
