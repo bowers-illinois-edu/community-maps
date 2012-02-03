@@ -1,3 +1,14 @@
+body #hd, body #bd{
+    font-size: 130%;
+}
+
+body, select, input, textarea {
+  /* #444 looks better than black: twitter.com/H_FJ/statuses/11800719859 */
+  color: #333;
+  /* Set your base font here, to apply evenly */
+  /* font-family: Georgia, serif;  */
+}
+
 h1 {
   font-size: 150%;
 }
@@ -49,7 +60,7 @@ div.labeled-checkbox input {
 }
 
 div.directions {
-    border: 1px solid #eee;
+    border: 1px solid #dc322f;
     margin: 1em 0 1em 0;
     font-size: 120%;
     color: #000088;
@@ -77,12 +88,75 @@ textarea { width: 100%; height: 8em; }
 
 .continue { margin-top: 2em; }
 
-h4.comments-label { margin-top: 1em; color: #1C94C4; }
+h4.comments-label { margin-top: 1em; color: #607890; }
 
 div.comments-subform div.email { margin-top: 1em; }
 
-a { color:1C94C4; text-decoration: none; }
-a:link { color:1C94C4; text-decoration: none; }
-a:visited { color:1C94C4; text-decoration: none; }
-a:hover { color:1C94C4; text-decoration: none; }
-a:active { color:1C94C4; text-decoration: none; }
+a { text-decoration: none; }
+a, a:active, a:visited { color: #607890; }
+a:hover { color: #036; }
+
+/* Borrowed from http://ethanschoonover.com/solarized */
+
+html *, html.light * {
+    color: #657B83;
+}
+html, html body, html.light body {
+    background-color: #FDF6E3;
+}
+html h1, html h2, html h3, html h4, html h5, html h6, html.light h1, html.light h2, html.light h3, html.light h4, html.light h5, html.light h6 {
+    border-color: #657B83;
+    color: #586E75;
+}
+html h1#pagetitle, html h1:first-of-type, html.light h1#pagetitle, html.light h1:first-of-type {
+    color: #586E75;
+}
+html h2#pagesubtitle, html h2:first-of-type, html.light h2#pagesubtitle, html.light h2:first-of-type {
+    color: #93A1A1;
+}
+html a, html a:active, html a:visited, html.light a, html.light a:active, html.light a:visited {
+    color: #586E75;
+}
+html a:hover, html.light a:hover {
+    background-color: #EEE8D5;
+}
+html header, html.light header {
+    background-color: #93A1A1;
+    color: #586E75;
+}
+html header a.navlink, html header a.navlink:active, html header a.navlink:visited, html.light header a.navlink, html.light header a.navlink:active, html.light header a.navlink:visited {
+    color: #586E75;
+}
+html header a.navlink:hover, html.light header a.navlink:hover {
+    background: none repeat scroll 0 0 transparent;
+    color: #EEE8D5;
+}
+html header #sitelink, html.light header #sitelink {
+    background-color: #586E75;
+    color: #EEE8D5;
+}
+html header a#sitelink:hover, html.light header a#sitelink:hover {
+    font-weight: bold;
+}
+html footer, html.light footer {
+    background-color: #EEE8D5;
+    color: #93A1A1;
+}
+html pre, html.light pre {
+    background-color: #EEE8D5;
+    color: #586E75;
+}
+html tr:nth-child(2n+1), html.light tr:nth-child(2n+1) {
+    background-color: #EEE8D5;
+}
+html th, html.light th {
+    background-color: #FDF6E3;
+    color: #586E75;
+}
+html h1 a:hover, html.light h1 a:hover {
+}
+html h2#download + h3, html.light h2#download + h3 {
+    background-image: url("/img/download-base00.png");
+    color: #657B83;
+}
+
