@@ -23,7 +23,7 @@
     :minority-population-share ["increase" "decrease"]
     :ethnic-shop ["ethnic minorities" "other members of their same ethnic background"]
     :outgroup-marry ["race" "ethnic background"]
-    :display-district (keys gis/*districts*)}))
+    :display-district ["pr" "cd" "csd" "canada"]}))
 
 (defn createwithid []
   (let [key (dbsave (randomizer))]

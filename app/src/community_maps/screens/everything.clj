@@ -13,30 +13,34 @@
   ;;; district, they are skipped entirely.
   (let [dst (:display-district subject)
         dst-name (get gis/*districts* dst)
-        district-id (gis/get-subject-district-id subject dst)]
+        district-id (gis/get-subject-district-id subject dst)
+        prompt (if (= "canada" dst) "Canada" (str "your " dst-name))]
     (when (and (not (= 0 district-id)) (not (= "" district-id)))
       (list
-       (directions
-        (str "Please look at this map. The highlighted area shows your " (get gis/*districts* dst) ".")
-        (str "Referring to this map with the " dst-name 
-             " it, we would like to ask a series of questions just like the previous ones:"))
-       (kml-map (gis/kml-url dst district-id))
+       (when (not (= "canada" (:display-district subject)))
+         (list (directions
+                (str "Please look at this map. The highlighted area shows your " (get gis/*districts* dst) ".")
+                (str "Referring to this map with the " dst-name 
+                     " it, we would like to ask a series of questions just like the previous ones:"))
+               (kml-map (gis/kml-url dst district-id))))
        
       ;;;Q14.	Question:
        (group-sliders
         subject
         :census-community
-        "Just your best guess - what percentage of the population in the highlighted area is:")
+        (str "Just your best guess - what percentage of the population in "
+             prompt
+             " is:"))
 
       ;;;Q15.	Question:
        (learn-about-composition
         :census-composition
-        (str "How did you learn about the composition of this " dst-name "?"))
+        (str "How did you learn about the composition of " prompt "?"))
        
       ;;;Q16.	Question:
        (question
-        (str "On the whole, do you like or dislike this "
-             dst-name
+        (str "On the whole, do you like or dislike "
+             prompt
              " as a place to live?")
         (bf/radio-group
          :like-dislike-census
@@ -47,16 +51,16 @@
 
       ;;;Q17.	Question:
        (yes-no :census-feel-community 
-               (str "On the whole, do you think that people who live in this "
-                    dst-name
+               (str "On the whole, do you think that people who live in "
+                    prompt
                     " feel a sense of community?"))
 
 ;;;Q18.	Question:
        (question
         (str "Some political leaders argue that in the next 10 years, ethnic minorities will "
              (:minority-population-share subject)
-             " their share of the population in this "
-             dst-name
+             " their share of the population in "
+             prompt
              " by a lot. "
              "Do you think such a change would be a good or bad thing if it happened?")
         (bf/radio-group :ethnic-growth {:good "Good thing" :neutral "Neither Good nor Bad" :bad "Bad thing"}))
@@ -75,7 +79,7 @@
                  (merge
                   (dissoc (ethnic-political-groups subject) :other-asian)
                   {:local-community "People in your local community"
-                   :census-community (str "People in this " (get gis/*districts* dst) ".")}))]
+                   :census-community (str "People in " prompt)}))]
          (assoc-in mc [2 1]
                    (concat
                     (second (first (get-in mc [2 1])))
