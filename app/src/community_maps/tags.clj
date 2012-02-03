@@ -59,14 +59,14 @@
 
 
 (def ethnic-groups
-  {:black "Black"
-   :white "White"
+  {:black "Blacks"
+   :white "Whites"
    :unemployed "Unemployed"
    :chinese "Chinese"
-   :east-indian "East Indian"
-   :aboriginal "Canadian Aboriginal"
-   :latin "Latin American"
-   :other-asian "Other Asian"})
+   :east-indian "East Indians"
+   :aboriginal "Canadian Aboriginals"
+   :latin "Latin Americans"
+   :other-asian "Other Asians"})
 
 (defn political-groups
   "The political groups, with BQ if the subject is in Quebec"
