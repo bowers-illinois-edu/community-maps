@@ -146,7 +146,6 @@
                draw
                own-community
                randomized-district
-               canada-population
                racial-ethnic
                minorities-community
                racial-conflict

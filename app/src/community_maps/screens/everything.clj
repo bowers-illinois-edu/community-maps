@@ -8,168 +8,137 @@
 
 (defscreen randomized-district
   [subject]
-  
+  (list
   ;;; District Map Related Questions (if we can't look up the
   ;;; district, they are skipped entirely.
-  (let [dst (:display-district subject)
-        dst-name (get gis/*districts* dst)
-        district-id (gis/get-subject-district-id subject dst)
-        prompt (if (= "canada" dst) "Canada" (str "your " dst-name))]
-    (when (and (not (= 0 district-id)) (not (= "" district-id)))
-      (list
-       (when (not (= "canada" (:display-district subject)))
-         (list (directions
-                (str "Please look at this map. The highlighted area shows your " (get gis/*districts* dst) ".")
-                (str "Referring to this map with the " dst-name 
-                     " it, we would like to ask a series of questions just like the previous ones:"))
-               (kml-map (gis/kml-url dst district-id))))
-       
+   (let [dst (:display-district subject)
+         dst-name (get gis/*districts* dst)
+         district-id (gis/get-subject-district-id subject dst)
+         prompt (if (= "canada" dst) "Canada" (str "your " dst-name))]
+     (when (and (not (= 0 district-id)) (not (= "" district-id)))
+       (list
+        (when (not (= "canada" (:display-district subject)))
+          (list (directions
+                 (str "Please look at this map. The highlighted area shows your " (get gis/*districts* dst) ".")
+                 (str "Referring to this map with the " dst-name 
+                      " it, we would like to ask a series of questions just like the previous ones:"))
+                (kml-map (gis/kml-url dst district-id))))
+        
       ;;;Q14.	Question:
-       (group-sliders
-        subject
-        :census-community
-        (str "Just your best guess - what percentage of the population in "
-             prompt
-             " is:"))
+        (group-sliders
+         subject
+         :census-community
+         (str "Just your best guess - what percentage of the population in "
+              prompt
+              " is:"))
 
       ;;;Q15.	Question:
-       (learn-about-composition
-        :census-composition
-        (str "How did you learn about the composition of " prompt "?"))
-       
+        (learn-about-composition
+         :census-composition
+         (str "How did you learn about the composition of " prompt "?"))
+        
       ;;;Q16.	Question:
-       (question
-        (str "On the whole, do you like or dislike "
-             prompt
-             " as a place to live?")
-        (bf/radio-group
-         :like-dislike-census
-         {:like-alot "Like it a lot"
-          :like "Like it"
-          :dislike "Dislike it"
-          :dislike-alot "Dislike it a lot"}))
+        (question
+         (str "On the whole, do you like or dislike "
+              prompt
+              " as a place to live?")
+         (bf/radio-group
+          :like-dislike-census
+          {:like-alot "Like it a lot"
+           :like "Like it"
+           :dislike "Dislike it"
+           :dislike-alot "Dislike it a lot"}))
 
       ;;;Q17.	Question:
-       (yes-no :census-feel-community 
-               (str "On the whole, do you think that people who live in "
-                    prompt
-                    " feel a sense of community?"))
+        (yes-no :census-feel-community 
+                (str "On the whole, do you think that people who live in "
+                     prompt
+                     " feel a sense of community?"))
 
 ;;;Q18.	Question:
-       (question
-        (str "Some political leaders argue that in the next 10 years, ethnic minorities will "
-             (:minority-population-share subject)
-             " their share of the population in "
-             prompt
-             " by a lot. "
-             "Do you think such a change would be a good or bad thing if it happened?")
-        (bf/radio-group :ethnic-growth {:good "Good thing" :neutral "Neither Good nor Bad" :bad "Bad thing"}))
+        (question
+         (str "Some political leaders argue that in the next 10 years, ethnic minorities will "
+              (:minority-population-share subject)
+              " their share of the population in "
+              prompt
+              " by a lot. "
+              "Do you think such a change would be a good or bad thing if it happened?")
+         (bf/radio-group :ethnic-growth {:good "Good thing" :neutral "Neither Good nor Bad" :bad "Bad thing"}))
 
 
 ;;;What is the largest nonwhite group?
 
-       (directions
-        "We would like you to tell us if you feel particularly close to people in the following groups, if you feel the people in the groups are like you in their ideas and interests and feelings about things.")
+        (directions
+         "We would like you to tell us if you feel particularly close to people in the following groups, if you feel the people in the groups are like you in their ideas and interests and feelings about things.")
 ;;; 
 ;;;Q21.	Question:
 ;;; 
-       (let [mc (multiple-choice
-                 :close-to-group
-                 "Please click on all of the groups to which you feel close."
-                 (merge
-                  (dissoc (ethnic-political-groups subject) :other-asian)
-                  {:local-community "People in your local community"
-                   :census-community (str "People in " prompt)}))]
-         (assoc-in mc [2 1]
-                   (concat
-                    (second (first (get-in mc [2 1])))
-                    [(f/with-group "close-to-group" (bf/labeled-checkbox "other-asian" "Other Asian"))])))))))
+        (let [mc (multiple-choice
+                  :close-to-group
+                  "Please click on all of the groups to which you feel close."
+                  (merge
+                   (dissoc (ethnic-political-groups subject) :other-asian)
+                   {:local-community "People in your local community"
+                    :census-community (str "People in " prompt)}))]
+          (assoc-in mc [2 1]
+                    (concat
+                     (second (first (get-in mc [2 1])))
+                     [(f/with-group "close-to-group" (bf/labeled-checkbox "other-asian" "Other Asian"))]))))))
 
-(defscreen canada-population [subject]
+   (question 
+    "When it comes to social and political matters, some people think of themselves mainly as White, Chinese, or Black and that is very important to how they think of themselves. Other people don’t tend to think of themselves in these ways. When it comes to social and political matters, how important is your race or ethnicity to how you think of yourself?"
+    (bf/radio-group
+     :has-ethnic-identity
+     {:very-important "Very important"
+      :somewhat-important "Somewhat important"
+      :not-very-important "Not very important"
+      :not-important "Not important at all"}))
+   ;; Party ID and vote choice questions
+   (single-choice :party-id
+                  "In federal politics, do you usually think of yourself as a:"
+                  (merge (political-groups subject) {:dk "I don't know"}))
 
-;;;Q19.  Question:
+   [:div.election-choice.national-election-choice
+    (add-class 
+     (yes-no :national-election "Did you vote in the national election in May?")
+     :did-vote)
+    (add-class
+     (question 
+      "For which party did you vote?"
+      (bf/radio-group :national-election-choice
+                      (conj
+                       (shuffle (vec (political-groups subject)))
+                       [:other "Another party"])))
+     :vote-choice)]
 
-  
-;;;Q26.	Question
-  (group-sliders
-   subject
-   :canada-percentages
-   "What is your best guess for the percentage of the Canadian population for each of the following groups?")
+   [:div.election-choice.provincial-election-choice
+    (add-class 
+     (yes-no :provincial-election "Did you vote in the most recent provincial election?")
+     :did-vote)
+    (add-class
+     (question 
+      "For which party did you vote?"
+      (bf/radio-group :provincial-election-choice
+                      (conj
+                       (shuffle (vec (political-groups subject)))
+                       [:other "Another party"])))
+     :vote-choice)]
 
-;;;Q27.	Question:
-  (learn-about-composition
-   :canada-percentages-learn
-   "How did you learn about the composition of Canada?")
-
-;;;Q8.	Question:
-  
-
-;;;Q28.	Question:
-  
-  (group-sliders
-   subject
-   :group-feeling-thermometer
-
-   "We would also like to get your feelings about some groups in Canadian society. For each of the following groups, we would like you to rate it with what we call a feeling thermometer. 
-
-Ratings between 50 degrees and 100 degrees mean that you feel favorably and warm toward the group; ratings between 0 and 50 degrees mean that you don't feel favorably towards the group and that you don't care too much for that group. 
-
-If you don't feel particularly warm or cold toward a group you would rate them at 50 degrees."
-   "0" "100")
-(question 
-   "When it comes to social and political matters, some people think of themselves mainly as White, Chinese, or Black and that is very important to how they think of themselves. Other people don’t tend to think of themselves in these ways. When it comes to social and political matters, how important is your race or ethnicity to how you think of yourself?"
-   (bf/radio-group
-    :has-ethnic-identity
-    {:very-important "Very important"
-     :somewhat-important "Somewhat important"
-     :not-very-important "Not very important"
-     :not-important "Not important at all"}))
-  ;; Party ID and vote choice questions
-  (single-choice :party-id
-                            "In federal politics, do you usually think of yourself as a:"
-                            (merge (political-groups subject) {:dk "I don't know"}))
-
-  [:div.election-choice.national-election-choice
-   (add-class 
-      (yes-no :national-election "Did you vote in the national election in May?")
-      :did-vote)
-   (add-class
-    (question 
-     "For which party did you vote?"
-     (bf/radio-group :national-election-choice
-                     (conj
-                      (shuffle (vec (political-groups subject)))
-                      [:other "Another party"])))
-    :vote-choice)]
-
-  [:div.election-choice.provincial-election-choice
-                   (add-class 
-                    (yes-no :provincial-election "Did you vote in the most recent provincial election?")
-                    :did-vote)
-                   (add-class
-                    (question 
-                     "For which party did you vote?"
-                     (bf/radio-group :provincial-election-choice
-                                     (conj
-                                      (shuffle (vec (political-groups subject)))
-                                      [:other "Another party"])))
-                    :vote-choice)]
-
-  (question
-   [:div
-    (when-not (= "none" (:minority-projection subject))
-      [:p
-       "According to the most recent census the number of visible minorities is going reach "
-       (:minority-projection subject)
-       "% of the Canadian population in the next 10 years, largely as a result of immigration."])
-    [:p "Do you think the number of immigrants from foreign countries who are permitted to come to Canada to live should be increased a little, increased a lot, decreased a little, decreased a lot, or left the same as it is now?"]]
-   (bf/radio-group
-    :increase-immigration
-    {:increase-little "Increased a little"
-     :increase-much "Increased a lot"
-     :decrease-little "Decreased a little"
-     :decrease-much "Decreased a lot"
-     :same "Left the same as it is now."})))
+   (question
+    [:div
+     (when-not (= "none" (:minority-projection subject))
+       [:p
+        "According to the most recent census the number of visible minorities is going reach "
+        (:minority-projection subject)
+        "% of the Canadian population in the next 10 years, largely as a result of immigration."])
+     [:p "Do you think the number of immigrants from foreign countries who are permitted to come to Canada to live should be increased a little, increased a lot, decreased a little, decreased a lot, or left the same as it is now?"]]
+    (bf/radio-group
+     :increase-immigration
+     {:increase-little "Increased a little"
+      :increase-much "Increased a lot"
+      :decrease-little "Decreased a little"
+      :decrease-much "Decreased a lot"
+      :same "Left the same as it is now."}))))
 
 (defscreen racial-ethnic [subject]
 ;;;Q29.	Question:
