@@ -135,14 +135,18 @@ jQuery(document).ready(function() {
       $(addrSubmitQuery).bind("click", function() {
         addrClickCount = addrClickCount + 1;
         if (addrClickCount > 5) {
+          // using alert instead of modal() because I don't want to
+          // bump until after a "ok" click, and I don't want to make
+          // modal any more complicated.
           alert("Thank you for your participation. If you later decide to share your postal code or city information, feel free to try the survey again.")
           window.location.replace("/");
           return(false);
         } else {
-          alert("This survey involves maps. If you are uncomfortable providing a postal code, could you please enter the name of your city or town?");
+          $("#address-address-finder-address").focus();
+          modal("This survey involves maps. If you are uncomfortable providing a postal code, could you please enter the name of your city or town?");
         }
  
-        $("#address-address-finder-address").focus();
+        
         return(false);
       });
     }

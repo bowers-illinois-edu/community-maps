@@ -11,3 +11,12 @@
 makeButton = function(text) {
   return(jQuery("<a class = 'fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only'><span class = 'ui-button-text'>" + text + "</span></a>"))
 }
+
+var modal = function(msg) {
+  $("<div>" + msg + "</div>").dialog({
+    modal: true,
+    buttons: {
+      "Ok": function() { $(this).dialog("close"); }
+    }
+  });
+};

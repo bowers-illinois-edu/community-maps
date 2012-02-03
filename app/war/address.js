@@ -43,7 +43,7 @@ $(document).ready(function() {
         
         if (gstatus != google.maps.GeocoderStatus.OK) {
           // TODO use diaglog for alerting the user it is not found
-          alert("No location matching '" + address + "' found");
+          modal("No location matching '" + address + "' found. Please enter your postal code or address again.");
           widget.trigger("geocode-response", [false]); // geocode
           // unsuccessful
         } else {
