@@ -10,7 +10,7 @@
                    #",")]
     (question
      (list
-      [:span.required "Please Draw Your Local Community on the Map. "]
+      [:span.required "Please draw what you think of as your Local Community on the map. "]
       [:ul (map #(vector :li %)
                 ["Click \"Start Drawing\" to begin drawing your community."
                  "Hold down the mouse button to make a line. Open shapes will be enclosed if you lift your mouse for a few 		seconds."
