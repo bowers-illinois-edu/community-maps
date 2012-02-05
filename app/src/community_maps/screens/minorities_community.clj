@@ -13,10 +13,10 @@
   
 ;;;Q22.	Question:
   (question 
-   "Thinking about your local community again: is it mostly white, mostly ethnic minorities, about half and half, or some other mixture of people?"
+   "Thinking about your local community again: is it mostly white, mostly racial and ethnic minorities, about half and half, or some other mixture of people?"
    (bf/radio-group :community-ethnic-makeup
                    {:white "Mostly white"
-                    :ethnic "Mostly ethnic minorities"
+                    :ethnic "Mostly racial and ethnic minorities"
                     :half "About half and half"
                     :other [:span "Some other mixture. Please explain: " (f/text-field :other-description)]}))
 ;;;What is the largest nonwhite group?
@@ -35,11 +35,11 @@
 ;;;If yes, then Q24a
 ;;;Q24a. Question:
   (question 
-   "Are your friends mostly white, mostly ethnic minorities, about half and half, or some other mixture of people?"
+   "Are your friends mostly white, mostly racial and ethnic minorities, about half and half, or some other mixture of people?"
    (bf/radio-group
     :ethnic-friends-composition
     {:white "Mostly white"
-     :ethnic "Mostly ethnic minorities"
+     :ethnic "Mostly racial and ethnic minorities"
      :half "About half and half"
      :other [:span "Some other mixture. Please explain:" (f/text-field :other-description)]}))
 ;;;What is the largest nonwhite group?

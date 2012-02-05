@@ -57,7 +57,7 @@
 
 ;;;Q18.	Question:
         (question
-         (str "Some political leaders argue that in the next 10 years, ethnic minorities will "
+         (str "Some political leaders argue that in the next 10 years, racial and ethnic minorities will "
               (:minority-population-share subject)
               " their share of the population in "
               prompt
@@ -158,16 +158,16 @@
      "Members of certain ethnic or racial groups have fewer opportunities to get ahead than other people."
 
      :vote-ethnic 
-     "People should always vote for candidates of their same ethnic background."
+     "People should always vote for candidates of their same ethnic or racial background."
 
      :special-programs
-     "Members of particular ethnic groups use special programs to get more benefits than they deserve."
+     "Members of particular racial or ethnic groups use special programs to get more benefits than they deserve."
 
      :happier-with-other-groups
      "People are generally happier when they live and socialize with others of different racial and ethnic backgrounds."
 
      :shop-ethnic
-     (str "Ethnic minorities should always shop in stores owned by " (:ethnic-shop subject) ".")}))
+     (str "Ethnic and racial minorities should always shop in stores owned by " (:ethnic-shop subject) ".")}))
 
 ;;;Q36.	Question:
     (question
@@ -198,13 +198,13 @@
      "Irish, Italian, Jewish and many other minorities overcame prejudice and worked their way up. Other minorities should do the same without any special favors."
 
      :try-harder
-     "It's really a matter of some people not trying hard enough; if ethnic minorities would only try harder they could be just as well off as whites."
+     "It's really a matter of some people not trying hard enough; if racial and ethnic minorities would only try harder they could be just as well off as whites."
 
      :social-welfare
      (str "Most " (:get-welfare subject)  " who receive money from social welfare programs could get along without it if they tried.")
 
      :gov-attention
-     "Government officials usually pay less attention to a request or complaint from someone who is an ethnic minority than from someone who is white."})))
+     "Government officials usually pay less attention to a request or complaint from someone who is an racial or ethnic minority than from someone who is white."})))
 
 (defscreen racial-conflict [subject]
   (question
@@ -246,19 +246,19 @@
    (map
     (fn [[id prompt]] (question prompt (agree-disagree id)))
     {:competition-jobs 
-     "More good jobs for people of one ethnic group means fewer good jobs for members of other groups."
+     "More good jobs for people of one racial or ethnic group means fewer good jobs for members of other groups."
 
      :ethnic-influence
-     "The more influence people in one ethnic group have in local politics, the less influence members of other groups will have in local politics."
+     "The more influence people in one racial or ethnic group have in local politics, the less influence members of other groups will have in local politics."
 
      :ethnic-housing-pressure
-     "As more good housing and neighborhoods go to people in one ethnic group, there will be fewer good houses and neighborhoods for members of other groups."
+     "As more good housing and neighborhoods go to people in one racial or ethnic group, there will be fewer good houses and neighborhoods for members of other groups."
 
      :government-improve
-     "The government in Ottawa should make every effort to improve the social and economic position of ethnic minorities."
+     "The government in Ottawa should make every effort to improve the social and economic position of racial and ethnic minorities."
 
      :government-fair-treatment
-     "The government in Ottawa should see to it that ethnic minorities get fair treatment in jobs."}))
+     "The government in Ottawa should see to it that racial and ethnic minorities get fair treatment in jobs."}))
 
   (single-choice {:id "employed-student"} :employed
                  "Are you currently employed or enrolled as a student?"
@@ -272,10 +272,10 @@
 
 ;;;Q20.	Question:
    (question 
-    "Are the people at your work (or school) mostly white, mostly ethnic minorities, about half and half, or some other mixture?"
+    "Are the people at your work (or school) mostly white, mostly racial or ethnic minorities, about half and half, or some other mixture?"
     (bf/radio-group :work-ethnicity
                     {:white "Mostly white"
-                     :ethnic "Mostly ethnic minorities"
+                     :ethnic "Mostly racial or ethnic minorities"
                      :half "About half and half"
                      :other [:span "Some other mixture. Please explain:" (f/text-field :other-description)]}))]
 
