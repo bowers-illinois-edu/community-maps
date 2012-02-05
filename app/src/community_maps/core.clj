@@ -15,15 +15,6 @@
             [hiccup.form-helpers :as f]
             [community-maps.gis :as gis]))
 
-(def screens [consent
-              address
-              draw
-              own-community
-              randomized-district
-              racial-ethnic
-              minorities-community
-              racial-conflict
-              thank-you])
 
 (defn randomizer []
   (randomize-subject
@@ -35,8 +26,8 @@
     :outgroup-marry ["race" "ethnic background"]
     :display-district ["pr" "cd" "csd" "canada"]}))
 
-(defn createwithid []
-  (let [key (dbsave (randomizer))]
+(defn createwithid [req]
+  (let [key (dbsave (assoc (randomizer) :vcid (get-in req [:params :vcid])))]
     (dbload (ds/key-id key))))
 
 (defmulti layout (fn [subject screen] screen))
@@ -67,28 +58,6 @@
                (f/text-field :email-address (:email-address subject))]]
              (f/submit-button {:class "continue fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"} "Continue")))
 
-(defmethod layout :default [subject screen]
-  (xhtml
-   [:head
-    [:title "Taking a survey"]
-    (jquery-link) (jquery-ui-link)
-    (include-js "burp.jquery.ui.support.js")
-    (include-js "address.js")
-    (include-js "map_main.js")
-    (include-js "scribble.js")
-    (include-js "utilities.js")
-    (include-js "questions.js")
-    (include-js "resume.js")
-    (include-js "http://maps.google.com/maps/api/js?v=3.4&sensor=false")
-    css]
-   (body (str "Mapping Communities Survey (Page " (get subject :step 1) " of " (count screens) ")")
-         (list
-          [:a#resume {:class "fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"}
-           [:span.ui-button-text "Resume Later"]]
-          [:div#resume-popup
-           [:p "You can pick up where you left off later. Just enter your email address, and we will send you a link to start from where you stopped."]
-           [:input.email]]
-          (screen-form-button screen subject)))))
 
 ;;; The consent and thank you pages have special layout functions,
 ;;; which makes writing them out a little more verbose (i.e. two
@@ -137,6 +106,38 @@
     css]
    (body "Thank You" (screen subject))))
 
+(def screens [consent
+              address
+              draw
+              own-community
+              randomized-district
+              racial-ethnic
+              minorities-community
+              racial-conflict
+              thank-you])
+
+(defmethod layout :default [subject screen]
+  (xhtml
+   [:head
+    [:title "Taking a survey"]
+    (jquery-link) (jquery-ui-link)
+    (include-js "burp.jquery.ui.support.js")
+    (include-js "address.js")
+    (include-js "map_main.js")
+    (include-js "scribble.js")
+    (include-js "utilities.js")
+    (include-js "questions.js")
+    (include-js "resume.js")
+    (include-js "http://maps.google.com/maps/api/js?v=3.4&sensor=false")
+    css]
+   (body (str "Mapping Communities Survey (Page " (get subject :step 1) " of " (count screens) ")")
+         (list
+          [:a#resume {:class "fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"}
+           [:span.ui-button-text "Resume Later"]]
+          [:div#resume-popup
+           [:p "You can pick up where you left off later. Just enter your email address, and we will send you a link to start from where you stopped."]
+           [:input.email]]
+          (screen-form-button screen subject)))))
 
 ;;; add an extra route for the comments/ url
 (defn add-data-urls
