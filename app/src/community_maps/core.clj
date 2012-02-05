@@ -15,6 +15,16 @@
             [hiccup.form-helpers :as f]
             [community-maps.gis :as gis]))
 
+(def screens [consent
+              address
+              draw
+              own-community
+              randomized-district
+              racial-ethnic
+              minorities-community
+              racial-conflict
+              thank-you])
+
 (defn randomizer []
   (randomize-subject
    {:feel-close-to ["control" "neighborhood" "city" "province" "Canada"]
@@ -71,7 +81,7 @@
     (include-js "resume.js")
     (include-js "http://maps.google.com/maps/api/js?v=3.4&sensor=false")
     css]
-   (body "Mapping Communities Survey"
+   (body (str "Mapping Communities Survey (Page " (get subject :step 1) " of " (count screens) ")")
          (list
           [:a#resume {:class "fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"}
            [:span.ui-button-text "Resume Later"]]
@@ -141,15 +151,7 @@
 ;;; this is the app as called by the appengine-magic library
 (def survey-app
   (-> (survey createwithid dbsave dbload layout 
-              [consent
-               address
-               draw
-               own-community
-               randomized-district
-               racial-ethnic
-               minorities-community
-               racial-conflict
-               thank-you])
+              screens)
       wrap-burp
       add-data-urls))
 
