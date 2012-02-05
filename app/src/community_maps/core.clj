@@ -61,7 +61,7 @@
              (scrn subject)
              [:h4.comments-label (f/label (str "comments-" (:step subject)) "Questions or Comments? Click here.")]
              [:div.comments-subform
-              [:p "If you have any questions or comments, please enter them in the box below. If you would like us to contact you about your question or comments, please include your email address below."]
+              [:p "If you have any questions or comments, please enter them in the box below. Comments will be recorded when you click the \"continue\" button below. If you would like us to contact you about your question or comments, please include your email address below."]
               (f/text-area (str "comments-" (:step subject)))
               [:div.email (f/label :email-address "Email: ")
                (f/text-field :email-address (:email-address subject))]]
