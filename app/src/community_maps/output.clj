@@ -10,12 +10,8 @@
 (defn fetch-comments
   [n]
   "Get comments for the n-th step (1-8)"
-  (->
-   (.prepare (ds/get-datastore-service)
-             (doto (Query. "Map")
-               (.addFilter (str ":comments-" n)
-                           com.google.appengine.api.datastore.Query$FilterOperator/NOT_EQUAL
-                           "")))))
+  (ds/query :kind shanks.appengine_magic.Subject
+            :filter (>  (keyword (str "comments-" n)) "")))
 
 (defn comments-page
   [_]
@@ -24,16 +20,14 @@
     (xhtml
      [:head [:title "Comments Display Page"]]
      [:body
-      (map
-       (fn [[step comments]]
-         [:div.comments
-          [:h2 "Page: " step]
-          [:table
-           [:th "Comments"] [:th "Email"]
-           (map #(vector :tr [:td (.getProperty % (str ":comments-" step))]
-                         [:td (.getProperty % ":email-address")])
-                (.asIterable comments))]])
-       all-comments)])))
+      [:table
+       [:th "Step"] [:th "Comments"] [:th "Email"]
+       (map
+        (fn [[step comments]]
+          (map #(vector :tr [:td step] [:td (get % (keyword (str "comments-" step)))]
+                        [:td (get % :email-address)])
+               comments))
+        all-comments)]])))
 
 (def split-pred (juxt filter remove))
 
