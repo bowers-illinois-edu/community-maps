@@ -7,16 +7,16 @@
 ;;; Some useful constants
 (def *gisurl* "gis.mappingcommunities.ca")
 
-(def *districts* {"pr" "Province"
-                  "ccs" "Census consolidated subdivision"
-                  "cma" "Census metropolitan area"
-                  "csd" "Census subdivision"
-                  "ct" "Census tract"
-                  "dpl" "Designated place"
-                  "fed" "Federal electoral district"
-                  "fsa" "Forward sortation area"
-                  "cd" "Census division"
-                  "ua" "Urban area"})
+(def *districts* {"pr" "province"
+                  "ccs" "census consolidated subdivision"
+                  "cma" "census metropolitan area"
+                  "csd" "census subdivision"
+                  "ct" "census tract"
+                  "dpl" "designated place"
+                  "fed" "federal electoral district"
+                  "fsa" "forward sortation area"
+                  "cd" "census division"
+                  "ua" "urban area"})
 
 
 (defn get-subject-district-id

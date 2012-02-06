@@ -17,12 +17,14 @@
          prompt (if (= "canada" dst) "Canada" (str "your " dst-name))]
      (when (and (not (= 0 district-id)) (not (= "" district-id)))
        (list
-        (when (not (= "canada" (:display-district subject)))
-          (list (directions
-                 (str "Please look at this map. The highlighted area shows your " (get gis/*districts* dst) ".")
-                 (str "Referring to this map with the " dst-name 
-                      " it, we would like to ask a series of questions just like the previous ones:"))
-                (kml-map (gis/kml-url dst district-id))))
+        (list
+         (directions
+               (str "Please look at this map. The highlighted area shows " prompt ".")
+               (str "Referring to this map with " prompt
+                    " it, we would like to ask a series of questions just like the previous ones:"))
+         (if (= "canada" dst)
+           [:img {:src "/canada.jpg"}]
+           (kml-map (gis/kml-url dst district-id))))
         
       ;;;Q14.	Question:
         (group-sliders
