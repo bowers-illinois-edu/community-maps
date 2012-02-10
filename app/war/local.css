@@ -160,3 +160,6 @@ html h2#download + h3, html.light h2#download + h3 {
     color: #657B83;
 }
 
+li {
+    margin: 0.75em 0 0.75em 0;
+}
