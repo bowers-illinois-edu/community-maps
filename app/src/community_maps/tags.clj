@@ -74,7 +74,7 @@
   (let [all-see 
         {:liberal "Liberal Party"
          :conservative "Conservative Party"
-         :ndp "NDP"
+         :ndp "New Democratic Party (NDP)"
          :green "Green Party"}]
     (if (from-quebec? subject)
       (assoc all-see :quebecois "Bloq Quebecois")
