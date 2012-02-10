@@ -175,7 +175,7 @@
     (question
      (str "How would it make you feel if a close relative of yours were planning to marry a person of different "
           (:outgroup-marry subject)
-          " from yours? Would you be very uneasy, somewhat uneasy, or not uneasy at all?")
+          " from yours?")
      (bf/radio-group :marry-ethnic
                      {:very-uneasy "Very uneasy"
                       :somewhat-uneasy "Somewhat uneasy"
@@ -183,7 +183,7 @@
  
 ;;;Q37.	Question:
     (question
-     "How would it make you feel if a close relative of yours were planning to marry a person who had strong political beliefs different from your own. Would you be very uneasy, somewhat uneasy, or not uneasy at all?"
+     "How would it make you feel if a close relative of yours were planning to marry a person who had strong political beliefs different from your own?"
      (bf/radio-group :marry-political
                      {:very-uneasy "Very uneasy"
                       :somewhat-uneasy "Somewhat uneasy"
@@ -210,14 +210,14 @@
 
 (defscreen racial-conflict [subject]
   (question
-   "On the whole, do you like or dislike this neighborhood as a place to live. Would you say you like it a lot, like it, dislike it, dislike it a lot?"
+   "On the whole, do you like or dislike this neighborhood as a place to live."
    (bf/radio-group :like-neighborhood
-                   {:like-alot "Like it a lot."
-                    :like "Like it."
-                    :dislike "Dislike it."
-                    :dislike-alot "Dislike it a lot."}))
+                   {:like-alot "Like it a lot"
+                    :like "Like it"
+                    :dislike "Dislike it"
+                    :dislike-alot "Dislike it a lot"}))
   (question
-   "How worried are you about your safety in your neighborhood?  Are you very worried, somewhat worried, not very worried, or not at all worried?"
+   "How worried are you about your safety in your neighborhood?"
    (bf/radio-group :safe-neighborhood
                    {:worried "Worried"
                     :somewhat-worried "Somewhat worried"
