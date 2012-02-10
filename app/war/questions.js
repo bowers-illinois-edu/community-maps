@@ -125,7 +125,7 @@ jQuery(document).ready(function() {
 
   // hiding employment follow ups appropriately
   
-  var employmentFollowUps = $("div#canada-population div.employment-follow-up").hide();
+  var employmentFollowUps = $("div#employment-follow-up").hide();
   $("div#employed-student input").click(function() {
     if ($(this).val() == "unemployed") {
       employmentFollowUps.hide();

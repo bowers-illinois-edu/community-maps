@@ -267,7 +267,7 @@
                  {:employed "I am employed"
                   :student "I am a student"
                   :unemployed "I am not employed"})
-  [:div.employment-follow-up
+  [:div#employment-follow-up
    (question
     "Would you please tell us where you work or study? Please provide the postal code, or if you don't know the postal code, please provide an intersection or address."
     (f/text-field :work-study-address))
