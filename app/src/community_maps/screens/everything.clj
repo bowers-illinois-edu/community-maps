@@ -20,8 +20,8 @@
         (list
          (directions
                (str "Please look at this map. The highlighted area shows " prompt ".")
-               (str "Referring to this map with " prompt
-                    " it, we would like to ask a series of questions just like the previous ones:"))
+               (str "Referring to this map of " prompt
+                    ", we would like to ask a series of questions just like the previous ones:"))
          (if (= "canada" dst)
            [:img {:src "/canada.jpg"}]
            (kml-map (gis/kml-url dst district-id))))
