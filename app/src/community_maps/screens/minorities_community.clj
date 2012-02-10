@@ -9,10 +9,9 @@
   (let [polgroups (conj (shuffle (vec (political-groups subject)))
           [ :other
            [:span "Some other mixture. Please explain: " (f/text-field :other-description)]])]
-    (list (static-map-communities subject)
-
-          (directions "Now let’s look at the map of your local community again.")
-
+    (list
+     (directions "Now let’s look at the map of your local community again.")
+     (static-map-communities subject)
           
 ;;;Q22.	Question:
           (question 

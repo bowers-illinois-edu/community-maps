@@ -6,10 +6,10 @@
 
 (defscreen own-community
   [subject]
-  (static-map-communities subject)
 
   (directions "Now, for these next few questions we’ll be referring to the
 areas you highlighted")
+  (static-map-communities subject)
 
 ;;;Q6.	Question
   (group-sliders
