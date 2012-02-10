@@ -206,7 +206,7 @@
      (str "Most " (:get-welfare subject)  " who receive money from social welfare programs could get along without it if they tried.")
 
      :gov-attention
-     "Government officials usually pay less attention to a request or complaint from someone who is an racial or ethnic minority than from someone who is white."})))
+     "Government officials usually pay less attention to a request or complaint from someone who is a racial or ethnic minority than from someone who is white."})))
 
 (defscreen racial-conflict [subject]
   (question
