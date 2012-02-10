@@ -20,11 +20,12 @@
 
 (defelem scribble-map
   "Create a map centered on a given lat/lon"
-  [id lat lon]
+  [id lat lon zoom]
   (f/with-group id
     [:div.scribble-map
      (f/hidden-field {:class "lat"} :lat lat)
      (f/hidden-field {:class "lon"} :lon lon)
+     (f/hidden-field {:class "zoom"} :zoom zoom)
      (f/hidden-field {:class "map-data"} :data)
      (f/hidden-field {:class "events"} :events)
      [:div.actions

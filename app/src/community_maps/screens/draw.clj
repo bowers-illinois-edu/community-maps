@@ -24,4 +24,4 @@
         [:ul
          [:li "Some trackpads use a single tap to indicate mouse down and then automatically keep the mouse button, as if you had your finger on the button. To release the drawing, tap the trackpad again to signal that you are done drawing."]
          [:li "After releasing the mouse button, you have 5 seconds to start drawing again from that position. If 5 seconds elapse, or you move the mouse, the region automatically close."]]]])
-              (scribble-map :community lat lng))))
+              (scribble-map :community lat lng (:drawing-zoom subject)))))

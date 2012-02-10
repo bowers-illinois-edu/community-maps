@@ -108,14 +108,13 @@ $(document).ready(function() {
                                   {mapTypeId: google.maps.MapTypeId.ROADMAP,
                                    scrollwheel: false,
                                    maxZoom: 17,
-                                   zoom: 12,
                                    minZoom: 4,
                                    streetViewControl: false});
 
     
                                  
     var center = new google.maps.LatLng($(".lat", this).val(), $(".lon", this).val());
-    map.setOptions({center: center});
+    map.setOptions({center: center, zoom: parseInt($(".zoom", this).val())});
     this.gmap = map;
 
     // record user interations

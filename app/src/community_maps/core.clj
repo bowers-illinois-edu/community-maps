@@ -24,7 +24,8 @@
     :minority-population-share ["increase" "decrease"]
     :ethnic-shop ["ethnic minorities" "other members of their same ethnic background"]
     :outgroup-marry ["race" "ethnic background"]
-    :display-district ["pr" "cd" "csd" "canada" "fsa"]}))
+    :display-district ["pr" "cd" "csd" "canada" "fsa"]
+    :drawing-zoom [10 12 14 16]}))
 
 (defn createwithid [req]
   (let [key (dbsave (assoc (randomizer) :vcid (get-in req [:params :vcid])))]
