@@ -7,7 +7,7 @@
         ring.middleware.file
         [community-maps.screens address draw everything own-community minorities-community]
         [clojure.string :only [split]]
-        community-maps.output
+        [community-maps output mail]
         compojure.core)
   (:require [appengine-magic.core :as ae]
             [appengine-magic.services.datastore :as ds]
@@ -155,7 +155,8 @@
   (-> (survey createwithid dbsave dbload layout 
               screens)
       wrap-burp
-      add-data-urls))
+      add-data-urls
+      add-mail-urls))
 
 (ae/def-appengine-app community-maps-app #'survey-app)
 
