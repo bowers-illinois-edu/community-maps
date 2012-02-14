@@ -1,8 +1,9 @@
 (ns community-maps.mail
   (:use compojure.core
         ring.middleware.params)
-  (:require [appengine-magic.services.mail :as m])) 
-(def *from* "mark.m.fredrickson@gmail.com")
+  (:require [appengine-magic.services.mail :as m]))
+
+(def *from* "admin@mappingcommunities.ca")
 
 (defn mail-resume-link
   [id email]
