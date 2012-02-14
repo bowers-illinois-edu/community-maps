@@ -7,7 +7,8 @@
         ring.middleware.file
         [community-maps.screens address draw everything own-community minorities-community]
         [clojure.string :only [split]]
-        [community-maps output mail]
+        community-maps.output
+        [community-maps.mail :only [add-mail-urls]]
         compojure.core)
   (:require [appengine-magic.core :as ae]
             [appengine-magic.services.datastore :as ds]
