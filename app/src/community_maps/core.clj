@@ -8,7 +8,7 @@
         [community-maps.screens address draw everything own-community minorities-community]
         [clojure.string :only [split]]
         community-maps.output
-        [community-maps.mail :only [add-mail-urls]]
+        [community-maps.mail :only [add-mail-urls mail-comments]]
         compojure.core)
   (:require [appengine-magic.core :as ae]
             [appengine-magic.services.datastore :as ds]
@@ -153,7 +153,7 @@
 
 ;;; this is the app as called by the appengine-magic library
 (def survey-app
-  (-> (survey createwithid dbsave dbload layout 
+  (-> (survey createwithid #(do (mail-comments %) (dbsave %)) dbload layout 
               screens)
       wrap-burp
       add-data-urls

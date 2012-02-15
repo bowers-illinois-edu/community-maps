@@ -24,3 +24,29 @@
   (wrap-params (routes
                 (GET "/mail/resume" [id email] (mail-resume-link id email))
                 app)))
+
+(defn mail-comments
+  "Checks to see if there is data for in the comment field for the current step of the subject"
+  [subject]
+  ;; assume that the step counter has been incremented already, so we
+  ;; need the previous value
+  (let [step (dec (get subject :step 0))
+        comment (get subject (keyword (str "comments-" step)))
+        included-email (not (= "" (get subject :email "")))
+        email (if included-email (:email subject) *from*)]
+    (when (and
+           (not (nil? comment))
+           (not (= comment "")))
+      (m/send
+       (m/make-message
+        :from *from*
+        :reply-to (if included-email email *from*)
+        :to "admin@mappingcommunities.ca"
+        :subject (str "A comment" (when included-email (str " " (:email subject))))
+        :text-body
+        (str "While on page " (dec (:step subject)) " "
+             (if included-email (:email subject) "a respondent")
+             " left the following comment:\n\n"
+             comment
+             "\n\n##########"))))))
+
