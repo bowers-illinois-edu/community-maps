@@ -137,14 +137,16 @@
     (include-js "resume.js")
     (include-js "http://maps.google.com/maps/api/js?v=3.4&sensor=false")
     css]
-   (body (str "Mapping Communities Survey (Page " (get subject :step 1) " of " (- (count screens) 2) ")")
-         (list
-          [:a#resume {:class "fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"}
-           [:span.ui-button-text "Resume Later"]]
-          [:div#resume-popup
-           [:p "You can pick up where you left off later. Just enter your email address, and we will send you a link to start from where you stopped."]
-           [:input.email]]
-          (screen-form-button screen subject)))))
+   [:body {:id "doc" :class "yui-t7"}
+    [:div#hd
+     [:a#resume {:class "fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"}
+      [:span.ui-button-text "Resume Later"]]
+     [:div#resume-popup
+      [:p "You can pick up where you left off later. Just enter your email address, and we will send you a link to start from where you stopped."]
+      [:input.email]]
+     [:h1 (str "Mapping Communities Survey (Page " (get subject :step 1) " of " (- (count screens) 2) ")")]]
+    [:div#bd
+     [:div.yui-g (screen-form-button screen subject)]]]))
 
 ;;; add an extra route for the comments/ url
 (defn add-data-urls

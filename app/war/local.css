@@ -163,3 +163,5 @@ html h2#download + h3, html.light h2#download + h3 {
 li {
     margin: 0.75em 0 0.75em 0;
 }
+
+a#resume { float:right; margin-left: 1em; }
