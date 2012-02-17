@@ -179,7 +179,7 @@
      (bf/radio-group :marry-ethnic
                      {:very-uneasy "Very uneasy"
                       :somewhat-uneasy "Somewhat uneasy"
-                      :not-uneasy "Not uneasy at all"}))
+                      :not-uneasy "Not uneasy address.cljt all"}))
  
 ;;;Q37.	Question:
     (question
@@ -278,7 +278,4 @@
                     {:white "Mostly white"
                      :ethnic "Mostly racial or ethnic minorities"
                      :half "About half and half"
-                     :other [:span "Some other mixture. Please explain:" (f/text-field :other-description)]}))]
-
-  
-  (yes-no :complete-additional-survey "Would you be willing to participate in another survey?"))
+                     :other [:span "Some other mixture. Please explain:" (f/text-field :other-description)]}))])
