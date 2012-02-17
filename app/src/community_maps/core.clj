@@ -26,7 +26,11 @@
     :ethnic-shop ["ethnic minorities" "other members of their same ethnic background"]
     :outgroup-marry ["race" "ethnic background"]
     :display-district ["pr" "cd" "csd" "canada" "fsa"]
-    :drawing-zoom [10 12 14 16]}))
+    :drawing-zoom [10 12 14 16]
+    ; the next randomization is kind of a hack to get 1/10 subjects
+    ; assigned to the "on your mind question" (as the system draws
+    ; with eq prob from the options
+    :on-your-mind-question (conj (repeat 9 false) true)}))
 
 (defn createwithid [req]
   (let [key (dbsave (assoc (randomizer) :vcid (get-in req [:params :vcid])))]
