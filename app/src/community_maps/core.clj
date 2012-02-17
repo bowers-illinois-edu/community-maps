@@ -132,7 +132,7 @@
     (include-js "resume.js")
     (include-js "http://maps.google.com/maps/api/js?v=3.4&sensor=false")
     css]
-   (body (str "Mapping Communities Survey (Page " (get subject :step 1) " of " (count screens) ")")
+   (body (str "Mapping Communities Survey (Page " (get subject :step 1) " of " (- (count screens) 2) ")")
          (list
           [:a#resume {:class "fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"}
            [:span.ui-button-text "Resume Later"]]
