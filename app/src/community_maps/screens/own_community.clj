@@ -11,20 +11,20 @@
 area you highlighted.")
   (static-map-communities subject)
 
-;;;Q6.	Question
+;;;Q6.  Question
   (group-sliders
    subject
    :community-percentage
    "Just your best guess – what percentage of the population of this community is:")
 
-;;;Q7.	Question:
+;;;Q7.  Question:
   (learn-about-composition
    :community-composition
    "How did you learn about the composition of your local community?")
 
   (directions "Here are some statements about the people in your local community. Please tell us how strongly you agree or disagree with each of these statements.")
 
-;;;Q9, Q10, Q11	
+;;;Q9, Q10, Q11
 
   (doall
    (map
@@ -40,4 +40,14 @@ area you highlighted.")
    (map
     (fn [[id prompt]] (question prompt (likelihood id)))
     {:graffiti "If some children were painting graffiti on a local building or house, how likely is it that people in your community would do something about it?"
-     :community-organize "Suppose that because of budget cuts the library closest to your home was going to be closed down by the city. How likely is it that community residents would organize to try to do something to keep the library open?"})))
+     :community-organize "Suppose that because of budget cuts the library closest to your home was going to be closed down by the city. How likely is it that community residents would organize to try to do something to keep the library open?"}))
+
+;;;Participation Questions
+(directions "Now we would like to know whether or not you have been involved in your community recently.")
+
+(doall
+ (map
+  (f [[id promp]] (question prompt (yes-no id)))
+  {:informalpartic "During the past 12 months, have you worked with other people to deal with some issue facing your community or schools?"
+   :meetingpartic "During the past twelve months, did you attend a meeting about an issue facing your community or schools?"}
+  )))

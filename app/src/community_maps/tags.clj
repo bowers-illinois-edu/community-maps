@@ -42,21 +42,21 @@
   "Strongly agree => strongly disagree"
   [id]
   (bf/radio-group id
-                 {:strongly-agree "Strongly Agree"
-                  :agree "Agree"
-                  :neither "Neither agree nor disagree"
-                  :disagree "Disagree"
-                  :strongly-disagree "Strongly Disagree"}))
+                  {:strongly-agree "Strongly Agree"
+                   :agree "Agree"
+                   :neither "Neither agree nor disagree"
+                   :disagree "Disagree"
+                   :strongly-disagree "Strongly Disagree"}))
 
 (defelem likelihood
   "Very likely => very unlikely"
   [id]
   (bf/radio-group id
-                 {:very-likely "Very likely"
-                  :likely "Likely"
-                  :fifty-fity "Equally likely and unlikely (\"50/50\")"
-                  :unlikely "Unlikely"
-                  :very-unlikely "Very unlikely"}))
+                  {:very-likely "Very likely"
+                   :likely "Likely"
+                   :fifty-fity "Equally likely and unlikely (\"50/50\")"
+                   :unlikely "Unlikely"
+                   :very-unlikely "Very unlikely"}))
 
 
 (def ethnic-groups
@@ -72,7 +72,7 @@
 (defn political-groups
   "The political groups, with BQ if the subject is in Quebec"
   [subject]
-  (let [all-see 
+  (let [all-see
         {:liberal "Liberal Party"
          :conservative "Conservative Party"
          :ndp "New Democratic Party (NDP)"
@@ -94,10 +94,10 @@
   ([subject id prompt] (group-sliders subject id prompt "0%" "100%"))
   ([subject id prompt pre post]
      (let [grps (ethnic-political-groups subject)]
-       (question 
+       (question
         prompt
         (f/with-group id
-          [:table.groups 
+          [:table.groups
            (doall
             (map
              (fn [[group-id group]]
@@ -106,7 +106,7 @@
                 [:td pre]
                 [:td {:width "60%"} (bj/slider group-id)]
                 [:td post]])
-             (conj 
+             (conj
               (shuffle (vec (dissoc grps :other-asian)))
               [:other-asian (:other-asian grps)])))])))))
 
@@ -120,7 +120,7 @@
               :leaders "political leaders"
               :tv "television entertainment shows"}]
     (f/with-group id
-      [:div.learn-composition 
+      [:div.learn-composition
        [:div.mc
         (multiple-choice :learn (str prompt " Please check all that apply.") opts)]
        [:div.sc
@@ -131,15 +131,15 @@
   [id low high prompt]
   (question prompt
             [:span low] (bj/slider id) [:span high]))
-;(add-class
-; (question
-;  prompt
-;  [:div.instrument
-;   [:span.low low]
-;   (bf/radio-group id (map #(vector % %) (range 1 8)))
-;   [:span.high high]
-;   [:br]])
-; "seven-point-scale"))
+                                        ;(add-class
+                                        ; (question
+                                        ;  prompt
+                                        ;  [:div.instrument
+                                        ;   [:span.low low]
+                                        ;   (bf/radio-group id (map #(vector % %) (range 1 8)))
+                                        ;   [:span.high high]
+                                        ;   [:br]])
+                                        ; "seven-point-scale"))
 
 (defn directions
   "Provide a set directions inline with the questions"
@@ -171,3 +171,11 @@
             :value (if-not (= (appengine-environment-type) :development) (str url "?ts=" (System/currentTimeMillis)) url)
             :class "url"}]
    map-canvas])
+
+(defelem yes-no
+  "Yes => No"
+  [id]
+  (bf/radio-group id
+                  {:yes  "Yes"
+                   :no "No"
+                   :dk "Don't Recall"}))
