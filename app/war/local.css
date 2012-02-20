@@ -165,3 +165,8 @@ li {
 }
 
 a#resume { float:right; margin-left: 1em; }
+
+#sshrclogo { margin-top: 1em; }
+#vclogo { float: right; margin: 0 0 1em 2em; }
+#vcthanks img { margin-left: auto; margin-right: auto; display: block; }
+

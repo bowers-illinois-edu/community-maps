@@ -44,9 +44,9 @@
           (include-css "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/ui-lightness/jquery-ui.css")
           (include-css "local.css")))
 
-(defn body [title body]
+(defn body [header body]
   [:body {:id "doc" :class "yui-t7"}
-    [:div#hd [:h1 title]]
+    [:div#hd header]
     [:div#bd
      [:div.yui-g body]]])
   
@@ -99,7 +99,13 @@
     (include-js "burp.jquery.ui.support.js")
     (include-js "questions.js")
     css]
-   (body "Welcome" (screen-form-button screen subject))))
+   (body
+    (list
+     [:img#sshrclogo {:src "SSHRC.png" :alt "SSHRC Logo"}]
+     [:h1 "Welcome"])
+    (list
+     [:img#vclogo {:src "votecompass.png" :alt "VoteCompass Logo"}]
+     (screen-form-button screen subject)))))
 
 (def thank-text (load-and-process-txt "thank.txt"))
 
@@ -110,7 +116,13 @@
    [:head
     [:title "Thank You"]
     css]
-   (body "Thank You" (screen subject))))
+   (body (list
+     [:img#sshrclogo {:src "SSHRC.png" :alt "SSHRC Logo"}]
+     [:h1 "Thank You"])
+         (list
+          (screen subject)
+          [:div#vcthanks
+           [:img {:src "votecompass.png" :alt "VoteCompass Logo"}]]))))
 
 (def screens [consent
               address
