@@ -138,7 +138,7 @@
 (defmethod layout :default [subject screen]
   (xhtml
    [:head
-    [:title "Taking a survey"]
+    [:title "Mapping Communities Survey"]
     (jquery-link) (jquery-ui-link)
     (include-js "burp.jquery.ui.support.js")
     (include-js "address.js")
