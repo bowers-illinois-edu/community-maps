@@ -134,6 +134,17 @@ jQuery(document).ready(function() {
     }
   });
 
+  // #160: hide where id you live before question block
+  $("#live-followup").hide();
+  $("#how-long-lived input").click(function() {
+    var jthis = $(this);
+    if (jthis.val() == "all-my-life") {
+      $("#live-followup").slideUp();
+    } else {
+      $("#live-followup").slideDown();
+    }
+  });
+
   // #87: hiding follow ups for "where did you live before"
   $("div#address span.followup").hide().each(function() {
     var followup = $(this);

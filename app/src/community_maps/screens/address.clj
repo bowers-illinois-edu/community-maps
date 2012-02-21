@@ -23,22 +23,23 @@ If the map does not look right, please try entering the postal code (or an inter
                  ])) ; if preloaded 
 
 
-;;;Q2.	Question: 
-  (question "How long have you lived in your current home?"
-            (bf/radio-group :length-of-residence
-                            {:less-than-one "Less than one year"
-                             :x-years [:span (f/text-field :x-years) " years (please fill in the correct number)"]
-                             :all-my-life "All my life"}))
+;;;Q2.	Question:
+  [:div#how-long-lived
+   (question "How long have you lived in your current home?"
+             (bf/radio-group :length-of-residence
+                             {:less-than-one "Less than one year"
+                              :x-years [:span (f/text-field :x-years) " years (please fill in the correct number)"]
+                              :all-my-life "All my life"}))]
 ;;;Q3.	Question: 
-
-  (question
-   "What city and province did you live in before moving to this home? Please select the best description and fill in the name of the location below."
-   (bf/radio-group :other-residence
-                   (map (fn [[k [v1 v2]]] [k [:span v1 " " [:span.followup v2 " " (f/with-group k (f/text-field :details))]]])
-                        {:city ["Elsewhere in the same city" " -- Please tell us the postal code if you recall it."]
-                         :province ["Elsewhere in the same province" " -- Please tell us the name of the city or the postal code."]
-                         :other ["In another province" " -- Please tell us the name of the city or the postal code."]
-                         :ex-canada ["Outside Canada" " -- Please tell us the name of the country."]})))
+  [:div#live-followup
+   (question
+    "What city and province did you live in before moving to this home? Please select the best description and fill in the name of the location below."
+    (bf/radio-group :other-residence
+                    (map (fn [[k [v1 v2]]] [k [:span v1 " " [:span.followup v2 " " (f/with-group k (f/text-field :details))]]])
+                         {:city ["Elsewhere in the same city" " -- Please tell us the postal code if you recall it."]
+                          :province ["Elsewhere in the same province" " -- Please tell us the name of the city or the postal code."]
+                          :other ["In another province" " -- Please tell us the name of the city or the postal code."]
+                          :ex-canada ["Outside Canada" " -- Please tell us the name of the country."]})))]
 
 ;;;Q4.	Question:
   (question 
