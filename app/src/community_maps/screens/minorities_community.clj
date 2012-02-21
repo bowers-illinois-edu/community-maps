@@ -30,13 +30,9 @@
             :community-political-makeup
             polgroups))
           
-;;;Q24.	Question:
-          (yes-no :ethnic-friends "Are any of your friends of a different race or ethnic background than you?")
-;;; 
-;;;If yes, then Q24a
 ;;;Q24a. Question:
           (question 
-           "Are your friends mostly white, mostly racial and ethnic minorities, about half and half, or some other mixture of people?"
+           "Now thinking more generally, are your friends mostly white, mostly racial and ethnic minorities, about half and half, or some other mixture of people?"
            (bf/radio-group
             :ethnic-friends-composition
             {:white "Mostly white"
@@ -47,7 +43,7 @@
 
 ;;;Q25.	Question:
           (question 
-           (str "Are your friends mostly "
+           (str "Thinking more generally, are your friends mostly "
                 (apply str (interpose ", " (vals (political-groups subject))))
                 " or some other mixture?")
            (bf/radio-group
