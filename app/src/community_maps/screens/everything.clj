@@ -98,7 +98,7 @@
    ;; Party ID and vote choice questions
    (single-choice :party-id
                   "In federal politics, do you usually think of yourself as a:"
-                  (merge (political-groups subject) {:dk "I don't know"}))
+                  (merge (political-groups subject) {:none "None of these"}))
 
    [:div.election-choice.national-election-choice
     (add-class 
