@@ -259,7 +259,19 @@
      "The government in Ottawa should make every effort to improve the social and economic position of racial and ethnic minorities."
 
      :government-fair-treatment
-     "The government in Ottawa should see to it that racial and ethnic minorities get fair treatment in jobs."}))
+     "The government in Ottawa should see to it that racial and ethnic minorities get fair treatment in jobs."
+     
+     :supreme-court
+     "Only those who speak both English and French should be appointed to the Supreme Court."
+     
+     :fed-quebec
+     "The federal government should have a say when it comes to decisions about culture in Quebec."
+     
+     :recognize-quebec
+     "Quebec should be formally recognized as a nation in the Constitution."
+     
+     :independent-quebec
+     "Quebec should become an independent state."}))
 
   (single-choice {:id "employed-student"} :employed
                  "Are you currently employed or enrolled as a student?"
