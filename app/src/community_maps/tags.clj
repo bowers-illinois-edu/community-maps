@@ -42,11 +42,11 @@
   "Strongly agree => strongly disagree"
   [id]
   (bf/radio-group id
-                  {:strongly-agree "Strongly Agree"
+                  {:strongly-agree "Strongly agree"
                    :agree "Agree"
                    :neither "Neither agree nor disagree"
                    :disagree "Disagree"
-                   :strongly-disagree "Strongly Disagree"}))
+                   :strongly-disagree "Strongly disagree"}))
 
 (defelem likelihood
   "Very likely => very unlikely"

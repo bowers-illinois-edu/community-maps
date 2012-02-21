@@ -58,9 +58,9 @@ If the map does not look right, please try entering the postal code (or an inter
        (:feel-close-to subject) "?")
       (bf/radio-group
        :feel-close-to-district
-       {:very-close "Very Close"
+       {:very-close "Very close"
         :close "Close"
-        :not-close "Not Close"
+        :not-close "Not close"
         :not-close-at-all "Not close at all"}))
      (question
       (str
@@ -68,8 +68,8 @@ If the map does not look right, please try entering the postal code (or an inter
        (if (= "Canada" (:feel-close-to subject)) "country"  (:feel-close-to subject)) "?")
       (bf/radio-group
        :willing-to-move
-       {:very-willing "Very Willing"
-        :fairly-willing "Fairly Willing"
+       {:very-willing "Very willing"
+        :fairly-willing "Fairly willing"
         :neutral "Neither willing nor unwilling"
         :fairly-unwilling "Fairly unwilling"
         :very-unwilling "Very unwilling"})))))
