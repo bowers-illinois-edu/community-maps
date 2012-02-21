@@ -6,7 +6,7 @@ communities and their political views.
 To that end, we invite you to answer a short online survey involving
 drawing on maps and answering questions about Canada's changing
 society. The survey aims to help researchers and policy makers learn
-about Canada’s changing society and also to test a new way to
+about Canadian society and also to test a new way to
 ask people questions (specifically, it involves the first ever use of
 online drawings on maps). It will take less than 20 minutes to
 complete.
@@ -27,6 +27,6 @@ Firefox (version 4 or later), Internet Explorer (version 8 or later),
 Chrome (version 15 or later), or Safari (version 5 or later). Other
 browsers may work, but have not been tested. We have tested
 successfully on some mobile devices, but some devices may not be
-supported. If you have any questions or comments about browswer
+supported. If you have any questions or comments about browser
 support, please email <a
 href="mailto:admin@mappingcommunities.ca">admin@mappingcommunities.ca</a>.
