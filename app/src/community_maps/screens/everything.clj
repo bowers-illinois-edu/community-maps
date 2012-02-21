@@ -19,7 +19,9 @@
        (list
         (list
          (directions
-               (str "Please look at this map. The highlighted area shows " prompt ".")
+          (str "Please look at this map. The highlighted area shows " prompt 
+               (when (get gis/extended-descriptions dst) (str ", " (gis/extended-descriptions dst)))
+               ".")
                (str "Referring to this map of " prompt
                     ", we would like to ask a series of questions just like the previous ones:"))
          (if (= "canada" dst)

@@ -18,6 +18,14 @@
                   "cd" "census division"
                   "ua" "urban area"})
 
+;; text to insert when describing the regions
+;; any level not included is not described
+(def extended-descriptions
+  {"cd" "which is something something something"
+   "csd" "which is something something something"
+   "da" "which is something something something"
+   "fsa" "which is something something something"
+   })
 
 (defn get-subject-district-id
   "Look up the subject's district id, which can then be used to get a KML file"
