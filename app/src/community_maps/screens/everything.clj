@@ -57,6 +57,15 @@
                      prompt
                      " feel a sense of community?"))
 
+        (question
+         (str "In the last 5 years, do you think "
+              prompt
+              " has become more diverse, less diverse, or has remained about the same?")
+         (bf/radio-group
+          :perceived-diversity-chang
+          {:more "More diverse"
+           :less "Less diverse"
+           :same "Remained about the same"}))
 ;;;Q18.	Question:
         (question
          (str "Some political leaders argue that in the next 10 years, racial and ethnic minorities will "
