@@ -39,8 +39,8 @@
        :family "Family and friends"
        :voting "People or places you think about when you go vote in an election"
        :neighborhood "Your neighborhood"
-       :newspapers "What you read about in newspapers?"
-       :tv "What you see on television or the internet?"})
+       :newspapers "What you read about in newspapers"
+       :tv "What you see on television or the internet"})
      (f/with-group :on-your-mind
        (bf/labeled-checkbox
         :other [:span "Other, please specify: " (f/text-field :other-explanation)])))))
