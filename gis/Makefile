@@ -33,6 +33,7 @@ AGINSTALL = sudo apt-get -y install
 	unzip "files/boundary files/gfsa000a06a_e.zip" -d files
 	unzip "files/boundary files/gpr_000a06a_e.zip" -d files
 	unzip "files/boundary files/gua_000a06a_e.zip" -d files
+	unzip "files/boundary files/gda*" -d files
 	touch .completed/003_UNZIP_FILES
 
 # a convenient shorthand in the next install step
