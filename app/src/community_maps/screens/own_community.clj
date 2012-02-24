@@ -43,11 +43,11 @@ area you highlighted.")
      :community-organize "Suppose that because of budget cuts the library closest to your home was going to be closed down by the city. How likely is it that community residents would organize to try to do something to keep the library open?"}))
 
 ;;;Participation Questions
-(directions "Now we would like to know whether or not you have been involved in your community recently.")
+  (directions "Now we would like to know whether or not you have been involved in your community recently.")
 
-(doall
- (map
-  (f [[id promp]] (question prompt (yes-no id)))
-  {:informalpartic "During the past 12 months, have you worked with other people to deal with some issue facing your community or schools?"
-   :meetingpartic "During the past twelve months, did you attend a meeting about an issue facing your community or schools?"}
-  )))
+  (doall
+   (map
+    (fn [[id prompt]] (question prompt (yes-no-dk id)))
+    {:informalpartic "During the past 12 months, have you worked with other people to deal with some issue facing your community or schools?"
+     :meetingpartic "During the past twelve months, did you attend a meeting about an issue facing your community or schools?"}
+    )))

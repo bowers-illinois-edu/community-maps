@@ -172,7 +172,7 @@
             :class "url"}]
    map-canvas])
 
-(defelem yes-no
+(defelem yes-no-dk
   "Yes => No"
   [id]
   (bf/radio-group id
