@@ -25,7 +25,7 @@
     :minority-population-share ["increase" "decrease"]
     :ethnic-shop ["ethnic minorities" "other members of their same ethnic background"]
     :outgroup-marry ["race" "ethnic background"]
-    :display-district ["pr" "cd" "csd" "canada" "fsa" "fed"]
+    :display-district ["pr" "csd" "canada" "fsa" "fed"]
     :drawing-zoom [10 12 14 16 17]
     ; the next randomization is kind of a hack to get 1/10 subjects
     ; assigned to the "on your mind question" (as the system draws
