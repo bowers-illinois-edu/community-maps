@@ -13,7 +13,7 @@ files:
 
 AGINSTALL = sudo apt-get -y install
 .completed/002_INSTALL_SOFTWARE: .completed/000_COMPLETED_DIR
-	sudo apg-get update
+	sudo apt-get update
 	$(AGINSTALL) postgresql-9.1-postgis
 	$(AGINSTALL) postgis
 	$(AGINSTALL) apache2
