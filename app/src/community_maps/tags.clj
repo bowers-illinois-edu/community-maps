@@ -116,7 +116,7 @@
   (let [opts {:observation "personal observation"
               :friends "friends and families"
               :news "news (tv, radio, online, paper)"
-              :institutions "local institutions"
+              :institutions "local institutions (schools, hospitals, libraries, etc.)"
               :leaders "political leaders"
               :tv "television entertainment shows"}]
     (f/with-group id
