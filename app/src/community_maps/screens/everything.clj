@@ -244,7 +244,7 @@
      :not-important "This is not important to me"}))
   
   (question
-   "What about when it comes to the race and ethnicity of your neighbors? If you could find housing that you liked, would you prefer neighbors who share your racial and ethnic background, or who represent a mix of racial and ethnic backgrounds, or is it not important to you?"
+   "What about when it comes to the race and ethnicity of your neighbors? If you could find housing that you liked, would you rather live with neighbors who share your racial and ethnic background, or who represent a mix of racial and ethnic backgrounds, or is it not important to you?"
    (bf/radio-group
     :housing-ethnic
     {:same "Mostly share my racial and ethnic background"
