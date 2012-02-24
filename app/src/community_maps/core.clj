@@ -102,10 +102,10 @@
    (body
     (list
      [:img#sshrclogo {:src "SSHRC.png" :alt "SSHRC Logo"}]
-     [:h1 "Welcome"])
-    (list
      [:img#vclogo {:src "votecompass.png" :alt "VoteCompass Logo"}]
-     (screen-form-button screen subject)))))
+     [:br {:style "clear:both"}]
+     [:h1 "Welcome"])
+    (screen-form-button screen subject))))
 
 (def thank-text (load-and-process-txt "thank.txt"))
 
@@ -116,13 +116,13 @@
    [:head
     [:title "Thank You"]
     css]
-   (body (list
+   (body
+    (list
      [:img#sshrclogo {:src "SSHRC.png" :alt "SSHRC Logo"}]
+     [:img#vclogo {:src "votecompass.png" :alt "VoteCompass Logo"}]
+     [:br {:style "clear:both"}]
      [:h1 "Thank You"])
-         (list
-          (screen subject)
-          [:div#vcthanks
-           [:img {:src "votecompass.png" :alt "VoteCompass Logo"}]]))))
+    (screen subject))))
 
 (def screens [consent
               address
