@@ -21,10 +21,10 @@
 ;; text to insert when describing the regions
 ;; any level not included is not described
 (def extended-descriptions
-  {"cd" "which is something something something"
-   "csd" "which is something something something"
-   "da" "which is something something something"
-   "fsa" "which is something something something"
+  {"cd" "which is a Census unit"
+   "csd" "which is a Census unit"
+   "da" "which is a Census unit"
+   "fsa" "which is a postal unit"
    })
 
 (defn get-subject-district-id
