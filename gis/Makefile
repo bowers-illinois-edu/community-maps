@@ -77,7 +77,7 @@ DBIN = sudo -u postgres psql canada
 
 .completed/007_INSTALL_RUBY: .completed/000_COMPLETED_DIR
 	$(AGINSTALL) ruby libpq-dev rubygems
-	sudo gem install postgres
+	sudo gem install pg
 	touch .completed/007_INSTALL_RUBY
 
 .completed/008_GENERATE_KML: .completed/007_INSTALL_RUBY .completed/006_SET_USER_PERMS create-kml.rb
