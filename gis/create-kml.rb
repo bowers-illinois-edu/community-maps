@@ -22,7 +22,9 @@ require 'pg'
 SIMPLIFY = [5, 4, 3,  2, 1.5, 1] + (1..20).map {|q| 1.0/(2 ** q)}
 MIN_POINTS = 25
 MAX_POINTS = 100
-TABLES = ['pr', 'ccs', 'cma', 'csd', 'ct', 'dpl', 'fed', 'fsa', 'cd', 'ua']
+# TABLES = ['pr', 'da', 'ccs', 'cma', 'csd', 'ct', 'dpl', 'fed', 'fsa', 'cd', 'ua']
+# Only produce KML for the levels that will be randomized to save some time
+TABLES = ['pr', 'da', 'csd', 'fed', 'fsa', 'cd']
 PRECISION = 8 # how many digits past decimal point to include in KML file
 
 # DB connection
