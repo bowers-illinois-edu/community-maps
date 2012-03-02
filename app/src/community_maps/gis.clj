@@ -16,7 +16,8 @@
                   "fed" "federal electoral district"
                   "fsa" "forward sortation area"
                   "cd" "census division"
-                  "ua" "urban area"})
+                  "ua" "urban area"
+                  "da" "census dissemination area"})
 
 ;; text to insert when describing the regions
 ;; any level not included is not described
