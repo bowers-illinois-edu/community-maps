@@ -31,7 +31,8 @@ $tables_to_ids = array('pr'  => 'pruid',
 		       'fed' => 'feduid',
 		       'fsa' => 'census_fsa',
 		       'cd'  => 'cduid',
-		       'ua'  => 'uapuid');
+		       'ua'  => 'uapuid',
+		       'da'  => 'dauid');
 
 $lat = $_GET["lat"];
 $lon = $_GET["lon"];
