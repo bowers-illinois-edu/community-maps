@@ -13,6 +13,7 @@ files:
 
 AGINSTALL = sudo apt-get -y install
 .completed/002_INSTALL_SOFTWARE: .completed/000_COMPLETED_DIR
+	sudo apt-get update
 	$(AGINSTALL) postgresql-9.1-postgis
 	$(AGINSTALL) postgis
 	$(AGINSTALL) apache2
@@ -32,6 +33,7 @@ AGINSTALL = sudo apt-get -y install
 	unzip "files/boundary files/gfsa000a06a_e.zip" -d files
 	unzip "files/boundary files/gpr_000a06a_e.zip" -d files
 	unzip "files/boundary files/gua_000a06a_e.zip" -d files
+	unzip "files/boundary files/gda*" -d files
 	touch .completed/003_UNZIP_FILES
 
 # a convenient shorthand in the next install step
@@ -50,6 +52,11 @@ POSTGIS_SQL_PATH = /usr/share/postgresql/9.1/contrib/postgis-1.5/
 SHP2PGSQL = /usr/lib/postgresql/9.1/bin/shp2pgsql
 DBIN = sudo -u postgres psql canada
 .completed/005_POPULATE_DB: .completed/004_SETUP_DB
+	$(SHP2PGSQL) -p -s 4269 -W LATIN1 files/gda_010b06a_e.shp da | $(DBIN)
+	for f in files/gda_*.shp; do \
+		$(SHP2PGSQL) -a -s 4269 -W LATIN1 $$f da | $(DBIN) ; \
+	done
+	$(DBIN) -c 'CREATE INDEX "da_the_geom_gist" ON "da" using gist ("the_geom" gist_geometry_ops);'
 	$(SHP2PGSQL) -s 4269 -I -W LATIN1 files/gccs000a06a_e.shp ccs | $(DBIN)
 	$(SHP2PGSQL) -s 4269 -I -W LATIN1 files/gcd_000a06a_e.shp cd | $(DBIN)
 	$(SHP2PGSQL) -s 4269 -I -W LATIN1 files/gcma000a06a_e.shp cma | $(DBIN)
@@ -70,7 +77,7 @@ DBIN = sudo -u postgres psql canada
 
 .completed/007_INSTALL_RUBY: .completed/000_COMPLETED_DIR
 	$(AGINSTALL) ruby libpq-dev rubygems
-	sudo gem install postgres
+	sudo gem install pg
 	touch .completed/007_INSTALL_RUBY
 
 .completed/008_GENERATE_KML: .completed/007_INSTALL_RUBY .completed/006_SET_USER_PERMS create-kml.rb

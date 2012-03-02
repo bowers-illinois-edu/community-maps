@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 
 require 'rubygems'
-require 'postgres'
+require 'pg'
 
 # example query
 # select asKML(ST_simplifypreservetopology(the_geom,0.001)) from gccs000a06a_e limit 1; 
@@ -22,13 +22,15 @@ require 'postgres'
 SIMPLIFY = [5, 4, 3,  2, 1.5, 1] + (1..20).map {|q| 1.0/(2 ** q)}
 MIN_POINTS = 25
 MAX_POINTS = 100
-TABLES = ['pr', 'ccs', 'cma', 'csd', 'ct', 'dpl', 'fed', 'fsa', 'cd', 'ua']
+# TABLES = ['pr', 'da', 'ccs', 'cma', 'csd', 'ct', 'dpl', 'fed', 'fsa', 'cd', 'ua']
+# Only produce KML for the levels that will be randomized to save some time
+TABLES = ['pr', 'da', 'csd', 'fed', 'fsa', 'cd']
 PRECISION = 8 # how many digits past decimal point to include in KML file
 
 # DB connection
 USER = 'postgres'
 DB = 'canada'
-db = PGconn.connect(:dbname => DB, :user => USER)
+db = PG.connect(:dbname => DB, :user => USER)
 
 if (!FileTest::directory?("kml"))
   Dir::mkdir("kml")
@@ -52,22 +54,22 @@ TABLES.map {|t|
   # simplification value for each geometry. We are trying to make
   # geometries with between MAX_POINTS and MIN_POINTS
 
-  db.query("CREATE TEMPORARY TABLE #{t}simp AS (SELECT #{id}, 0.0 as s FROM #{t})")
+  db.exec("CREATE TEMPORARY TABLE #{t}simp AS (SELECT #{id}, 0.0 as s FROM #{t})")
 
   SIMPLIFY.map do |s| 
-    db.query("INSERT INTO #{t}simp SELECT #{id}, #{s} FROM
+    db.exec("INSERT INTO #{t}simp SELECT #{id}, #{s} FROM
                (SELECT #{id}, st_npoints(simplify(the_geom, #{s})) as n FROM #{t}) as tmp
                  WHERE n < #{MAX_POINTS} and n > #{MIN_POINTS};")
   end
   
-  q = "SELECT #{t}.#{id}, asKML(simplify(the_geom, s), #{PRECISION}) FROM 
+  qstr = "SELECT #{t}.#{id}, asKML(simplify(the_geom, s), #{PRECISION}) FROM 
           (SELECT #{id}, max(s) as s FROM #{t}simp GROUP BY #{id}) AS tmp
           LEFT JOIN #{t} ON tmp.#{id} = #{t}.#{id};"
 
-  db.query(q).map {|q|
-    id = q[0]
-    kml = q[1]
-    File.open("kml/#{t}/#{id}.kml", 'w') {|f|
+  db.exec(qstr).each {|q|
+    kid = q[id]
+    kml = q["askml"]
+    File.open("kml/#{t}/#{kid}.kml", 'w') {|f|
       tmp = <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
@@ -85,6 +87,7 @@ TABLES.map {|t|
 </kml>
 EOF
     f.write(tmp)
+    puts "wrote #{kid}\n"
   }
  }
   
