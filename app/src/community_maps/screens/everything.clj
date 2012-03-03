@@ -167,20 +167,17 @@
     {:melting-pot
      "It is better for Canada if different racial and ethnic groups maintain their distinct cultures in a cultural mosaic rather than blend together."
 
-     :fewer-opportunities
-     "Members of certain ethnic or racial groups have fewer opportunities to get ahead than other people."
-
-     :vote-ethnic 
-     "People should always vote for candidates of their same ethnic or racial background."
-
-     :special-programs
-     "Members of particular racial or ethnic groups use special programs to get more benefits than they deserve."
-
      :happier-with-other-groups
      "People are generally happier when they live and socialize with others of different racial and ethnic backgrounds."
 
-     :shop-ethnic
-     (str "Ethnic and racial minorities should always shop in stores owned by " (:ethnic-shop subject) ".")}))
+    :special-favors 
+     "Irish, Italian, Jewish and many other minorities overcame prejudice and worked their way up. Other minorities should do the same without any special favors."
+
+     :try-harder
+     "It's really a matter of some people not trying hard enough; if racial and ethnic minorities would only try harder they could be just as well off as whites."
+
+     :gov-attention
+     "Government officials usually pay less attention to a request or complaint from someone who is a racial or ethnic minority than from someone who is white."}))
 
 ;;;Q36.	Question:
     (question
@@ -198,26 +195,7 @@
      (bf/radio-group :marry-political
                      {:very-uneasy "Very uneasy"
                       :somewhat-uneasy "Somewhat uneasy"
-                      :not-uneasy "Not uneasy at all"}))
-
-;;;Q38, Q39, Q40, Q41
-  (directions 
-   "Please read the following statements and for each one, tell us how strongly you agree or disagree.")
-
-  (doall
-   (map
-    (fn [[k p]] (question p (agree-disagree k)))
-    {:special-favors 
-     "Irish, Italian, Jewish and many other minorities overcame prejudice and worked their way up. Other minorities should do the same without any special favors."
-
-     :try-harder
-     "It's really a matter of some people not trying hard enough; if racial and ethnic minorities would only try harder they could be just as well off as whites."
-
-     :social-welfare
-     (str "Most " (:get-welfare subject)  " who receive money from social welfare programs could get along without it if they tried.")
-
-     :gov-attention
-     "Government officials usually pay less attention to a request or complaint from someone who is a racial or ethnic minority than from someone who is white."})))
+                      :not-uneasy "Not uneasy at all"})))
 
 (defscreen racial-conflict [subject]
   (question
