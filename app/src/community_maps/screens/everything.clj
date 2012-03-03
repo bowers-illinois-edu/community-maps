@@ -244,6 +244,6 @@
     "Are the people at your work (or school) mostly white, mostly racial or ethnic minorities, about half and half, or some other mixture?"
     (bf/radio-group :work-ethnicity
                     {:white "Mostly white"
-                     :ethnic "Mostly racial or ethnic minorities"
+                     :ethnic [:span "Mostly racial or ethnic minorities. Please explain: " (f/text-field :ethnic-description)]
                      :half "About half and half"
                      :other [:span "Some other mixture. Please explain:" (f/text-field :other-description)]}))])
