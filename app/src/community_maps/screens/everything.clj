@@ -221,7 +221,7 @@
 
 (defscreen racial-conflict [subject]
   (question
-   "On the whole, do you like or dislike this neighborhood as a place to live."
+   "On the whole, do you like or dislike your neighborhood as a place to live."
    (bf/radio-group :like-neighborhood
                    {:like-alot "Like it a lot"
                     :like "Like it"
