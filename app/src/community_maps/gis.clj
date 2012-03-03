@@ -22,9 +22,9 @@
 ;; text to insert when describing the regions
 ;; any level not included is not described
 (def extended-descriptions
-  {"cd" "which is a Census unit"
-   "csd" "which is a Census unit"
-   "da" "which is a Census unit"
+  {"cd" "which is a census unit"
+   "csd" "which is a census unit"
+   "da" "which is a census unit"
    "fsa" "which is a postal unit"
    })
 
