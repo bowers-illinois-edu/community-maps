@@ -229,27 +229,6 @@
      :diversity "Mostly a mix of racial and ethnic backgrounds"
      :not-important "This is not important to me"}))
 
-  (directions
-   "For each of the following statements, please tell us how strongly you agree or disagree.")
- 
-  (doall
-   (map
-    (fn [[id prompt]] (question prompt (agree-disagree id)))
-    {:competition-jobs 
-     "More good jobs for people of one racial or ethnic group means fewer good jobs for members of other groups."
-
-     :ethnic-influence
-     "The more influence people in one racial or ethnic group have in local politics, the less influence members of other groups will have in local politics."
-
-     :ethnic-housing-pressure
-     "As more good housing and neighborhoods go to people in one racial or ethnic group, there will be fewer good houses and neighborhoods for members of other groups."
-
-     :government-improve
-     "The government in Ottawa should make every effort to improve the social and economic position of racial and ethnic minorities."
-
-     :government-fair-treatment
-     "The government in Ottawa should see to it that racial and ethnic minorities get fair treatment in jobs."}))
-
   (single-choice {:id "employed-student"} :employed
                  "Are you currently employed or enrolled as a student?"
                  {:employed "I am employed"
