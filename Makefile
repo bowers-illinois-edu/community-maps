@@ -5,8 +5,9 @@
 # 	cd war && rm -rf kml
 # 	cd war && ../gis/create-kml.rb
 
+# lein2 is version 1.6.2 on my machine (for reasons unknown version 1.7 does not work)
 appengine-prepare:
-	cd app && lein appengine-prepare
+	cd app && lein2 appengine-prepare
 
 deploy: appengine-prepare
 	cd app && appcfg.sh update war

@@ -4,5 +4,5 @@
                  [shanks "0.1.5"]
                  [burp "0.1.3"]
                  [hiccup "0.3.6"]]
-  :dev-dependencies [[appengine-magic "0.4.4"]])
+  :dev-dependencies [[appengine-magic "0.4.7"]])
 
