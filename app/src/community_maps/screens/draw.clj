@@ -27,20 +27,4 @@
         [:ul
          [:li "Some trackpads use a single tap to indicate mouse down and then automatically keep the mouse button, as if you had your finger on the button. To release the drawing, tap the trackpad again to signal that you are done drawing."]
          [:li "After releasing the mouse button, you have 5 seconds to start drawing again from that position. If 5 seconds elapse, or you move the mouse, the region automatically close."]]]])
-     (scribble-map :community lat lng (:drawing-zoom subject))))
-  (when (:on-your-mind-question subject)
-    (list
-     (multiple-choice
-      :on-your-mind
-      "What were you thinking about as you were drawing your \"local community\"? Check all that apply:"
-      {:weekly "People or places you see on a weekly basis"
-       :people-like-you "People like you"
-       :local-places "Your grocery store, library, post office, church, or other places you visit on a regular basis"
-       :family "Family and friends"
-       :voting "People or places you think about when you go vote in an election"
-       :neighborhood "Your neighborhood"
-       :newspapers "What you read about in newspapers"
-       :tv "What you see on television or the internet"})
-     (f/with-group :on-your-mind
-       (bf/labeled-checkbox
-        :other [:span "Other, please specify: " (f/text-field :other-explanation)])))))
+     (scribble-map :community lat lng (:drawing-zoom subject)))))
