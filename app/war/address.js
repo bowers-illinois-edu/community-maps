@@ -6,7 +6,7 @@ $(document).ready(function() {
     var address = $("#address-address-finder-address").val();    
     var geocoder = new google.maps.Geocoder();
     
-    geocoder.geocode({address: address}, function(gresult, gstatus) {
+    geocoder.geocode({address: address + " canada"}, function(gresult, gstatus) {
       
       if (gstatus != google.maps.GeocoderStatus.OK) {
         // TODO use diaglog for alerting the user it is not found
