@@ -193,13 +193,13 @@
 
 ;;;Q36. Question:
   (question
-   (str "How would it make you feel if a close relative of yours were planning to marry a person of different "
+   (str "How would it make you feel if a close relative of yours were planning to marry a person of a different "
         (:outgroup-marry subject)
         " from yours?")
    (bf/radio-group :marry-ethnic
                    {:very-uneasy "Very uneasy"
                     :somewhat-uneasy "Somewhat uneasy"
-                    :not-uneasy "Not uneasy address.cljt all"}))
+                    :not-uneasy "Not uneasy at all"}))
 
 ;;;Q37. Question:
   (question
