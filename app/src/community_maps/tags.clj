@@ -81,6 +81,13 @@
       (assoc all-see :quebecois "Bloq Quebecois")
       all-see)))
 
+
+(defn political-groups-supporters
+  "Adds supporters to political groups"
+  [subject]
+  (map-vals #(str % " supporters") (political-groups subject)))
+
+
 ;; take on "supporters" to the political groups
 (defn ethnic-political-groups
   "Combines the ethnic and political groups, with BQ added for Quebec subjects"
@@ -159,8 +166,8 @@
     [:div.static-map
      (map
       (fn [path] [:input {:type "hidden"
-                         :class "polygon"
-                         :value (apply str (doall (flatten (interpose ";" (map #(interpose "," %) path))))) }])
+                          :class "polygon"
+                          :value (apply str (doall (flatten (interpose ";" (map #(interpose "," %) path))))) }])
       coords)
      map-canvas]))
 
