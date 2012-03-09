@@ -108,9 +108,11 @@
       :not-important "Not important at all"}))
 
    ;; Party ID and vote choice questions
-   (single-choice :party-id
-                  "In federal politics, do you usually think of yourself as a:"
-                  (merge (political-groups-supporters subject) {:none "None of these"}))
+   (question 
+    "In federal politics, do you usually think of yourself as a:"
+    (bf/radio-group
+     :party-id
+     (conj (shuffle (vec (political-groups-supporter subject))) [:none "None of these"])))
 
    [:div.election-choice.national-election-choice
     (add-class

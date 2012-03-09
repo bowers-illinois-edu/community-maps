@@ -82,10 +82,10 @@
       all-see)))
 
 
-(defn political-groups-supporters
-  "Adds supporters to political groups"
+(defn political-groups-supporter
+  "Adds 'supporter' to political groups"
   [subject]
-  (map-vals #(str % " supporters") (political-groups subject)))
+  (map-vals #(str % " supporter") (political-groups subject)))
 
 
 ;; take on "supporters" to the political groups
@@ -124,7 +124,7 @@
               :friends "friends and families"
               :news "news (tv, radio, online, paper)"
               :institutions "local institutions (schools, hospitals, libraries, etc.)"
-              :leaders "political leaders"
+             :leaders "political leaders"
               :tv "television entertainment shows"}]
     (f/with-group id
       [:div.learn-composition
