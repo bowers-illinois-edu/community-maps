@@ -106,6 +106,7 @@
       :somewhat-important "Somewhat important"
       :not-very-important "Not very important"
       :not-important "Not important at all"}))
+
    ;; Party ID and vote choice questions
    (single-choice :party-id
                   "In federal politics, do you usually think of yourself as a:"
@@ -152,6 +153,17 @@
       :same "Left the same as it is now"
       :decrease-little "Decreased a little"
       :decrease-much "Decreased a lot"}))))
+
+(question
+ "Do you agree or disagree with the following statement? Speaking English or French should be a requirement for immigration to Canada."
+ (bf/radio-group
+  :req-lang-immigration
+  {:strongly-agree "Strongly agree"
+   :agree "Agree"
+   :neither "Neither agree nor disagree"
+   :disagree "Disagree"
+   :strongly-disagree "Strongly disagree"}))
+
 
 (defscreen racial-ethnic [subject]
 ;;;Q29. Question:
