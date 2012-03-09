@@ -113,7 +113,7 @@
 
    [:div.election-choice.national-election-choice
     (add-class 
-     (yes-no :national-election "Did you vote in the national election in May?")
+     (yes-no :national-election "Did you vote in the federal national election in May, 2011?")
      :did-vote)
     (add-class
      (question 
