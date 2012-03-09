@@ -152,17 +152,11 @@
       :increase-little "Increased a little"
       :same "Left the same as it is now"
       :decrease-little "Decreased a little"
-      :decrease-much "Decreased a lot"}))))
+      :decrease-much "Decreased a lot"})))
 
-(question
- "Do you agree or disagree with the following statement? Speaking English or French should be a requirement for immigration to Canada."
- (bf/radio-group
-  :req-lang-immigration
-  {:strongly-agree "Strongly agree"
-   :agree "Agree"
-   :neither "Neither agree nor disagree"
-   :disagree "Disagree"
-   :strongly-disagree "Strongly disagree"}))
+  (question
+   "Do you agree or disagree with the following statement? Speaking English or French should be a requirement for immigration to Canada."
+   (agree-disagree :req-lang-immigration)))
 
 
 (defscreen racial-ethnic [subject]
