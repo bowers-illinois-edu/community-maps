@@ -82,7 +82,7 @@
 ;;;What is the largest nonwhite group?
 
         (directions
-         "We would like you to tell us if you feel particularly close to people in the following groups, if you feel the people in the groups are like you in their ideas and interests and feelings about things.")
+         "Now thinking more generally, we would like you to tell us if you feel particularly close to people in the following groups, if you feel the people in the groups are like you in their ideas and interests and feelings about things.")
 ;;; 
 ;;;Q21.	Question:
 ;;; 
