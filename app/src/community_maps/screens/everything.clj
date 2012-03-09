@@ -19,16 +19,16 @@
        (list
         (list
          (directions
-          (str "Please look at this map. The highlighted area shows " prompt 
+          (str "Please look at this map. The highlighted area shows " prompt
                (when (get gis/extended-descriptions dst) (str ", " (gis/extended-descriptions dst)))
                ".")
-               (str "Referring to this map of " prompt
-                    ", we would like to ask a series of questions just like the previous ones:"))
+          (str "Referring to this map of " prompt
+               ", we would like to ask a series of questions just like the previous ones:"))
          (if (= "canada" dst)
            [:img {:src "/canada.jpg"}]
            (kml-map (gis/kml-url dst district-id))))
-        
-      ;;;Q14.	Question:
+
+      ;;;Q14.   Question:
         (group-sliders
          subject
          :census-community
@@ -36,12 +36,12 @@
               prompt
               " is:"))
 
-      ;;;Q15.	Question:
+      ;;;Q15.   Question:
         (learn-about-composition
          :census-composition
          (str "How did you learn about the composition of " prompt "?"))
-        
-      ;;;Q16.	Question:
+
+      ;;;Q16.   Question:
         (question
          (str "On the whole, do you like or dislike "
               prompt
@@ -53,8 +53,8 @@
            :dislike "Dislike it"
            :dislike-alot "Dislike it a lot"}))
 
-      ;;;Q17.	Question:
-        (yes-no :census-feel-community 
+      ;;;Q17.   Question:
+        (yes-no :census-feel-community
                 (str "On the whole, do you think that people who live in "
                      prompt
                      " feel a sense of community?"))
@@ -68,7 +68,7 @@
           {:more "More diverse"
            :less "Less diverse"
            :same "Remained about the same"}))
-;;;Q18.	Question:
+;;;Q18. Question:
         (question
          (str "Some political leaders argue that in the next 10 years, racial and ethnic minorities will "
               (:minority-population-share subject)
@@ -83,9 +83,9 @@
 
         (directions
          "Now thinking more generally, we would like you to tell us if you feel particularly close to people in the following groups, if you feel the people in the groups are like you in their ideas and interests and feelings about things.")
-;;; 
-;;;Q21.	Question:
-;;; 
+;;;
+;;;Q21. Question:
+;;;
         (let [mc (multiple-choice
                   :close-to-group
                   "Please click on all of the groups to which you feel close."
@@ -98,7 +98,7 @@
                      (second (first (get-in mc [2 1])))
                      [(f/with-group "close-to-group" (bf/labeled-checkbox "other-asian" "Other Asians"))]))))))
 
-   (question 
+   (question
     "When it comes to social and political matters, some people think of themselves mainly as White, Chinese, or Black and that is very important to how they think of themselves. Other people don’t tend to think of themselves in these ways. When it comes to social and political matters, how important is your race or ethnicity to how you think of yourself?"
     (bf/radio-group
      :has-ethnic-identity
@@ -109,14 +109,14 @@
    ;; Party ID and vote choice questions
    (single-choice :party-id
                   "In federal politics, do you usually think of yourself as a:"
-                  (merge (political-groups subject) {:none "None of these"}))
+                  (merge (political-groups-supporters subject) {:none "None of these"}))
 
    [:div.election-choice.national-election-choice
-    (add-class 
+    (add-class
      (yes-no :national-election "Did you vote in the federal national election in May, 2011?")
      :did-vote)
     (add-class
-     (question 
+     (question
       "For which party did you vote?"
       (bf/radio-group :national-election-choice
                       (conj
@@ -125,11 +125,11 @@
      :vote-choice)]
 
    [:div.election-choice.provincial-election-choice
-    (add-class 
+    (add-class
      (yes-no :provincial-election "Did you vote in the most recent provincial election?")
      :did-vote)
     (add-class
-     (question 
+     (question
       "For which party did you vote?"
       (bf/radio-group :provincial-election-choice
                       (conj
@@ -154,12 +154,12 @@
       :decrease-much "Decreased a lot"}))))
 
 (defscreen racial-ethnic [subject]
-;;;Q29.	Question:
-  
+;;;Q29. Question:
 
-  (directions 
+
+  (directions
    "Please read the following statements and for each one, tell us how strongly you agree or disagree.")
-;;; 
+;;;
 ;;;Q 30, 31. Q32, Q33, Q34, Q35
   (doall
    (map
@@ -170,7 +170,7 @@
      :happier-with-other-groups
      "People are generally happier when they live and socialize with others of different racial and ethnic backgrounds."
 
-    :special-favors 
+     :special-favors
      "Irish, Italian, Jewish and many other minorities overcame prejudice and worked their way up. Other minorities should do the same without any special favors."
 
      :try-harder
@@ -179,23 +179,23 @@
      :gov-attention
      "Government officials usually pay less attention to a request or complaint from someone who is a racial or ethnic minority than from someone who is white."}))
 
-;;;Q36.	Question:
-    (question
-     (str "How would it make you feel if a close relative of yours were planning to marry a person of different "
-          (:outgroup-marry subject)
-          " from yours?")
-     (bf/radio-group :marry-ethnic
-                     {:very-uneasy "Very uneasy"
-                      :somewhat-uneasy "Somewhat uneasy"
-                      :not-uneasy "Not uneasy address.cljt all"}))
- 
-;;;Q37.	Question:
-    (question
-     "How would it make you feel if a close relative of yours were planning to marry a person who had strong political beliefs different from your own?"
-     (bf/radio-group :marry-political
-                     {:very-uneasy "Very uneasy"
-                      :somewhat-uneasy "Somewhat uneasy"
-                      :not-uneasy "Not uneasy at all"})))
+;;;Q36. Question:
+  (question
+   (str "How would it make you feel if a close relative of yours were planning to marry a person of different "
+        (:outgroup-marry subject)
+        " from yours?")
+   (bf/radio-group :marry-ethnic
+                   {:very-uneasy "Very uneasy"
+                    :somewhat-uneasy "Somewhat uneasy"
+                    :not-uneasy "Not uneasy address.cljt all"}))
+
+;;;Q37. Question:
+  (question
+   "How would it make you feel if a close relative of yours were planning to marry a person who had strong political beliefs different from your own?"
+   (bf/radio-group :marry-political
+                   {:very-uneasy "Very uneasy"
+                    :somewhat-uneasy "Somewhat uneasy"
+                    :not-uneasy "Not uneasy at all"})))
 
 (defscreen racial-conflict [subject]
   (question
@@ -220,7 +220,7 @@
     {:share "Mostly share my political beliefs and values"
      :diversity "Mostly hold a wide range of political beliefs and values"
      :not-important "This is not important to me"}))
-  
+
   (question
    "What about when it comes to the race and ethnicity of your neighbors? If you could find housing that you liked, would you rather live with neighbors who share your racial and ethnic background, or who represent a mix of racial and ethnic backgrounds, or is it not important to you?"
    (bf/radio-group
@@ -239,8 +239,8 @@
     "Would you please tell us where you work or study? Please provide the postal code, or if you don't know the postal code, please provide an intersection or address."
     (f/text-field :work-study-address))
 
-;;;Q20.	Question:
-   (question 
+;;;Q20. Question:
+   (question
     "Are the people at your work (or school) mostly white, mostly racial or ethnic minorities, about half and half, or some other mixture?"
     (bf/radio-group :work-ethnicity
                     {:white "Mostly white"
