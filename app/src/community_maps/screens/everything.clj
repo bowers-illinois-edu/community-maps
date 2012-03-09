@@ -211,22 +211,22 @@
 
 (defscreen racial-conflict [subject]
   (question
-   "On the whole, do you like or dislike your neighborhood as a place to live."
-   (bf/radio-group :like-neighborhood
+   "On the whole, do you like or dislike your neighbourhood as a place to live."
+   (bf/radio-group :like-neighbourhood
                    {:like-alot "Like it a lot"
                     :like "Like it"
                     :dislike "Dislike it"
                     :dislike-alot "Dislike it a lot"}))
   (question
-   "How worried are you about your safety in your neighborhood?"
-   (bf/radio-group :safe-neighborhood
+   "How worried are you about your safety in your neighbourhood?"
+   (bf/radio-group :safe-neighbourhood
                    {:worried "Worried"
                     :somewhat-worried "Somewhat worried"
                     :not-very-worried "Not very worried"
                     :not-at-all-worried "Not at all worried"}))
 
   (question
-   "If you could find housing that you liked, would you rather live with neighbors who mostly share your political beliefs and values, or who hold a wide range of political beliefs and values, or is it not important to you?"
+   "If you could find housing that you liked, would you rather live with neighbours who mostly share your political beliefs and values, or who hold a wide range of political beliefs and values, or is it not important to you?"
    (bf/radio-group
     :housing-political
     {:share "Mostly share my political beliefs and values"
@@ -234,7 +234,7 @@
      :not-important "This is not important to me"}))
 
   (question
-   "What about when it comes to the race and ethnicity of your neighbors? If you could find housing that you liked, would you rather live with neighbors who share your racial and ethnic background, or who represent a mix of racial and ethnic backgrounds, or is it not important to you?"
+   "What about when it comes to the race and ethnicity of your neighbours? If you could find housing that you liked, would you rather live with neighbours who share your racial and ethnic background, or who represent a mix of racial and ethnic backgrounds, or is it not important to you?"
    (bf/radio-group
     :housing-ethnic
     {:same "Mostly share my racial and ethnic background"

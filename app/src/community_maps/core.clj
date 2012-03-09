@@ -19,7 +19,7 @@
 
 (defn randomizer []
   (randomize-subject
-   {:feel-close-to ["control" "neighborhood" "city" "province" "Canada"]
+   {:feel-close-to ["control" "neighbourhood" "city" "province" "Canada"]
     :get-welfare ["ethnic minorities" "people"]
     :minority-projection ["none" "25" "35" "50"]
     :minority-population-share ["increase" "decrease"]
