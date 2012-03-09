@@ -62,7 +62,7 @@
         (question
          (str "In the last 5 years, do you think "
               prompt
-              " has become more diverse, less diverse, or has remained about the same?")
+              " has become more racially and ethnically diverse, less racially and ethnically diverse, or has remained about the same?")
          (bf/radio-group
           :perceived-diversity-chang
           {:more "More diverse"
