@@ -14,9 +14,9 @@ complete.
 Your responses are confidential and secure. Once you begin the survey,
 you can choose not to answer any particular question. You can also
 take a break from the survey and come back to finish it later.
-During this survey, please do not use your back button on your
+<strong>During this survey, please do not use your back button on your
 browser. You will not be able to go back and change your answers, so
-consider your responses carefully.
+consider your responses carefully.</strong>
 
 If you have any questions, please do not hesitate to contact us at <a
 href="mailto:admin@mappingcommunities.ca">admin@mappingcommunities.ca</a>. We

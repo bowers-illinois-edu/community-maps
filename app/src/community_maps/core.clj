@@ -9,7 +9,8 @@
         [clojure.string :only [split]]
         community-maps.output
         [community-maps.mail :only [add-mail-urls mail-comments]]
-        compojure.core)
+        compojure.core
+        [community-maps.tags :only [directions]])
   (:require [appengine-magic.core :as ae]
             [appengine-magic.services.datastore :as ds]
             [burp.forms :as bf]
@@ -62,6 +63,7 @@
               (f/text-area (str "comments-" (:step subject)))
               [:div.email (f/label :email-address "Email: ")
                (f/text-field :email-address (:email-address subject))]]
+             (directions "Please consider your answers carefully. After you click the continue button you will not be able to return to change your answers. Do not use your browser's back button.")
              (f/submit-button {:class "continue fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"} "Continue")))
 
 
@@ -90,6 +92,14 @@
     "I understand the general nature of this survey, "
     "I am 18 years of age or older, and I voluntarily agree to participate in this survey.")))
 
+(defn screen-form-simple
+  "Wrap a screen in a form with a funky button"
+  [scrn subject]
+  (f/form-to [:post "/"]
+             (f/hidden-field :id (:id subject))
+             (scrn subject)
+             (f/submit-button {:class "continue fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"} "Continue")))
+
 (defmethod layout consent [subject screen]
   (xhtml
    [:head
@@ -105,7 +115,7 @@
      [:img#vclogo {:src "votecompass.png" :alt "VoteCompass Logo"}]
      [:br {:style "clear:both"}]
      [:h1 "Welcome"])
-    (screen-form-button screen subject))))
+    (screen-form-simple screen subject))))
 
 (def thank-text (load-and-process-txt "thank.txt"))
 
