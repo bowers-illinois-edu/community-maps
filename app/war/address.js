@@ -6,7 +6,7 @@ $(document).ready(function() {
     var address = $("#address-address-finder-address").val();    
     var geocoder = new google.maps.Geocoder();
     
-    geocoder.geocode({address: address + " canada"}, function(gresult, gstatus) {
+    geocoder.geocode({address: address, region: "ca" }, function(gresult, gstatus) {
       
       if (gstatus != google.maps.GeocoderStatus.OK) {
         // TODO use diaglog for alerting the user it is not found
@@ -15,12 +15,20 @@ $(document).ready(function() {
         }
         enteredValidAddress = false;
       } else {
-        enteredValidAddress = true;
-        // save the data
+        var minlon = -141.018073107509; var maxlon = -52.5822958601443;
+        var minlat = 41.6769493195857; var maxlat = 89.9994270756251;
         var point = gresult[0].geometry.location;
-        $("input.latlng").val([point.lat(), point.lng()].join(","));
-        if(success) {
-          success(gresult);
+
+        if (point.lat() < minlat || point.lat() > maxlat || point.lng() < minlon || point.lng() > maxlon) {
+          fail();
+          enteredValidAddress = false;
+        } else {
+          enteredValidAddress = true;
+          // save the data
+          $("input.latlng").val([point.lat(), point.lng()].join(","));
+          if(success) {
+            success(gresult);
+          }
         }
       } 
     });
@@ -60,7 +68,7 @@ $(document).ready(function() {
 
     updateButton.click(function() {
       var fail = function() {
-          modal("No location matching this postal code or address found. Please enter your postal code or address again.");
+          modal("No location matching this postal code or address found within Canada. Please enter your postal code or address again.");
       };
 
       geocode(fail, function(gresult) {
