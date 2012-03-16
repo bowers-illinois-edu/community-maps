@@ -237,6 +237,13 @@
      :diversity "Mostly a mix of racial and ethnic backgrounds"
      :not-important "This is not important to me"}))
 
+  (doall
+   (map
+    (fn [[key prompt]] (question prompt (agree-disagree key)))
+    {:taxes-increased "Taxes should be increased in [your local community/your city/{province}] to help improve public transport and roads."
+     :french-language "[Your city government/ The government of {province}/ The Canadian government] should treat French like any other minority language."
+     :anti-racism "Schools in [your local community/your city/{province}/Canada] should be required to have initiatives [in antiracism and Native studies/ emphasizing the European origins of Canada's history and traditions]."}))
+  
   (single-choice {:id "employed-student"} :employed
                  "Are you currently employed or enrolled as a student?"
                  {:employed "I am employed"
