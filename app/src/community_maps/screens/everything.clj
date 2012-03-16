@@ -253,7 +253,8 @@
      (str "Schools in "
           (:anti-racism-unit subject)
           " should be required to have initiatives "
-          (:anti-racism-cirriculum subject))}))
+          (:anti-racism-cirriculum subject)
+          ".")}))
   
   (single-choice {:id "employed-student"} :employed
                  "Are you currently employed or enrolled as a student?"
