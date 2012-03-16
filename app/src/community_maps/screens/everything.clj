@@ -237,6 +237,9 @@
      :diversity "Mostly a mix of racial and ethnic backgrounds"
      :not-important "This is not important to me"}))
 
+  (directions
+   "Please read the following statements and for each one, tell us how strongly you agree or disagree.")
+
   (doall
    (map
     (fn [[key prompt]] (question prompt (agree-disagree key)))
