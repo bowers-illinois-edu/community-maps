@@ -31,7 +31,14 @@
     ; the next randomization is kind of a hack to get 1/10 subjects
     ; assigned to the "on your mind question" (as the system draws
     ; with eq prob from the options
-    :on-your-mind-question (conj (repeat 9 false) true)}))
+    :on-your-mind-question (conj (repeat 9 false) true)
+    ; the next randomizations for 3 questions on the racial-conflict
+    ; screen (of the same name)
+    :taxes-increased ["your local community" "your city" "your province"]
+    :french-language ["Your city government" "Your provincial government" "The Canadian government"]
+    :anti-racism-unit ["your local community" "your city" "your province" "Canada"]
+    :anti-racism-cirriculum ["in antiracism and Native studies" "emphasizing the European origins of Canada's history and traditions"]
+    }))
 
 (defn createwithid [req]
   (let [key (dbsave (assoc (randomizer) :vcid (get-in req [:params :vcid])))]
