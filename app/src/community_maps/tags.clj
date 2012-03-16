@@ -124,7 +124,7 @@
               :friends "friends and families"
               :news "news (tv, radio, online, paper)"
               :institutions "local institutions (schools, hospitals, libraries, etc.)"
-             :leaders "political leaders"
+              :leaders "political leaders"
               :tv "television entertainment shows"}]
     (f/with-group id
       [:div.learn-composition
@@ -186,3 +186,8 @@
                   {:yes  "Yes"
                    :no "No"
                    :dk "Don't Recall"}))
+
+(def no-back-button-msg
+  (vector
+   :div.no-back-button
+   "Please consider your answers carefully. After you click the continue button you will not be able to return to change your answers. Do not use your browser's back button."))

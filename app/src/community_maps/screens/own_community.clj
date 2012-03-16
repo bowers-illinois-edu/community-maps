@@ -65,4 +65,6 @@ area you highlighted.")
     (fn [[id prompt]] (question prompt (yes-no-dk id)))
     {:informalpartic "During the past 12 months, have you worked with other people to deal with some issue facing your community or schools?"
      :meetingpartic "During the past twelve months, did you attend a meeting about an issue facing your community or schools?"}
-    )))
+    ))
+  
+  no-back-button-msg)

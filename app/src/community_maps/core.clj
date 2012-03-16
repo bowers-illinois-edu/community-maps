@@ -63,7 +63,6 @@
               (f/text-area (str "comments-" (:step subject)))
               [:div.email (f/label :email-address "Email: ")
                (f/text-field :email-address (:email-address subject))]]
-             (vector :div.no-back-button "Please consider your answers carefully. After you click the continue button you will not be able to return to change your answers. Do not use your browser's back button.")
              (f/submit-button {:class "continue fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"} "Continue")))
 
 
