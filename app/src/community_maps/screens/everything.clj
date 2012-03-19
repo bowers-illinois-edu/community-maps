@@ -158,7 +158,8 @@
 
   (question
    "Do you agree or disagree with the following statement? Speaking English or French should be a requirement for immigration to Canada."
-   (agree-disagree :req-lang-immigration)))
+   (agree-disagree :req-lang-immigration))
+  no-back-button-msg)
 
 
 (defscreen racial-ethnic [subject]
@@ -203,7 +204,8 @@
    (bf/radio-group :marry-political
                    {:very-uneasy "Very uneasy"
                     :somewhat-uneasy "Somewhat uneasy"
-                    :not-uneasy "Not uneasy at all"})))
+                    :not-uneasy "Not uneasy at all"}))
+  no-back-button-msg)
 
 (defscreen racial-conflict [subject]
   (question
@@ -276,4 +278,5 @@
                     {:white "Mostly white"
                      :ethnic [:span "Mostly racial or ethnic minorities. Please explain: " (f/text-field :ethnic-description)]
                      :half "About half and half"
-                     :other [:span "Some other mixture. Please explain:" (f/text-field :other-description)]}))])
+                     :other [:span "Some other mixture. Please explain:" (f/text-field :other-description)]}))]
+  no-back-button-msg)
