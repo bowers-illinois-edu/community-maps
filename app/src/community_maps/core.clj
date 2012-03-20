@@ -41,7 +41,9 @@
     }))
 
 (defn createwithid [req]
-  (let [key (dbsave (assoc (randomizer) :vcid (get-in req [:params :vcid])))]
+  (let [key (dbsave (-> (randomizer)
+                        (assoc :vcid (get-in req [:params :vcid]))
+                        (assoc :tags (get-in req [:params :tags]))))]
     (dbload (ds/key-id key))))
 
 (defmulti layout (fn [subject screen] screen))
