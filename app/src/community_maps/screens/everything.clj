@@ -96,7 +96,7 @@
           (assoc-in mc [2 1]
                     (concat
                      (second (first (get-in mc [2 1])))
-                     [(f/with-group "close-to-group" (bf/labeled-checkbox "other-asian" "Other Asians"))]))))))
+                     [(f/with-group "close-to-group" (bf/labeled-checkbox "other-asian" "Other Asians (Korean, Japanese, Filipino, etc.)"))]))))))
 
    (question
     "When it comes to social and political matters, some people think of themselves mainly as White, Chinese, or Black and that is very important to how they think of themselves. Other people don’t tend to think of themselves in these ways. When it comes to social and political matters, how important is your race or ethnicity to how you think of yourself?"

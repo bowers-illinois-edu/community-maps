@@ -64,10 +64,10 @@
    :white "Whites"
    :unemployed "Unemployed"
    :chinese "Chinese"
-   :east-indian "East Indians"
+   :east-indian "South Asian (East Indian, Pakistani, Sri Lankan, etc.)"
    :aboriginal "Canadian Aboriginals"
    :latin "Latin Americans"
-   :other-asian "Other Asians"})
+   :other-asian "Other Asians (Korean, Japanese, Filipino, etc.)"})
 
 (defn political-groups
   "The political groups, with BQ if the subject is in Quebec"
