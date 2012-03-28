@@ -97,8 +97,7 @@
   (bf/labeled-checkbox
    :consent
    (str
-    "I understand the general nature of this survey, "
-    "I am 18 years of age or older, and I voluntarily agree to participate in this survey.")))
+    "Scientific surveys require formal consent. If you are happy to take the survey, please check the box.")))
 
 (defn screen-form-simple
   "Wrap a screen in a form with a funky button"
