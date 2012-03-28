@@ -46,14 +46,27 @@
   [type k]
   (str "http://" *gisurl* "/kml/" type "/" k ".kml"))
 
+(defn get-province 
+  "Fetches the province code (not the name) from the EC2 gis server. Saves it under :province in the db."
+  [subject]
+  (let [p (:province subject)]
+    (if (nil? p)
+      (let [pr (get-subject-district-id subject "pr")]
+        (dbsave (assoc subject :province pr))
+         pr)
+      p)))
+
 (defn from-quebec?
   "Returns true if the subject is from Quebec, false otherwise. If the subject does not already have a :quebec key,
    this function calls the EC2 server to find the subject's 'pr' value and saves it to the db for future look ups.
    It would be a good idea to cache this return value within a screen to avoid multiple HTTP calls to EC2."
   [subject]
-  (let [q (:quebec subject)]
-    (if (nil? q)
-      (let [pr (get-subject-district-id subject "pr")]
-        (dbsave (assoc subject :quebec (= "24" pr)))
-        (= "24" pr))
-      q)))
+  (= "24" (get-province subject)))
+
+(defn from-alberta?
+  "Returns true if the subject is from Quebec, false otherwise. If the subject does not already have a :quebec key,
+   this function calls the EC2 server to find the subject's 'pr' value and saves it to the db for future look ups.
+   It would be a good idea to cache this return value within a screen to avoid multiple HTTP calls to EC2."
+  [subject]
+  (= "48" (get-province subject)))
+

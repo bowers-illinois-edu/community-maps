@@ -140,6 +140,28 @@
                        [:other "Another party"])))
      :vote-choice)]
 
+   (when (gis/from-alberta? subject)
+     (vector :div.election-choice.alberta-election
+      (add-class
+       (question
+        "So far as you know now, do you expect to vote in the provincial election on April 23?"
+        (bf/radio-group :alberta-vote-0423
+                        {:yes "Yes, expect to vote"
+                         :no "No, do not expect to vote"}))
+       :did-vote)
+      (add-class
+       (question "For which party did you vote?"
+                 (bf/radio-group :alberta-vote-0423-choice
+                                 (conj
+                                  (shuffle 
+                                   [[:liberal "Liberal Party"]
+                                    [:conservative "Progressive Conservative Party"]
+                                    [:wildrose "Wildrose"]
+                                    [:ndp "New Democratic Party (NDP)"] 
+                                    [:alberta "Alberta Party"]])
+                                  [:other "Another party"])))
+       :vote-choice)))
+   
    (question
     [:div
      (when-not (= "none" (:minority-projection subject))
