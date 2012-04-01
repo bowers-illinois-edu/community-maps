@@ -119,7 +119,6 @@
    (body
     (list
      [:img#sshrclogo {:src "SSHRC.png" :alt "SSHRC Logo"}]
-     [:img#vclogo {:src "votecompass.png" :alt "VoteCompass Logo"}]
      [:br {:style "clear:both"}]
      [:h1 "Welcome"])
     (screen-form-simple screen subject))))
@@ -136,7 +135,6 @@
    (body
     (list
      [:img#sshrclogo {:src "SSHRC.png" :alt "SSHRC Logo"}]
-     [:img#vclogo {:src "votecompass.png" :alt "VoteCompass Logo"}]
      [:br {:style "clear:both"}]
      [:h1 "Thank You"])
     (screen subject))))
