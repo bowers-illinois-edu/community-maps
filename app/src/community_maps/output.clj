@@ -69,6 +69,12 @@
 
 (ds/defentity DataCSV [timestamp body])
 
+(defn build-data-cron
+  "Kick off the task to build; cron.xml will hit this regularly"
+  [_]
+  (tq/add! :url "/data/build-csv" :method :get)
+  {:status 200 :headers {"Content-Type" "text/plain"} :body "Data CSV building queued."})
+
 (defn build-data-csv
   "The the cron job kicks off another URL to actually do the work."
   [_]

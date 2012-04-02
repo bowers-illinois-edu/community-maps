@@ -179,10 +179,11 @@
 (defn add-data-urls
   [app]
   (routes
-   (GET "/build-data-csv" [] build-data-csv)
-   (GET "/data.csv" [] all-data-csv)
-   (GET "/subjects-only.csv" [] subjects-csv)
-   (GET "/comments" [] comments-page)
+   (GET "/data/cron" [] build-data-cron)
+   (GET "/data/build-csv" [] build-data-csv)
+   (GET "/data/data.csv" [] all-data-csv)
+   (GET "/data/subjects.csv" [] subjects-csv)
+   (GET "/data/comments" [] comments-page)
    app))
 
 
