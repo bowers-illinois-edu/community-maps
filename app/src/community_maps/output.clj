@@ -3,7 +3,8 @@
         hiccup.page-helpers)
   (:import com.google.appengine.api.datastore.Entity
            com.google.appengine.api.datastore.PreparedQuery
-           com.google.appengine.api.datastore.Query)
+           com.google.appengine.api.datastore.Query
+           shanks.appengine_magic.Subject)
   (:require [appengine-magic.services.datastore :as ds]))
 
 
@@ -56,6 +57,27 @@
   [_]
   (let [sep " | "
         subjects (map prefix-flatten (dbload-all))
+        headers (sort (reduce (fn [a i] (into a (keys i))) #{} subjects))]
+    {:status 200
+     :headers {"Content-Type" "text/plain"}
+     :body (str
+            (apply str (interpose sep headers))
+            (apply str (map
+                        (fn [subject]
+                          (apply str "\n" (interpose sep (map #(get subject %) headers))))
+                        subjects)))}))
+
+;;; Some quick and dirty dumps to make tracking progress easier
+
+(defn dbload-subjects
+  "Load all subjects WITHOUT hierarchical data"
+  []
+  (ds/query :kind Subject))
+    
+(defn subjects-csv 
+  [_]
+  (let [sep " | "
+        subjects (map prefix-flatten (dbload-subjects))
         headers (sort (reduce (fn [a i] (into a (keys i))) #{} subjects))]
     {:status 200
      :headers {"Content-Type" "text/plain"}

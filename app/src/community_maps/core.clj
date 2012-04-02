@@ -180,6 +180,7 @@
   [app]
   (routes
    (GET "/data.csv" [] csv)
+   (GET "/subjects-only.csv" [] subjects-csv)
    (GET "/comments" [] comments-page)
    app))
 
