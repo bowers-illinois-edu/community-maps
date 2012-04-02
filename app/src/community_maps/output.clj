@@ -53,19 +53,23 @@
                   flattened))))))
 
 
-(defn csv
+(defn subject->csv
+  ([subjects] (subject->csv subjects "|"))
+  ([subjects sep]
+     (let [flat (map prefix-flatten subjects)
+           headers (sort (reduce (fn [a i] (into a (keys i))) #{} flat))]
+       (str
+        (apply str (interpose sep headers))
+        (apply str (map
+                    (fn [subject]
+                      (apply str "\n" (interpose sep (map #(get subject %) headers))))
+                    flat))))))
+
+(defn all-data-csv
   [_]
-  (let [sep " | "
-        subjects (map prefix-flatten (dbload-all))
-        headers (sort (reduce (fn [a i] (into a (keys i))) #{} subjects))]
-    {:status 200
-     :headers {"Content-Type" "text/plain"}
-     :body (str
-            (apply str (interpose sep headers))
-            (apply str (map
-                        (fn [subject]
-                          (apply str "\n" (interpose sep (map #(get subject %) headers))))
-                        subjects)))}))
+  {:status 200
+   :headers {"Content-Type" "text/plain"}
+   :body (subject->csv (dbload-all))})
 
 ;;; Some quick and dirty dumps to make tracking progress easier
 
@@ -76,14 +80,6 @@
     
 (defn subjects-csv 
   [_]
-  (let [sep " | "
-        subjects (map prefix-flatten (dbload-subjects))
-        headers (sort (reduce (fn [a i] (into a (keys i))) #{} subjects))]
-    {:status 200
-     :headers {"Content-Type" "text/plain"}
-     :body (str
-            (apply str (interpose sep headers))
-            (apply str (map
-                        (fn [subject]
-                          (apply str "\n" (interpose sep (map #(get subject %) headers))))
-                        subjects)))}))
+  {:status 200
+   :headers {"Content-Type" "text/plain"}
+   :body (subject->csv (dbload-subjects))})
