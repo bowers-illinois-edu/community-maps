@@ -4,8 +4,10 @@
   (:import com.google.appengine.api.datastore.Entity
            com.google.appengine.api.datastore.PreparedQuery
            com.google.appengine.api.datastore.Query
-           shanks.appengine_magic.Subject)
-  (:require [appengine-magic.services.datastore :as ds]))
+           shanks.appengine_magic.Subject
+           java.util.Date)
+  (:require [appengine-magic.services.datastore :as ds]
+            [appengine-magic.services.task-queues :as tq]))
 
 
 (defn fetch-comments
@@ -65,11 +67,23 @@
                       (apply str "\n" (interpose sep (map #(get subject %) headers))))
                     flat))))))
 
+(ds/defentity DataCSV [timestamp body])
+
+(defn build-data-csv
+  "The the cron job kicks off another URL to actually do the work."
+  [_]
+  (let [csv (subject->csv (dbload-all))]
+    (ds/save! (DataCSV. (Date.) (ds/as-text csv)))
+    {:status 200 :headers {"Content-Type" "text/plain"} :body "CSV built"}))
+
 (defn all-data-csv
   [_]
   {:status 200
    :headers {"Content-Type" "text/plain"}
-   :body (subject->csv (dbload-all))})
+   :body (.getValue
+          (:body
+           (first
+            (ds/query :kind DataCSV :limit 1 :sort [[:timestamp :dsc]]))))})
 
 ;;; Some quick and dirty dumps to make tracking progress easier
 
