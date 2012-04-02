@@ -287,6 +287,7 @@
                  "Are you currently employed or enrolled as a student?"
                  {:employed "I am employed"
                   :student "I am a student"
+                  :retired "I am retired"
                   :unemployed "I am not employed"})
   [:div#employment-follow-up
    (question
