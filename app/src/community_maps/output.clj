@@ -78,7 +78,8 @@
 (defn build-data-csv
   "The the cron job kicks off another URL to actually do the work."
   [_]
-  (let [csv (subject->csv (dbload-all))]
+  ; schema-version-number is when the subjects were flattened
+  (let [csv (subject->csv (ds/query :kind shanks.appengine_magic.Subject :filter (> :schema-version-number 1)))]
     (ds/save! (DataCSV. (Date.) (ds/as-text csv)))
     {:status 200 :headers {"Content-Type" "text/plain"} :body "CSV built"}))
 
