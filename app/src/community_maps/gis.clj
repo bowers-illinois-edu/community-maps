@@ -32,7 +32,7 @@
   "Look up the subject's district id, which can then be used to get a KML file"
   [subject district]
   (let [[lat lng] (cstr/split
-                   (get-in subject [:address :address-finder :latlng])
+                   (get subject :address-address-finder-latlng)
                    #",")]
     (String. (:content
               (url/fetch

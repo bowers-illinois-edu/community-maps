@@ -9,7 +9,7 @@
 (defscreen draw
   [subject]
   (let [[lat lng] (split
-                   (get-in subject [:address :address-finder :latlng])
+                   (get subject :address-address-finder-latlng)
                    #",")]
     (question
      (list

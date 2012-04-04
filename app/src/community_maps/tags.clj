@@ -157,7 +157,7 @@
   [subject]
   (map
    (fn [path] (partition 2 (map #(Double/parseDouble %) (split path #","))))
-   (split (get-in subject [:draw :community :data]) #";")))
+   (split (get subject :draw-community-data) #";")))
 
 (defn static-map-communities
   "Given a subject has completed the map drawing question, create a static representation"
