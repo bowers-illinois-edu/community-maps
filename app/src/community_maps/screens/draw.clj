@@ -15,7 +15,7 @@
      (list
       [:span.required "Please draw what you think of as your Local Community on the map. "]
       [:ul (map #(vector :li %)
-                ["Click \"Start Drawing\" to begin drawing your community."
+                ["Click \"Start Drawing\" to begin drawing your community. (There is no \"right\" answer, and we would like you to draw whatever comes to mind when you think of your \"local community.\" We specifically do not provide a definition because we want to learn from you what is important and relevant.)"
                  "Hold down the mouse button to make a line. Open shapes will be enclosed if you lift your mouse for a few 		seconds."
                  "You may make as many shapes as you like."
                  "Even though we have centered the map on your postal code, you should feel free to zoom in or out and to move 		the map if it does not contain the areas that you consider your local community."
