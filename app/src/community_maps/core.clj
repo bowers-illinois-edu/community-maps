@@ -10,7 +10,8 @@
         community-maps.output
         [community-maps.mail :only [add-mail-urls mail-comments]]
         compojure.core
-        [community-maps.tags :only [directions]])
+        [community-maps.tags :only [directions]]
+        [community-maps.upgrade-subjects :only [upgrade-old-subjects]])
   (:require [appengine-magic.core :as ae]
             [appengine-magic.services.datastore :as ds]
             [burp.forms :as bf]
@@ -184,6 +185,7 @@
    (GET "/data/data.csv" [] all-data-csv)
    (GET "/data/subjects.csv" [] subjects-csv)
    (GET "/data/comments" [] comments-page)
+   (GET "/data/upgrade-subjects" [] upgrade-old-subjects)
    app))
 
 
