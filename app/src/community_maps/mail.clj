@@ -44,7 +44,6 @@
       (m/send
        (m/make-message
         :from *from*
-        :reply-to (if (:email extracted) (:email extracted) *from*)
         :to "admin@mappingcommunities.ca"
         :subject (str "A comment" (when  (:email extracted) (str " from " (:email extracted))))
         :text-body
