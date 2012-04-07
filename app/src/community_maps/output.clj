@@ -4,11 +4,14 @@
   (:import com.google.appengine.api.datastore.Entity
            com.google.appengine.api.datastore.PreparedQuery
            com.google.appengine.api.datastore.Query
+           com.google.appengine.api.datastore.Text
            shanks.appengine_magic.Subject
-           java.util.Date)
+           java.util.Date
+           java.text.SimpleDateFormat)
   (:require [appengine-magic.services.datastore :as ds]
             [appengine-magic.services.task-queues :as tq]))
 
+(def date-formatter (SimpleDateFormat. "yyyy-MM-dd HH:mm:ss Z"))
 
 (defn fetch-comments
   [n]
@@ -54,14 +57,32 @@
                   (select-keys coll atoms)
                   flattened))))))
 
+(defn escape-str-for-csv
+  "Escape all quotes and wrap in a set of quotes"
+  [s]
+  (str "\""
+       (.replaceAll (re-matcher #"\"" s) "\\\\\"")
+       "\""))
+
+(defn subject-csv-preprocess
+  "Turn dates into a readable format, escapes strings"
+  [subject]
+  (let [ks (keys subject)
+        text-keys (filter #(= Text (class (get subject %))) ks)
+        string-keys (filter #(string? (get subject %)) ks)
+        date-keys (filter #(= Date (class (get subject %))) ks)]
+    (-> subject
+        (into (map #(vector % (escape-str-for-csv (.getValue (get subject %)))) text-keys))
+        (into (map #(vector % (str "\"" (.format date-formatter (get subject %)) "\"")) date-keys))
+        (into (map #(vector % (escape-str-for-csv (get subject %))) string-keys)))))
 
 (defn subject->csv
   ([subjects] (subject->csv subjects "|"))
   ([subjects sep]
-     (let [flat (map prefix-flatten subjects)
+     (let [flat (map subject-csv-preprocess subjects)
            headers (sort (reduce (fn [a i] (into a (keys i))) #{} flat))]
        (str
-        (apply str (interpose sep headers))
+        (apply str (interpose sep (map #(if (keyword? %) (subs (str %) 1) %) headers)))
         (apply str (map
                     (fn [subject]
                       (apply str "\n" (interpose sep (map #(get subject %) headers))))
