@@ -1,6 +1,7 @@
 (ns community-maps.screens.minorities-community
   (:use community-maps.tags
-        shanks.core)
+        shanks.core
+        clojure.contrib.strint)
   (:require [hiccup.form-helpers :as f ]
             [burp.forms :as bf]))
 
@@ -43,13 +44,11 @@
 
 ;;;Q25. Question:
      (question
-      (str "Thinking more generally, are your friends mostly "
-           (apply str (interpose ", " (vals (political-groups subject))))
-           " or some other mixture?")
+      (<< "Thinking more generally, are your friends mostly ~{(apply str (interpose \", \" (vals (political-groups subject))))} or some other mixture?")
       (bf/radio-group
        :political-friends-composition
        (conj
-        (vec (map (fn [[k v]] [k (str "Mostly " v)]) (shuffle (vec (political-groups subject)))))
+        (vec (map (fn [[k v]] [k (<< "Mostly ~{v}")]) (shuffle (vec (political-groups subject)))))
         [ :other [:span "Some other mixture. Please explain:" (f/text-field :other-description)]])))
      ))
   (group-sliders

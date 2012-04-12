@@ -11,7 +11,8 @@
         [community-maps.mail :only [add-mail-urls mail-comments]]
         compojure.core
         [community-maps.tags :only [directions]]
-        [community-maps.upgrade-subjects :only [upgrade-old-subjects]])
+        [community-maps.upgrade-subjects :only [upgrade-old-subjects]]
+        clojure.contrib.strint)
   (:require [appengine-magic.core :as ae]
             [appengine-magic.services.datastore :as ds]
             [burp.forms :as bf]
@@ -172,7 +173,7 @@
      [:div#resume-popup
       [:p "You can pick up where you left off later. Just enter your email address, and we will send you a link to start from where you stopped."]
       [:input.email]]
-     [:h1 (str "Mapping Communities Survey (Page " (get subject :step 1) " of " (- (count screens) 2) ")")]]
+     [:h1 (<< "Mapping Communities Survey (Page ~{(get subject :step 1)} of ~{(- (count screens) 2)})")]]
     [:div#bd
      [:div.yui-g (screen-form-button screen subject)]]]))
 

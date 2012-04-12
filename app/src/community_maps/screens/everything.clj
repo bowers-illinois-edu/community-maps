@@ -1,7 +1,8 @@
 (ns community-maps.screens.everything
   (:use community-maps.tags
         shanks.core
-        [burp.core :only [add-class]])
+        [burp.core :only [add-class]]
+        clojure.contrib.strint)
   (:require [hiccup.form-helpers :as f]
             [burp.forms :as bf]
             [community-maps.gis :as gis]))
@@ -19,11 +20,8 @@
        (list
         (list
          (directions
-          (str "Please look at this map. The highlighted area shows " prompt
-               (when (get gis/extended-descriptions dst) (str ", " (gis/extended-descriptions dst)))
-               ".")
-          (str "Referring to this map of " prompt
-               ", we would like to ask a series of questions just like the previous ones:"))
+          (<< "Please look at this map. The highlighted area shows ~{prompt}~{(when (get gis/extended-descriptions dst) (str \", \" (gis/extended-descriptions dst)))}.")
+          (<< "Referring to this map of ~{prompt}, we would like to ask a series of questions just like the previous ones:"))
          (if (= "canada" dst)
            [:img {:src "/canada.jpg"}]
            (kml-map (gis/kml-url dst district-id))))
@@ -32,20 +30,16 @@
         (group-sliders
          subject
          :census-community
-         (str "Just your best guess - what percentage of the population in "
-              prompt
-              " is:"))
+         (<< "Just your best guess - what percentage of the population in ~{prompt} is:"))
 
       ;;;Q15.   Question:
         (learn-about-composition
          :census-composition
-         (str "How did you learn about the composition of " prompt "?"))
+         (<< "How did you learn about the composition of ~{prompt}?"))
 
       ;;;Q16.   Question:
         (question
-         (str "On the whole, do you like or dislike "
-              prompt
-              " as a place to live?")
+         (<< "On the whole, do you like or dislike ~{prompt} as a place to live?")
          (bf/radio-group
           :like-dislike-census
           {:like-alot "Like it a lot"
@@ -55,14 +49,10 @@
 
       ;;;Q17.   Question:
         (yes-no :census-feel-community
-                (str "On the whole, do you think that people who live in "
-                     prompt
-                     " feel a sense of community?"))
+                (<< "On the whole, do you think that people who live in ~{prompt} feel a sense of community?"))
 
         (question
-         (str "In the last 5 years, do you think "
-              prompt
-              " has become more racially and ethnically diverse, less racially and ethnically diverse, or has remained about the same?")
+         (<< "In the last 5 years, do you think ~{prompt} has become more racially and ethnically diverse, less racially and ethnically diverse, or has remained about the same?")
          (bf/radio-group
           :perceived-diversity-chang
           {:more "More diverse"
@@ -70,12 +60,7 @@
            :same "Remained about the same"}))
 ;;;Q18. Question:
         (question
-         (str "Some political leaders argue that in the next 10 years, racial and ethnic minorities will "
-              (:minority-population-share subject)
-              " their share of the population in "
-              prompt
-              " by a lot. "
-              "Do you think such a change would be a good or bad thing if it happened?")
+         (<< "Some political leaders argue that in the next 10 years, racial and ethnic minorities will ~{(:minority-population-share subject)} their share of the population in ~{prompt} by a lot. Do you think such a change would be a good or bad thing if it happened?")
          (bf/radio-group :ethnic-growth {:good "Good thing" :neutral "Neither Good nor Bad" :bad "Bad thing"}))
 
 
@@ -92,7 +77,7 @@
                   (merge
                    (dissoc (ethnic-political-groups subject) :other-asian)
                    {:local-community "People in your local community"
-                    :census-community (str "People in " prompt)}))]
+                    :census-community (<< "People in ~{prompt}")}))]
           (assoc-in mc [2 1]
                     (concat
                      (second (first (get-in mc [2 1])))
@@ -212,9 +197,7 @@
 
 ;;;Q36. Question:
   (question
-   (str "How would it make you feel if a close relative of yours were planning to marry a person of a different "
-        (:outgroup-marry subject)
-        " from yours?")
+   (<< "How would it make you feel if a close relative of yours were planning to marry a person of a different ~{(:outgroup-marry subject)} from yours?")
    (bf/radio-group :marry-ethnic
                    {:very-uneasy "Very uneasy"
                     :somewhat-uneasy "Somewhat uneasy"
@@ -268,20 +251,13 @@
    (map
     (fn [[key prompt]] (question prompt (agree-disagree key)))
     {:taxes-increased
-     (str "Taxes should be increased in "
-          (:taxes-increased subject)
-          " to help improve public transport and roads.")
+     (<< "Taxes should be increased in ~{(:taxes-increased subject)} to help improve public transport and roads.")
 
      :french-language
-     (str (:french-language subject)
-          " should treat French like any other minority language.")
+     (<< "~{(:french-language subject)} should treat French like any other minority language.")
 
      :anti-racism
-     (str "Schools in "
-          (:anti-racism-unit subject)
-          " should be required to have initiatives "
-          (:anti-racism-cirriculum subject)
-          ".")}))
+     (<< "Schools in ~{(:anti-racism-unit subject)} should be required to have initiatives ~{(:anti-racism-cirriculum subject)}.")}))
   
   (single-choice {:id "employed-student"} :employed
                  "Are you currently employed or enrolled as a student?"
