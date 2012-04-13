@@ -74,11 +74,16 @@
   (tq/add! :url "/data/build-csv" :method :get)
   {:status 200 :headers {"Content-Type" "text/plain"} :body "Data CSV building queued."})
 
+(defn all-subject-csv-string
+  "Create the big string of all the data"
+  []
+  (subject->csv (ds/query :kind shanks.appengine_magic.Subject :filter (> :schema-version-number 1))))
+
 (defn build-data-csv
   "The the cron job kicks off another URL to actually do the work."
   [_]
   ; schema-version-number is when the subjects were flattened
-  (let [csv (subject->csv (ds/query :kind shanks.appengine_magic.Subject :filter (> :schema-version-number 1)))]
+  (let [csv (all-subject-csv-string)]
     (ds/save! (DataCSV. (Date.) (ds/as-text csv)))
     {:status 200 :headers {"Content-Type" "text/plain"} :body "CSV built"}))
 
@@ -91,15 +96,11 @@
            (first
             (ds/query :kind DataCSV :limit 1 :sort [[:timestamp :dsc]]))))})
 
-;;; Some quick and dirty dumps to make tracking progress easier
+;;; Make the CSV live
 
-(defn dbload-subjects
-  "Load all subjects WITHOUT hierarchical data"
-  []
-  (ds/query :kind Subject))
-    
-(defn subjects-csv 
+(defn live-csv 
   [_]
   {:status 200
    :headers {"Content-Type" "text/plain"}
-   :body (subject->csv (dbload-subjects))})
+   :body (all-subject-csv-string)})
+
