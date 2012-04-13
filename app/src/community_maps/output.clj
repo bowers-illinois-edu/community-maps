@@ -83,9 +83,10 @@
   "The the cron job kicks off another URL to actually do the work."
   [_]
   ; schema-version-number is when the subjects were flattened
-  (let [csv (all-subject-csv-string)]
-    (ds/save! (DataCSV. (Date.) (ds/as-text csv)))
-    {:status 200 :headers {"Content-Type" "text/plain"} :body "CSV built"}))
+  ;
+  ;(let [csv (all-subject-csv-string)]
+  ;  (ds/save! (DataCSV. (Date.) (ds/as-text csv)))
+    {:status 200 :headers {"Content-Type" "text/plain"} :body "CSV at /data/live-data.csv"})
 
 (defn all-data-csv
   [_]
