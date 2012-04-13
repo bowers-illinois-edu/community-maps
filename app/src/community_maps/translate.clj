@@ -1,5 +1,6 @@
 (ns community-maps.translate
-  (:use [community-maps.output :only [escape-str-for-csv]]))
+  (:use [community-maps.output :only [escape-str-for-csv]]
+        clojure.walk))
 
 (def files
   ["core.clj"
@@ -13,12 +14,16 @@
    "screens/minorities_community.clj"
    "screens/own_community.clj"])
 
+(defn super-flatten
+  [form]
+  (flatten (postwalk #(if (map? %) (vec %) %) form)))
+
 (defn file->strs
   "For a given file name w/o src/community_maps prefex, reduce to a list of strings"
   [file]
   (filter
    string?
-   (flatten
+   (super-flatten
     (read-string
      (str "("
           (slurp (str "src/community_maps/" file))
@@ -33,16 +38,11 @@
        [file-name-column (escape-str-for-csv s)])
      (file->strs file))))
 
-(defn all-files-csv
-  []
-  (reduce
-   into
-   (map make-csv files)))
-
 (defn csv-text
   "Turn the internal representation into a bunch of print statements"
-  []
-  (binding [*out* (java.io.FileWriter. "strings.csv")]
+  [outfile file-list]
+  (binding [*out* (java.io.FileWriter. outfile)]
     (println "File,String")
-    (doall (map #(print (first %) "," (second %) "\n") (all-files-csv)))
+    (doseq [l (reduce into [] (map make-csv file-list))]
+      (println (first l) "," (second l)))
     nil))
