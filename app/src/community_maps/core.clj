@@ -187,7 +187,8 @@
    (GET "/data/live-data.csv" [] live-csv)
    (GET "/data/comments" [] comments-page)
    (GET "/data/upgrade-subjects" [] upgrade-old-subjects)
-   app))
+   app
+   (GET "*" [] (fn [_] {:status 404 :headers {"ContentType" "text/plain"} :body "Not Found"}))))
 
 
 
