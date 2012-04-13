@@ -35,28 +35,6 @@
                comments))
         all-comments)]])))
 
-(def split-pred (juxt filter remove))
-
-(defn safe-name
-  [input]
-  (if (keyword? input) (subs (str input) 1) input))
-
-(defn prefix-flatten
-  "Squash a respondent into a flat map, where each key gets the parent as a prefix"
-  ([coll] (prefix-flatten coll ""))
-  ([coll prefix]
-     (let [pfx (if (= prefix "") "" (str (safe-name prefix) "-"))
-           ckeys (keys (dissoc coll :id :name-in-parent))
-           [maps atoms] (split-pred #(map? (get coll %)) ckeys)
-           flattened (map #(prefix-flatten (get coll %) %) maps)]
-       (into {}
-             (map
-              (fn [[k v]] [(str pfx (safe-name k)) v])
-                 (reduce
-                  into 
-                  (select-keys coll atoms)
-                  flattened))))))
-
 (defn escape-str-for-csv
   "Escape all quotes and wrap in a set of quotes"
   [s]
