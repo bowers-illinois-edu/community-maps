@@ -1,5 +1,6 @@
 (ns community-maps.screens.minorities-community
   (:use community-maps.tags
+        community-maps.util
         shanks.core
         clojure.contrib.strint)
   (:require [hiccup.form-helpers :as f ]
@@ -7,7 +8,7 @@
 
 (defscreen minorities-community
   [subject]
-  (let [polgroups (conj (shuffle (vec (political-groups subject)))
+  (let [polgroups (conj (shuffle (vec (map-vals #(str % " supporters") (political-groups subject))))
                         [ :other
                          [:span "Some other mixture. Please explain: " (f/text-field :other-description)]])]
     (list
