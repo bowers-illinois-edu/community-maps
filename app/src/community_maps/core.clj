@@ -120,7 +120,7 @@
     css]
    (body
     (list
-     [:img#sshrclogo {:src "SSHRC.png" :alt "SSHRC Logo"}]
+     [:img#rulogo {:src "RU_logo.gif" :alt "Ryerson Univeristy Logo"}]
      [:br {:style "clear:both"}]
      [:h1 "Welcome"])
     (screen-form-simple screen subject))))
@@ -136,7 +136,7 @@
     css]
    (body
     (list
-     [:img#sshrclogo {:src "SSHRC.png" :alt "SSHRC Logo"}]
+     [:img#rulogo {:src "RU_logo.gif" :alt "Ryerson University Logo"}]
      [:br {:style "clear:both"}]
      [:h1 "Thank You"])
     (screen subject))))
