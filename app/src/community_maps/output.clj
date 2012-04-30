@@ -7,8 +7,16 @@
            com.google.appengine.api.datastore.Text
            shanks.appengine_magic.Subject
            java.util.Date
-           java.text.SimpleDateFormat)
-  (:require [appengine-magic.services.datastore :as ds]
+           java.text.SimpleDateFormat
+           ; Blob service file like storage stuff
+           com.google.appengine.api.files.FileService
+           com.google.appengine.api.files.AppEngineFile
+           com.google.appengine.api.files.FileWriteChannel
+           com.google.appengine.api.files.FileServiceFactory
+           java.nio.ByteBuffer)
+  (:require
+   [appengine-magic.services.blobstore :as bs]
+   [appengine-magic.services.datastore :as ds]
             [appengine-magic.services.task-queues :as tq]))
 
 (def date-formatter (SimpleDateFormat. "yyyy-MM-dd HH:mm:ss Z"))
@@ -66,7 +74,7 @@
                       (apply str "\n" (interpose sep (map #(get subject %) headers))))
                     flat))))))
 
-(ds/defentity DataCSV [timestamp body])
+(ds/defentity DataCSV [timestamp blobkey])
 
 (defn build-data-cron
   "Kick off the task to build; cron.xml will hit this regularly"
@@ -79,23 +87,33 @@
   []
   (subject->csv (ds/query :kind shanks.appengine_magic.Subject :filter (> :schema-version-number 1))))
 
+;;; Using the blobstore service to hold large CSV files and then
+;;; streaming directly to users
+
+(defn string->blob
+  "Turn a string into a blobstore file and return the key"
+  [s]
+  (let [fs (FileServiceFactory/getFileService)
+        blobfile (.createNewBlobFile fs "text/plain")
+        channel (.openWriteChannel fs blobfile true)]
+    (doto channel
+      (.write (ByteBuffer/wrap (.getBytes s)))
+      (.closeFinally))
+    (.getBlobKey fs blobfile)))
+
 (defn build-data-csv
   "The the cron job kicks off another URL to actually do the work."
   [_]
-  ; schema-version-number is when the subjects were flattened
-  ;
-  ;(let [csv (all-subject-csv-string)]
-  ;  (ds/save! (DataCSV. (Date.) (ds/as-text csv)))
-    {:status 200 :headers {"Content-Type" "text/plain"} :body "CSV at /data/live-data.csv"})
+  (let [csv (all-subject-csv-string)]
+    (ds/save! (DataCSV. (Date.) (string->blob csv)))
+    {:status 200 :headers {"Content-Type" "text/plain"} :body "CSV at /data/data.csv"}))
 
 (defn all-data-csv
-  [_]
-  {:status 200
-   :headers {"Content-Type" "text/plain"}
-   :body (.getValue
-          (:body
-           (first
-            (ds/query :kind DataCSV :limit 1 :sort [[:timestamp :dsc]]))))})
+  [req]
+  (bs/serve req
+            (:blobkey
+             (first
+              (ds/query :kind DataCSV :limit 1 :sort [[:timestamp :dsc]])))))
 
 ;;; Make the CSV live
 
