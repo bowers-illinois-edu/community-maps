@@ -13,7 +13,9 @@
            com.google.appengine.api.files.AppEngineFile
            com.google.appengine.api.files.FileWriteChannel
            com.google.appengine.api.files.FileServiceFactory
-           java.nio.ByteBuffer)
+           java.nio.ByteBuffer
+           java.io.PrintWriter
+           java.nio.channels.Channels)
   (:require
    [appengine-magic.services.blobstore :as bs]
    [appengine-magic.services.datastore :as ds]
@@ -90,22 +92,45 @@
 ;;; Using the blobstore service to hold large CSV files and then
 ;;; streaming directly to users
 
-(defn string->blob
-  "Turn a string into a blobstore file and return the key"
-  [s]
+(defmacro with-open-blob 
+  "Open a blob for writing and bind it to *out* using a PrintWriter object"
+  [path & body]
+  `(let [fs# (FileServiceFactory/getFileService)
+         file# (AppEngineFile. ~path)
+         channel# (.openWriteChannel fs# file# false)]
+     (with-open [pw# (PrintWriter. (Channels/newWriter channel# "UTF8"))]
+       (binding [*out* pw#]
+         ~@body))))
+
+(defn create-csv-blob
+  "Start a blobstore file of the csv type, with a header given by the vector"
+  [header]
   (let [fs (FileServiceFactory/getFileService)
-        blobfile (.createNewBlobFile fs "text/plain")
-        channel (.openWriteChannel fs blobfile true)]
-    (doto channel
-      (.write (ByteBuffer/wrap (.getBytes s)))
-      (.closeFinally))
-    (.getBlobKey fs blobfile)))
+        file (.createNewBlobFile fs "text/csv")
+        wc (.openWriteChannel fs file false)]
+    (doto wc
+      (.write
+       (ByteBuffer/wrap
+        (.getBytes
+         (apply str (doall (interpose "," header))))))
+      (.write (ByteBuffer/wrap (.getBytes "\n")))
+      (.close))
+    (.getFullPath file)))
+
+(defn finalize-blobfile
+  "Finalize a path so that it can be read but not written to, returns blob key"
+  [path]
+  (let [fs (FileServiceFactory/getFileService)
+        file (AppEngineFile. path)
+        channel (.openWriteChannel fs file true)]
+    (.closeFinally channel)
+    (.getBlobKey fs file)))
 
 (defn build-data-csv
   "The the cron job kicks off another URL to actually do the work."
   [_]
   (let [csv (all-subject-csv-string)]
-    (ds/save! (DataCSV. (Date.) (string->blob csv)))
+    ; (ds/save! (DataCSV. (Date.) (string->blob csv)))
     {:status 200 :headers {"Content-Type" "text/plain"} :body "CSV at /data/data.csv"}))
 
 (defn all-data-csv
