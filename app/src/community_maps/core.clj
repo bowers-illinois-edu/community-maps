@@ -182,7 +182,7 @@
   [app]
   (routes
    (GET "/data/cron" [] build-data-cron)
-   (GET "/data/build-csv" [] build-data-csv)
+   (GET "/data/dump-data" [] build-data-dump)
    (GET "/data/data.csv" [] all-data-csv)
    (GET "/data/comments" [] comments-page)
    (GET "/data/upgrade-subjects" [] upgrade-old-subjects)

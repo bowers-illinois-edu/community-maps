@@ -89,11 +89,6 @@
     (when cursor (.startCursor fo (Cursor/fromWebSafeString cursor)))
     (.asQueryResultList pq fo)))
 
-(defn build-data-cron
-  "Kick off the task to build; cron.xml will hit this regularly"
-  [_]
-  (tq/add! :url "/data/build-csv" :method :get)
-  {:status 200 :headers {"Content-Type" "text/plain"} :body "Data CSV building queued."})
 
 (defn all-subject-csv-string
   "Create the big string of all the data"
@@ -113,18 +108,16 @@
        (binding [*out* pw#]
          ~@body))))
 
-(defn create-csv-blob
-  "Start a blobstore file of the csv type, with a header given by the vector"
-  [header]
+(defn create-blob-file
+  "Start a blobstore file of the some text at the top" 
+  [text]
   (let [fs (FileServiceFactory/getFileService)
-        file (.createNewBlobFile fs "text/csv")
+        file (.createNewBlobFile fs "text/plain")
         wc (.openWriteChannel fs file false)]
     (doto wc
       (.write
        (ByteBuffer/wrap
-        (.getBytes
-         (apply str (doall (interpose *sep* header))))))
-      (.write (ByteBuffer/wrap (.getBytes "\n")))
+        (.getBytes (str text "\n"))))
       (.close))
     (.getFullPath file)))
 
@@ -137,12 +130,27 @@
     (.closeFinally channel)
     (.getBlobKey fs file)))
 
-(defn build-data-csv
-  "The the cron job kicks off another URL to actually do the work."
+(defn build-data-cron
+  "Kick off the task to build; cron.xml will hit this regularly"
   [_]
-  (let [csv (all-subject-csv-string)]
-    ; (ds/save! (DataCSV. (Date.) (string->blob csv)))
-    {:status 200 :headers {"Content-Type" "text/plain"} :body "CSV at /data/data.csv"}))
+  (let [path (create-blob-file (str "# Data dump started on " (.format date-formatter (Date.))))]
+    (tq/add! :url "/data/dump-data" :method :get :params {:filepath path})
+    {:status 200 :headers {"Content-Type" "text/plain"} :body (str "Data CSV building queued. File path: " path)}))
+
+(defn build-data-dump
+  "The the cron job kicks off another URL to actually do the work."
+  [req]
+  (let [filepath (get-in req [:params "filepath"])
+        cursor (get-in req [:params "cursor"])
+        data (data-dump-subjects cursor)]
+    (if (= 0 (count data))
+      (ds/save! (DataCSV. (Date.) (finalize-blobfile filepath)))
+      (do
+        (with-open-blob filepath
+          (doseq [i data]
+            (println i)))
+        (tq/add! :url "/data/dump-data" :method :get :params {:filepath filepath :cursor (.toWebSafeString (.getCursor data))}))))
+  {:status 200 :headers {"Content-Type" "text/plain"} :body "CSV at /data/data.csv"})
 
 (defn all-data-csv
   [req]
