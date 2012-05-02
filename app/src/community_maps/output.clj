@@ -5,6 +5,10 @@
            com.google.appengine.api.datastore.PreparedQuery
            com.google.appengine.api.datastore.Query
            com.google.appengine.api.datastore.Text
+           com.google.appengine.api.datastore.FetchOptions
+           com.google.appengine.api.datastore.FetchOptions$Builder
+           com.google.appengine.api.datastore.QueryResultList
+           com.google.appengine.api.datastore.Cursor
            shanks.appengine_magic.Subject
            java.util.Date
            java.text.SimpleDateFormat
@@ -20,6 +24,9 @@
    [appengine-magic.services.blobstore :as bs]
    [appengine-magic.services.datastore :as ds]
             [appengine-magic.services.task-queues :as tq]))
+
+
+(def *sep* ",") ; separator for CSV files
 
 (def date-formatter (SimpleDateFormat. "yyyy-MM-dd HH:mm:ss Z"))
 
@@ -65,18 +72,22 @@
         (into (map #(vector % (escape-str-for-csv (get subject %))) string-keys)))))
 
 (defn subject->csv
-  ([subjects] (subject->csv subjects "|"))
-  ([subjects sep]
-     (let [flat (map subject-csv-preprocess subjects)
-           headers (sort (reduce (fn [a i] (into a (keys i))) #{} flat))]
-       (str
-        (apply str (interpose sep (map #(if (keyword? %) (subs (str %) 1) %) headers)))
-        (apply str (map
-                    (fn [subject]
-                      (apply str "\n" (interpose sep (map #(get subject %) headers))))
-                    flat))))))
+  "Turn a single subject into a csv string"
+  ([headers subject]
+     (apply str "\n" (interpose *sep* (map #(get subject %) headers)))))
 
 (ds/defentity DataCSV [timestamp blobkey])
+
+(def *subjects-per-task* 1)
+
+(defn data-dump-subjects
+  "Given an optional cursor string, generate and fetch a query from the datastore"
+  [cursor]
+  (let [datastore (ds/get-datastore-service)
+        pq (.prepare datastore (Query. "Subject"))
+        fo (FetchOptions$Builder/withLimit *subjects-per-task*)]
+    (when cursor (.startCursor fo (Cursor/fromWebSafeString cursor)))
+    (.asQueryResultList pq fo)))
 
 (defn build-data-cron
   "Kick off the task to build; cron.xml will hit this regularly"
@@ -112,7 +123,7 @@
       (.write
        (ByteBuffer/wrap
         (.getBytes
-         (apply str (doall (interpose "," header))))))
+         (apply str (doall (interpose *sep* header))))))
       (.write (ByteBuffer/wrap (.getBytes "\n")))
       (.close))
     (.getFullPath file)))
