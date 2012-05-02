@@ -26,8 +26,6 @@
             [appengine-magic.services.task-queues :as tq]))
 
 
-(def *sep* ",") ; separator for CSV files
-
 (def date-formatter (SimpleDateFormat. "yyyy-MM-dd HH:mm:ss Z"))
 
 (defn fetch-comments
@@ -78,12 +76,12 @@
   (let [exportable (exportable-subject subject)]
     (apply
      str
-     "- id: " (.getId (.getKey s)) "\n"
+     "- id: " (.getId (.getKey subject)) "\n"
      (doall (interpose "\n" (map (fn [[k v]] (str "  " k ": " v)) exportable))))))
 
-(ds/defentity DataCSV [timestamp blobkey])
+(ds/defentity DataYAML [timestamp blobkey])
 
-(def *subjects-per-task* 1)
+(def *subjects-per-task* 200)
 
 (defn data-dump-subjects
   "Given an optional cursor string, generate and fetch a query from the datastore"
@@ -93,12 +91,6 @@
         fo (FetchOptions$Builder/withLimit *subjects-per-task*)]
     (when cursor (.startCursor fo (Cursor/fromWebSafeString cursor)))
     (.asQueryResultList pq fo)))
-
-
-(defn all-subject-csv-string
-  "Create the big string of all the data"
-  []
-  (subject->csv (ds/query :kind shanks.appengine_magic.Subject :filter (> :schema-version-number 1))))
 
 ;;; Using the blobstore service to hold large CSV files and then
 ;;; streaming directly to users
@@ -140,7 +132,7 @@
   [_]
   (let [path (create-blob-file (str "# Data dump started on " (.format date-formatter (Date.))))]
     (tq/add! :url "/data/dump-data" :method :get :params {:filepath path})
-    {:status 200 :headers {"Content-Type" "text/plain"} :body (str "Data CSV building queued. File path: " path)}))
+    {:status 200 :headers {"Content-Type" "text/plain"} :body (str "Data YAML building queued. File path: " path)}))
 
 (defn build-data-dump
   "The the cron job kicks off another URL to actually do the work."
@@ -149,26 +141,19 @@
         cursor (get-in req [:params "cursor"])
         data (data-dump-subjects cursor)]
     (if (= 0 (count data))
-      (ds/save! (DataCSV. (Date.) (finalize-blobfile filepath)))
+      (ds/save! (DataYAML. (Date.) (finalize-blobfile filepath)))
       (do
         (with-open-blob filepath
           (doseq [i data]
-            (println i)))
+            (println (subject->yaml i))))
         (tq/add! :url "/data/dump-data" :method :get :params {:filepath filepath :cursor (.toWebSafeString (.getCursor data))}))))
-  {:status 200 :headers {"Content-Type" "text/plain"} :body "CSV at /data/data.csv"})
+  {:status 200 :headers {"Content-Type" "text/plain"} :body "YAML at /data/data.yaml"})
 
-(defn all-data-csv
+(defn data-yaml-file
   [req]
   (bs/serve req
             (:blobkey
              (first
-              (ds/query :kind DataCSV :limit 1 :sort [[:timestamp :dsc]])))))
+              (ds/query :kind DataYAML :limit 1 :sort [[:timestamp :dsc]])))))
 
-;;; Make the CSV live
-
-(defn live-csv 
-  [_]
-  {:status 200
-   :headers {"Content-Type" "text/plain"}
-   :body (all-subject-csv-string)})
 
