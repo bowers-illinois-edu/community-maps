@@ -2,7 +2,7 @@
 <cronentries>
   <cron>
     <url>/data/cron</url>
-    <description>Generate the most current DataCSV object used by /data.csv</description>
+    <description>Generate the most current DataYAML object used by /data/data.YAML</description>
     <schedule>every 6 hours</schedule>
   </cron>
 </cronentries>
