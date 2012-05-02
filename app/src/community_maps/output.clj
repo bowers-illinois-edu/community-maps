@@ -59,10 +59,11 @@
        (.replaceAll (re-matcher #"\"" s) "\\\\\"")
        "\""))
 
-(defn subject-csv-preprocess
+(defn exportable-subject
   "Turn dates into a readable format, escapes strings"
   [subject]
-  (let [ks (keys subject)
+  (let [subject (into {} (.getProperties subject))
+        ks (keys subject)
         text-keys (filter #(= Text (class (get subject %))) ks)
         string-keys (filter #(string? (get subject %)) ks)
         date-keys (filter #(= Date (class (get subject %))) ks)]
@@ -71,10 +72,14 @@
         (into (map #(vector % (str "\"" (.format date-formatter (get subject %)) "\"")) date-keys))
         (into (map #(vector % (escape-str-for-csv (get subject %))) string-keys)))))
 
-(defn subject->csv
-  "Turn a single subject into a csv string"
-  ([headers subject]
-     (apply str "\n" (interpose *sep* (map #(get subject %) headers)))))
+(defn subject->yaml
+  "Takes a subject object and turns it into a YAML string representation"
+  [subject]
+  (let [exportable (exportable-subject subject)]
+    (apply
+     str
+     "- id: " (.getId (.getKey s)) "\n"
+     (doall (interpose "\n" (map (fn [[k v]] (str "  " k ": " v)) exportable))))))
 
 (ds/defentity DataCSV [timestamp blobkey])
 
