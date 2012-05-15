@@ -109,7 +109,7 @@
   "Start a blobstore file of the some text at the top" 
   [text]
   (let [fs (FileServiceFactory/getFileService)
-        file (.createNewBlobFile fs "text/plain")
+        file (.createNewBlobFile fs "application/octet-stream")
         wc (.openWriteChannel fs file false)]
     (doto wc
       (.write
