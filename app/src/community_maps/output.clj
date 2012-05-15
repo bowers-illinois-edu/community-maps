@@ -54,7 +54,13 @@
   "Escape all quotes and wrap in a set of quotes"
   [s]
   (str "\""
-       (.replaceAll (re-matcher #"\"" s) "\\\\\"")
+       (reduce
+        (fn [i [k v]] 
+          (.replaceAll (re-matcher k i) v))
+        s
+        {#"\\" "\\\\\\\\" ; this turns a single slash into two,
+                          ; really, I swear.
+         #"\"" "\\\\\"" })
        "\""))
 
 (defn exportable-subject
