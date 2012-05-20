@@ -44,5 +44,8 @@ install-gis` in the root directory will in turn run `make install` in the
 `gis` directory. Early in the build script, you will need to supply the
 password for the GIS files. Contact Jake or Mark to get it.
 
+# Testing
+
+Currently, you can test the deployed version of the survey using: http://www.mappingcommunities.ca/?tags=ignore
 
 
