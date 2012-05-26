@@ -7,64 +7,63 @@
 (defscreen own-community
   [subject]
 
-  (directions "Now, for these next few questions we’ll be referring to the
-area you highlighted.")
+  (directions "Pour les prochaines questions, nous nous référerons à la zone en surbrillance.")
   (static-map-communities subject)
   (when (:on-your-mind-question subject)
     (list
      (multiple-choice
       :on-your-mind
-      "What were you thinking about as you were drawing your \"local community\"? Check all that apply:"
-      {:weekly "People or places you see on a weekly basis"
-       :people-like-you "People like you"
-       :local-places "Your grocery store, library, post office, church, or other places you visit on a regular basis"
-       :family "Family and friends"
-       :voting "People or places you think about when you go vote in an election"
-       :neighbourhood "Your neighbourhood"
-       :newspapers "What you read about in newspapers"
-       :tv "What you see on television or the internet"})
+      "À quoi pensiez-vous lorsque vous dessiniez votre \"communauté locale\"? Cocher toutes les options qui correspondent à votre réponse:"
+      {:weekly "Les gens et les lieux que vous voyez sur une base régulière"
+       :people-like-you "Des gens comme vous"
+       :local-places "Votre épicerie, bibliothèque, bureau de poste ou autres endroits que vous visitez régulièrement"
+       :family "Famille et amis"
+       :voting "Les gens et les lieux auxquels vous pensez quand vous aller voter au cours d'une élection"
+       :neighbourhood "Votre quartier"
+       :newspapers "Ce que vous lisez dans les journaux"
+       :tv "Ce que vous voyez à la télévision ou sur internet"})
      (f/with-group :on-your-mind
        (bf/labeled-checkbox
-        :other [:span "Other, please specify: " (f/text-field :other-explanation)]))))
+        :other [:span "Autre, spécifiez svp " (f/text-field :other-explanation)]))))
 ;;;Q6.  Question
   (group-sliders
    subject
    :community-percentage
-   "Just your best guess – what percentage of the population of this community is:")
+   "À combien estimez-vous le pourcentage de la population dans cette communauté qui est:")
 
 ;;;Q7.  Question:
   (learn-about-composition
    :community-composition
-   "How did you learn about the composition of your local community?")
+   "Comment en arrivez-vous à ces estimations quant à la composition de votre communauté locale?")
 
-  (directions "Here are some statements about the people in your local community. Please tell us how strongly you agree or disagree with each of these statements.")
+  (directions "Voici quelques affirmations au sujet des gens de votre communauté locale. Pour chacune de ces affirmations, dites-nous à quel point vous êtes en accord ou en désaccord.")
 
 ;;;Q9, Q10, Q11
 
   (doall
    (map
     (fn [[id prompt]] (question prompt (agree-disagree id)))
-    {:help "People around here are willing to help others in their community."
-     :get-along "People in this community generally don’t get along with each other."
-     :share-values "People in this community do not share the same values."}))
+    {:help "Les gens ici sont prêts à aider les autres membres de leur communauté."
+     :get-along "Les gens dans ma communauté n’ont généralement pas de bonnes relations entre eux."
+     :share-values "Les gens de ma communauté ne partagent pas les mêmes valeurs."}))
 
-  (directions "For each of the following, please tell us if it is very likely, likely, unlikely or very unlikely that people in your local community would act in the following manner.")
+  (directions "Pour chaque affirmation suivante, dites-nous s'il est très probable, probable, improbables ou très improbable que les membres de votre communauté locale agissent de la façon suivante.")
 
 ;;;Q12., Q13.
   (doall
    (map
     (fn [[id prompt]] (question prompt (likelihood id)))
-    {:graffiti "If some children were painting graffiti on a local building or house, how likely is it that people in your community would do something about it?"
-     :community-organize "Suppose that because of budget cuts the library closest to your home was going to be closed down by the city. How likely is it that community residents would organize to try to do something to keep the library open?"}))
+    {:graffiti "Si des enfants faisaient des graffitis sur les murs d’une résidence ou d’un édifice, à quel point est-ce probable que des membres de votre communauté fassent quelque chose pour que cela cesse?"
+     :community-organize "Supposons que dues à des coupures budgétaires, la bibliothèque publique la plus proche de chez vous risque la fermeture. À quel point est-ce probable que les membres de votre communauté s’organisent et posent des actions pour maintenir celle-ci ouverte?"}))
 
 ;;;Participation Questions
-  (directions "Now we would like to know whether you have been involved in your community recently.")
+  (directions "Nous aimerions savoir si vous avez été impliqué dans votre communauté récemment.")
 
   (doall
    (map
     (fn [[id prompt]] (question prompt (yes-no-dk id)))
-    {:informalpartic "During the past 12 months, have you worked with other people to deal with some issue facing your community or schools?"
-     :meetingpartic "During the past twelve months, did you attend a meeting about an issue facing your community or schools?"}
+    {:informalpartic "Au cours des 12 derniers mois, avez-vous travaillé avec d'autres sur des enjeux touchant votre communauté ou vos écoles?"
+     :meetingpartic "Au cours des 12 derniers mois, avez-vous assisté à une rencontre ayant pour thème un enjeu touchant votre communauté ou vos écoles?"}
     ))
   
   no-back-button-msg)
