@@ -9,11 +9,11 @@
   (doall
    (map
     #(vector :p %)
-    ["Thank you for completing this survey. We very much value the time and effort you've spent. The responses you have provided will assist researchers in better understanding how Canadian society is changing and how those changes will affect communities such as yours and others across the country."
+    ["Merci d'avoir compléter ce questionnaire. Nous sommes reconnaissant du temps et l'effort que vous y avez mis. Vos réponses vont aider les chercheurs à mieux comprendre comment la société canadienne change et comment cela affectera des communautés comme la vôtre et d'autres à travers le pays."
 
-     "We want to remind you again that all of your responses will remain confidential and will only be used for academic research purposes."
+     "Nous désirons vous rappeler encore une fois que vos réponses demeureront confidentielles et seront uniquement utilisées à des fins de recherche académique."
 
-     "Finally, we would like to invite you to complete a short, 5-7 minute, follow up survey in a few weeks. Everyone who completes the follow up will be entered in a drawing to win one of four iPad3 tablets."]))
+     "En conclusion, nous aimerions vous inviter à compléter un court questionnaire d'une durée de 5 à 7 minutes dans quelques semaines. Tous ceux qui accepteront de remplir ce court questionnaire additionel courent la chance de gagner un de quatre iPad 3 tirés au hasard."]))
   (question
-   "If you agree to be contacted again, please check the box below:"
-   (bf/labeled-checkbox :agree-to-followup "I would like to participate in another survey."))) 
+   "Si vous acceptez d'être contacté de nouveau, svp cochez la case ci-dessous:"
+   (bf/labeled-checkbox :agree-to-followup "J'aimerais participer à une autre enquête."))) 
