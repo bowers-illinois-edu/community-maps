@@ -8,9 +8,9 @@
 (defn mail-resume-link
   [id email]
   (let [body (str
-              "Hello,\n\nThank you for taking the MappingCommunities.ca survey. You can resume where you left off by visiting the following link:\n\n"
+              " Bonjour, merci de participer au projet MappingCommunities.ca. Vous pouvez recommencer où vous étiez la dernière fois en cliquant sur le lien suivant:  "
               "http://www.mappingcommunities.ca/?id=" id
-              "\n\nThank you,\nMappingCommunities Team\n")]
+              "Merci, L'équipe MappingCommunities")]
     (m/send
      (m/make-message
       :from *from*
