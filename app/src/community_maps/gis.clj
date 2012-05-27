@@ -8,24 +8,24 @@
 (def *gisurl* "gis.mappingcommunities.ca")
 
 (def *districts* {"pr" "province"
-                  "ccs" "census consolidated subdivision"
-                  "cma" "census metropolitan area"
-                  "csd" "census subdivision"
-                  "ct" "census tract"
-                  "dpl" "designated place"
-                  "fed" "federal electoral district"
-                  "fsa" "forward sortation area"
-                  "cd" "census division"
-                  "ua" "urban area"
-                  "da" "census dissemination area"})
+                  "ccs" "ubdivision de recensement unifiée"
+                  "cma" "région métropolitaine de recensement"
+                  "csd" "subdivision de recensement"
+                  "ct" "secteur de recensement"
+                  "dpl" "endroit désigné"
+                  "fed" "circonscription électorale fédérale"
+                  "fsa" "région de tri d'acheminement"
+                  "cd" "division de recensement"
+                  "ua" "région urbaine"
+                  "da" "aire de diffusion de recensement"})
 
 ;; text to insert when describing the regions
 ;; any level not included is not described
 (def extended-descriptions
-  {"cd" "which is a census unit"
-   "csd" "which is a census unit"
-   "da" "which is a census unit"
-   "fsa" "which is a postal unit"
+  {"cd" "qui est une unité du recensement"
+   "csd" "qui est une unité du recensement"
+   "da" "qui est une unité du recensement"
+   "fsa" "qui est une unité postal"
    })
 
 (defn get-subject-district-id

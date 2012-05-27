@@ -22,11 +22,11 @@
 
 (defn randomizer []
   (randomize-subject
-   {:feel-close-to ["control" "neighbourhood" "city" "province" "Canada"]
-    :get-welfare ["ethnic minorities" "people"]
-    :minority-projection ["none" "25" "35" "50"]
-    :minority-population-share ["increase" "decrease"]
-    :ethnic-shop ["ethnic minorities" "other members of their same ethnic background"]
+   {:feel-close-to ["contrôle" "quartier" "ville" "province" "Canada"]
+    :get-welfare ["minorités ethniques" "gens"]
+    :minority-projection ["aucun" "25" "35" "50"]
+    :minority-population-share ["augmentation" "diminution"]
+    :ethnic-shop ["minorités ethniques" "autres membres avec les mêmes origines ethniques"]
     :outgroup-marry ["race" "ethnic background"]
     :display-district ["pr" "csd" "canada" "fsa" "fed" "da"]
     :drawing-zoom [10 12 14 16 17]
@@ -36,10 +36,10 @@
     :on-your-mind-question (conj (repeat 9 false) true)
     ; the next randomizations for 3 questions on the racial-conflict
     ; screen (of the same name)
-    :taxes-increased ["your local community" "your city" "your province"]
-    :french-language ["Your city government" "Your provincial government" "The Canadian government"]
-    :anti-racism-unit ["your local community" "your city" "your province" "Canada"]
-    :anti-racism-cirriculum ["in antiracism and Native studies" "emphasizing the European origins of Canada's history and traditions"]
+    :taxes-increased ["votre communauté locale" "votre ville" " votre province"]
+    :french-language ["Votre gouvernement municipal" "Votre gouvernement provincial" "Le gouvernement canadien"]
+    :anti-racism-unit ["votre communauté locale" "votre ville" "Le gouvernement canadien" "Canada"]
+    :anti-racism-cirriculum ["dans les études autochtones et les mouvements antiracistes" "mettre l'accent sur les origines européennes de l'histoire et des traditions canadiennes."]
     }))
 
 (defn createwithid [req]
@@ -68,13 +68,13 @@
   (f/form-to [:post "/"]
              (f/hidden-field :id (:id subject))
              (scrn subject)
-             [:h4.comments-label (f/label (str "comments-" (:step subject)) "Questions or Comments? Click here.")]
+             [:h4.comments-label (f/label (str "comments-" (:step subject)) "Questions ou commentaires? Cliquez ici.")]
              [:div.comments-subform
-              [:p "If you have any questions or comments, please enter them in the box below. Comments will be recorded when you click the \"continue\" button below. If you would like us to contact you about your question or comments, please include your email address below."]
+              [:p "Si vous avez des questions ou des commentaires, n'hésitez pas à les insérer dans la boîte ci-dessous. Les commentaires seront enregistrés lorsque vous cliquerez sur le bouton \"continuez\". Si vous désirez que l'on communique avec vous à propos de vos questions ou commentaires, nous vous prions d'inclure votre adresse courriel ci-dessous. "]
               (f/text-area (str "comments-" (:step subject)))
-              [:div.email (f/label :email-address "Email: ")
+              [:div.email (f/label :email-address "Courriel: ")
                (f/text-field :email-address (:email-address subject))]]
-             (f/submit-button {:class "continue fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"} "Continue")))
+             (f/submit-button {:class "continue fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"} "Continuez")))
 
 
 ;;; The consent and thank you pages have special layout functions,
@@ -99,7 +99,7 @@
   (bf/labeled-checkbox
    :consent
    (str
-    "Scientific surveys require formal consent. If you are happy to take the survey, please check the box.")))
+    "Les enquêtes scientifiques exigent un consentement formel des participants. Si vous désirez participer, cochez la case suivante. ")))
 
 (defn screen-form-simple
   "Wrap a screen in a form with a funky button"
@@ -112,7 +112,7 @@
 (defmethod layout consent [subject screen]
   (xhtml
    [:head
-    [:title "Welcome"]
+    [:title "Bienvenue"]
     (jquery-link)
     (jquery-ui-link)
     (include-js "burp.jquery.ui.support.js")
@@ -122,7 +122,7 @@
     (list
      [:img#rulogo {:src "RU_logo.gif" :alt "Ryerson Univeristy Logo"}]
      [:br {:style "clear:both"}]
-     [:h1 "Welcome"])
+     [:h1 "Bienvenue"])
     (screen-form-simple screen subject))))
 
 (def thank-text (load-and-process-txt "thank.txt"))
@@ -132,13 +132,13 @@
 (defmethod layout thank-you [subject screen]
   (xhtml
    [:head
-    [:title "Thank You"]
+    [:title "Merci"]
     css]
    (body
     (list
      [:img#rulogo {:src "RU_logo.gif" :alt "Ryerson University Logo"}]
      [:br {:style "clear:both"}]
-     [:h1 "Thank You"])
+     [:h1 "Merci"])
     (screen subject))))
 
 (def screens [consent
@@ -155,7 +155,7 @@
 (defmethod layout :default [subject screen]
   (xhtml
    [:head
-    [:title "Mapping Communities Survey"]
+    [:title "Enquête visant à cartographier les communautés"]
     (jquery-link) (jquery-ui-link)
     (include-js "burp.jquery.ui.support.js")
     (include-js "address.js")
@@ -169,11 +169,11 @@
    [:body {:id "doc" :class "yui-t7"}
     [:div#hd
      [:a#resume {:class "fg-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"}
-      [:span.ui-button-text "Resume Later"]]
+      [:span.ui-button-text "Reprendre plus tard"]]
      [:div#resume-popup
-      [:p "You can pick up where you left off later. Just enter your email address, and we will send you a link to start from where you stopped."]
+      [:p "Vous pouvez reprendre plus tard là où vous êtes. Il suffit de fournir votre adresse courriel et nous vous enverrons un lien qui vous permettra de reprendre sans perdre ce que vous avez déjà complété."]
       [:input.email]]
-     [:h1 (<< "Mapping Communities Survey (Page ~{(get subject :step 1)} of ~{(- (count screens) 2)})")]]
+     [:h1 (<< "Enquête visant à cartographier les communautés (Page ~{(get subject :step 1)} of ~{(- (count screens) 2)})")]]
     [:div#bd
      [:div.yui-g (screen-form-button screen subject)]]]))
 
@@ -187,7 +187,7 @@
    (GET "/data/comments" [] comments-page)
    (GET "/data/upgrade-subjects" [] upgrade-old-subjects)
    app
-   (GET "*" [] (fn [_] {:status 404 :headers {"ContentType" "text/plain"} :body "Not Found"}))))
+   (GET "*" [] (fn [_] {:status 404 :headers {"ContentType" "text/plain"} :body "Pas trouvée"}))))
 
 
 
