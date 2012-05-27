@@ -68,7 +68,7 @@ $(document).ready(function() {
 
     updateButton.click(function() {
       var fail = function() {
-          modal("No location matching this postal code or address found within Canada. Please enter your postal code or address again.");
+          modal("Aucun lieu au Canada ne correspond au code postal ou à l'adresse que vous avez fourni. Insérez le code postal ou l'adresse encore une fois svp.");
       };
 
       geocode(fail, function(gresult) {
@@ -101,11 +101,11 @@ $(document).ready(function() {
         // using alert instead of modal() because I don't want to
         // bump until after a "ok" click, and I don't want to make
         // modal any more complicated.
-        alert("Thank you for your participation. If you later decide to share your postal code or city information, feel free to try the survey again.")
+        alert("Merci de votre participation. Si vous décidez plus tard de partager votre code postal ou votre municipalité de résidence, n'hésitez pas à compléter le questionnaire de nouveau.")
         window.location.replace("/");
       } else {
         $("#address-address-finder-address").focus();
-        modal("This survey involves maps. If you are uncomfortable providing a postal code, could you please enter the name of your city or town?");
+        modal("Cette enquête nécessite l'utilisation de cartes. Si vous êtes incomfortable avec l'idée de partager votre code postal, pourriez-vous fournir le nom de votre municipalité?");
       }
     }
     
