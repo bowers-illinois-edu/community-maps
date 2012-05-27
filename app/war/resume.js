@@ -2,7 +2,7 @@
 
 $(document).ready(function() {
 
-  var sent = $("<div>Email has been sent</div>").dialog({
+  var sent = $("<div>Un courriel a été envoyé</div>").dialog({
     autoOpen: false, 
     modal: true,
     buttons: {
