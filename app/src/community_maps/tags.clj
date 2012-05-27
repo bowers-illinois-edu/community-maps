@@ -29,63 +29,63 @@
      (f/hidden-field {:class "map-data"} :data)
      (f/hidden-field {:class "events"} :events)
      [:div.actions
-      (add-class (button "Start Drawing") "action start")
+      (add-class (button "Commencer à dessiner") "action start")
       (add-class
-       (button {:style "display: none;"} "Stop Drawing")
+       (button {:style "display: none;"} "Arrêter de dessiner")
        "action stop")
       (add-class
-       (button {:style "display: none;"} "Reset Map")
+       (button {:style "display: none;"} "Réinitialiser la carte")
        "action reset")]
      map-canvas]))
 
 (defelem agree-disagree
-  "Strongly agree => strongly disagree"
+  "Très en d'accord => Très en désaccord"
   [id]
   (bf/radio-group id
-                  {:strongly-agree "Strongly agree"
-                   :agree "Agree"
-                   :neither "Neither agree nor disagree"
-                   :disagree "Disagree"
-                   :strongly-disagree "Strongly disagree"}))
+                  {:strongly-agree "Très en d'accord"
+                   :agree "En accord"
+                   :neither "Ni en accord ni en désaccord"
+                   :disagree "En désaccord"
+                   :strongly-disagree "Très en désaccord"}))
 
 (defelem likelihood
-  "Very likely => very unlikely"
+  "Très probable => Très improbable"
   [id]
   (bf/radio-group id
-                  {:very-likely "Very likely"
-                   :likely "Likely"
-                   :fifty-fity "Equally likely and unlikely (\"50/50\")"
-                   :unlikely "Unlikely"
-                   :very-unlikely "Very unlikely"}))
+                  {:very-likely "Très probable"
+                   :likely "Probable"
+                   :fifty-fity "Chances égales (\"50/50\")"
+                   :unlikely "Improbable"
+                   :very-unlikely "Très improbable"}))
 
 
 (def ethnic-groups
-  {:black "Blacks"
-   :white "Whites"
-   :unemployed "Unemployed"
-   :chinese "Chinese"
-   :east-indian "South Asian (East Indian, Pakistani, Sri Lankan, etc.)"
-   :aboriginal "Canadian Aboriginals"
-   :latin "Latin Americans"
-   :other-asian "Other Asians (Korean, Japanese, Filipino, etc.)"})
+  {:black "Noirs"
+   :white "Blancs"
+   :unemployed "Sans emploi"
+   :chinese "Chinois"
+   :east-indian "Indiens, Pakistanais, Sri Lankais, etc."
+   :aboriginal "Autochtones canadiens"
+   :latin "Latino-américains"
+   :other-asian "Autres asiatiques (Coréen, Japonais, Philippins, etc.)"})
 
 (defn political-groups
   "The political groups, with BQ if the subject is in Quebec"
   [subject]
   (let [all-see
-        {:liberal "Liberal Party"
-         :conservative "Conservative Party"
-         :ndp "New Democratic Party (NDP)"
+        {:liberal "Parti Libéral"
+         :conservative "Parti Conservateur"
+         :ndp "Nouveau Parti Démocratique (NPD)"
          :green "Green Party"}]
     (if (from-quebec? subject)
-      (assoc all-see :quebecois "Bloq Quebecois")
+      (assoc all-see :quebecois "Bloc Québécois")
       all-see)))
 
 
 (defn political-groups-supporter
   "Adds 'supporter' to political groups"
   [subject]
-  (map-vals #(str % " supporter") (political-groups subject)))
+  (map-vals #(str % " celui qui appuie le") (political-groups subject)))
 
 
 ;; take on "supporters" to the political groups
@@ -94,7 +94,7 @@
   [subject]
   (merge
    ethnic-groups
-   (map-vals #(str % " supporters") (political-groups subject))))
+   (map-vals #(str % "celui qui appuie le") (political-groups subject))))
 
 (defn group-sliders
   "Asks about the list of groups we are interested in"
@@ -118,23 +118,23 @@
               [:other-asian (:other-asian grps)])))])))))
 
 (defn learn-about-composition
-  "How did the R learn about his community."
+  "Comment le répondant a-t-il appris sur sa communauté?"
   [id prompt]
-  (let [opts {:observation "personal observation"
-              :friends "friends and families"
-              :news "news (tv, radio, online, paper)"
-              :institutions "local institutions (schools, hospitals, libraries, etc.)"
-              :leaders "political leaders"
-              :tv "television entertainment shows"}]
+  (let [opts {:observation "observation personnelle"
+              :friends "amis et familles"
+              :news "nouvelles (tv, radio, en ligne, papier)"
+              :institutions "institutions locales (écoles, hôpitaux, bibliothèques, etc.)"
+              :leaders "leaders politiques"
+              :tv "Émissions de télévision de divertissement"}]
     (f/with-group id
       [:div.learn-composition
        [:div.mc
-        (multiple-choice :learn (str prompt " Please check all that apply.") opts)]
+        (multiple-choice :learn (str prompt "Cochez svp tous les cas applicables") opts)]
        [:div.sc
-        (single-choice :important "Of these, which was most important?" opts)]])))
+        (single-choice :important "De ceux-ci, lequel/le était le plus important/e?" opts)]])))
 
 (defn seven-point-scale
-  "Rate from 1 to 7"
+  "Notez de 1 à 7"
   [id low high prompt]
   (question prompt
             [:span low] (bj/slider id) [:span high]))
@@ -180,14 +180,14 @@
    map-canvas])
 
 (defelem yes-no-dk
-  "Yes => No"
+  "Oui => Non"
   [id]
   (bf/radio-group id
-                  {:yes  "Yes"
-                   :no "No"
-                   :dk "Don't Recall"}))
+                  {:yes  "Oui"
+                   :no "Non"
+                   :dk "Ne me souviens pas"}))
 
 (def no-back-button-msg
   (vector
    :div.no-back-button
-   "Please consider your answers carefully. After you click the continue button you will not be able to return to change your answers. Do not use your browser's back button."))
+   "Nous vous demandons de bien considérer vos réponses. Une fois que vous aurez cliqué sur le bouton 'Continuer', vous ne serez plus en mesure de revenir pour changer vos réponses. Ne vous servez pas du bouton 'Reculer d'une page' svp."))
