@@ -15,13 +15,13 @@
    (let [dst (:display-district subject)
          dst-name (get gis/*districts* dst)
          district-id (gis/get-subject-district-id subject dst)
-         prompt (if (= "canada" dst) "Canada" (str "your " dst-name))]
+         prompt (if (= "canada" dst) "Canada" (str "votre" dst-name))]
      (when (and (not (= 0 district-id)) (not (= "" district-id)))
        (list
         (list
          (directions
-          (<< "Please look at this map. The highlighted area shows ~{prompt}~{(when (get gis/extended-descriptions dst) (str \", \" (gis/extended-descriptions dst)))}.")
-          (<< "Referring to this map of ~{prompt}, we would like to ask a series of questions just like the previous ones:"))
+          (<< "Regarder svp la carte. La zone en surbrillance montre ~{prompt}~{(when (get gis/extended-descriptions dst) (str \", \" (gis/extended-descriptions dst)))}.")
+          (<< "En vous référant à la carte de ~{prompt}, nous aimerions vous poser une série de questions semblables aux précédentes:"))
          (if (= "canada" dst)
            [:img {:src "/canada.jpg"}]
            (kml-map (gis/kml-url dst district-id))))
@@ -30,141 +30,141 @@
         (group-sliders
          subject
          :census-community
-         (<< "Just your best guess - what percentage of the population in ~{prompt} is:"))
+         (<< "Selon vos meilleures estimations, quel pourcentage de la population de ~{prompt} est:"))
 
       ;;;Q15.   Question:
         (learn-about-composition
          :census-composition
-         (<< "How did you learn about the composition of ~{prompt}?"))
+         (<< "Comment en arrivez-vous à ces estimations quant à la composition de ~{prompt}?"))
 
       ;;;Q16.   Question:
         (question
-         (<< "On the whole, do you like or dislike ~{prompt} as a place to live?")
+         (<< "En général, aimez-vous ou non ~{prompt} dans lequel vous habitez?")
          (bf/radio-group
           :like-dislike-census
-          {:like-alot "Like it a lot"
-           :like "Like it"
-           :dislike "Dislike it"
-           :dislike-alot "Dislike it a lot"}))
+          {:like-alot "Aime beaucoup"
+           :like "Aime"
+           :dislike "N'aime pas"
+           :dislike-alot "N'aime pas du tout"}))
 
       ;;;Q17.   Question:
         (yes-no :census-feel-community
-                (<< "On the whole, do you think that people who live in ~{prompt} feel a sense of community?"))
+                (<< "En général, pensez-vous que les gens qui vivent dans votre ~{prompt} partage un sentiment de communauté?"))
 
         (question
-         (<< "In the last 5 years, do you think ~{prompt} has become more racially and ethnically diverse, less racially and ethnically diverse, or has remained about the same?")
+         (<< "Au cours des 5 dernières années, pensez-vous que ~{prompt} est devenu plus diversifié ethniquement, moins diversifié ou encore est demeuré le même.")
          (bf/radio-group
           :perceived-diversity-chang
-          {:more "More diverse"
-           :less "Less diverse"
-           :same "Remained about the same"}))
+          {:more "Plus diversifiée"
+           :less "Moins diversifiée"
+           :same "Rester la même"}))
 ;;;Q18. Question:
         (question
-         (<< "Some political leaders argue that in the next 10 years, racial and ethnic minorities will ~{(:minority-population-share subject)} their share of the population in ~{prompt} by a lot. Do you think such a change would be a good or bad thing if it happened?")
-         (bf/radio-group :ethnic-growth {:good "Good thing" :neutral "Neither Good nor Bad" :bad "Bad thing"}))
+         (<< "Certains leaders politiques affirment qu’au cours des dix prochaines années, le pourcentage de la population de votre [province/municipalité/aire de diffusion] issu des minorités ethniques va [beaucoup augmenter/beaucoup diminuer]. Pensez-vous que ce soit une bonne ou une mauvaise chose si cela se concrétisait?")
+         (bf/radio-group :ethnic-growth {:good "Bonne chose" :neutral "Ni bonne ni mauvaise" :bad "Mauvaise chose"}))
 
 
 ;;;What is the largest nonwhite group?
 
         (directions
-         "Now thinking more generally about Canada as a whole, we would like you to tell us if you feel particularly close to people in the following groups, if you feel the people in the groups are like you in their ideas and interests and feelings about things.")
+         "En ayant en tête le Canada dans son ensemble, nous aimerions que vous nous disiez si vous vous sentez particulièrement proche de ce groupe -- si vous sentez que les membres de ce groupe partagent avec vous des idées, intérêts et sentiments communs.")
 ;;;
 ;;;Q21. Question:
 ;;;
         (let [mc (multiple-choice
                   :close-to-group
-                  "Please click on all of the groups to which you feel close."
+                  "Cochez svp pour tous les groupes desquels vous vous sentez proche"
                   (merge
                    (dissoc (ethnic-political-groups subject) :other-asian)
-                   {:local-community "People in your local community"
-                    :census-community (<< "People in ~{prompt}")}))]
+                   {:local-community "Les gens de votre communauté locale"
+                    :census-community (<< "Les gens dans ~{prompt}")}))]
           (assoc-in mc [2 1]
                     (concat
                      (second (first (get-in mc [2 1])))
-                     [(f/with-group "close-to-group" (bf/labeled-checkbox "other-asian" "Other Asians (Korean, Japanese, Filipino, etc.)"))]))))))
+                     [(f/with-group "autre asiatique" (bf/labeled-checkbox "Autres asiatiques (Coréen, Japonais, Philippins, etc.)"))]))))))
 
    (question
-    "When it comes to social and political matters, some people think of themselves mainly as White, Chinese, or Black and that is very important to how they think of themselves. Other people don’t tend to think of themselves in these ways. When it comes to social and political matters, how important is your race or ethnicity to how you think of yourself?"
+     "Sur des questions touchant les enjeux sociaux et politiques, certaines personnes se voient principalement comme Blanches, Chinoises ou Noires. Cela a un impact important sur la façon dont ils se perçoivent. D’autres ne partagent pas cette perception. Sur des questions touchant les enjeux sociaux et politiques, quelle importance occupe votre appartenance ethnique dans votre perception de vous-même?"
     (bf/radio-group
      :has-ethnic-identity
-     {:very-important "Very important"
-      :somewhat-important "Somewhat important"
-      :not-very-important "Not very important"
-      :not-important "Not important at all"}))
+     {:very-important "Très important"
+      :somewhat-important "Plutôt important"
+      :not-very-important "Pas très important"
+      :not-important "Pas important du tout"}))
 
    ;; Party ID and vote choice questions
    (question 
-    "In federal politics, do you usually think of yourself as a:"
+    "En politique fédérale, vous considérez-vous habituellement:"
     (bf/radio-group
      :party-id
-     (conj (shuffle (vec (political-groups-supporter subject))) [:none "None of these"])))
+     (conj (shuffle (vec (political-groups-supporter subject))) [:none "Aucun de ceux-ci"])))
 
    [:div.election-choice.national-election-choice
     (add-class
-     (yes-no :national-election "Did you vote in the federal national election in May, 2011?")
+     (yes-no :national-election "Avez-vous voté à l'élection fédérale de mai 2011?")
      :did-vote)
     (add-class
      (question
-      "For which party did you vote?"
+      "Pour quel parti avez-vous voté?"
       (bf/radio-group :national-election-choice
                       (conj
                        (shuffle (vec (political-groups subject)))
-                       [:other "Another party"])))
+                       [:other "Un autre parti"])))
      :vote-choice)]
 
    [:div.election-choice.provincial-election-choice
     (add-class
-     (yes-no :provincial-election "Did you vote in the most recent provincial election?")
+     (yes-no :provincial-election "Avez-vous voté à la récente élection provinciale?")
      :did-vote)
     (add-class
      (question
-      "For which party did you vote?"
+      "Pour quel parti avez-vous voté?"
       (bf/radio-group :provincial-election-choice
                       (conj
                        (shuffle (vec (political-groups subject)))
-                       [:other "Another party"])))
+                       [:other "Un autre parti"])))
      :vote-choice)]
 
    (when (gis/from-alberta? subject)
      (vector :div.election-choice.alberta-election
       (add-class
        (question
-        "So far as you know now, do you expect to vote in the provincial election on April 23?"
+        "Au meilleur de votre connaissance, pensez-vous voter à l'élection provinciale du 23 avril?"
         (bf/radio-group :alberta-vote-0423
-                        {:yes "Yes, expect to vote"
-                         :no "No, do not expect to vote"}))
+                        {:yes "Oui, je m'attends à voter"
+                         :no "Non, je ne m'attends pas à voter"}))
        :did-vote)
       (add-class
-       (question "For which party did you vote?"
+       (question "Pour quel parti avez-vous voté?"
                  (bf/radio-group :alberta-vote-0423-choice
                                  (conj
                                   (shuffle 
-                                   [[:liberal "Liberal Party"]
-                                    [:conservative "Progressive Conservative Party"]
-                                    [:wildrose "Wildrose"]
-                                    [:ndp "New Democratic Party (NDP)"] 
-                                    [:alberta "Alberta Party"]])
-                                  [:other "Another party"])))
+                                   [[:liberal "Le Parti Libéral"]
+                                    [:conservative "Le Parti Progressiste-Conservateur"]
+                                    [:wildrose "Le Parti Wild Rose"]
+                                    [:ndp "Le Nouveau Parti Démocratique (NPD)"] 
+                                    [:alberta "Le Parti Alberta"]])
+                                  [:other "Un autre parti"])))
        :vote-choice)))
    
    (question
     [:div
-     (when-not (= "none" (:minority-projection subject))
+     (when-not (= "Aucun" (:minority-projection subject))
        [:p
-        "According to projections by the census, the number of visible minorities is going to reach "
+        "Selon les projections du recensement, le nombre de minorités visibles va atteindre"
         (:minority-projection subject)
-        "% of the Canadian population in the next 10 years, largely as a result of immigration."])
-     [:p "Do you think the number of immigrants from foreign countries who are permitted to come to Canada to live should be increased a little, increased a lot, decreased a little, decreased a lot, or left the same as it is now?"]]
+        "Le pourcentage de la population canadienne au cours des dix prochaines années, dû en grande partie à l'immigration"])
+     [:p "Pensez-vous que le nombre d’immigrants à qui on accorde le droit de venir vivre au Canada devrait augmenter un peu, augmenter beaucoup, diminuer un peu, diminuer beaucoup, ou demeurer le même?"]]
     (bf/radio-group
      :increase-immigration
-     {:increase-much "Increased a lot"
-      :increase-little "Increased a little"
-      :same "Left the same as it is now"
-      :decrease-little "Decreased a little"
-      :decrease-much "Decreased a lot"})))
+     {:increase-much "A augmenté beaucoup"
+      :increase-little "A augmenté un peu"
+      :same "Est resté le/la même"
+      :decrease-little "diminué un peu"
+      :decrease-much "A diminué beaucoup"})))
 
   (question
-   "Do you agree or disagree with the following statement? Speaking English or French should be a requirement for immigration to Canada."
+   "Êtes-vous en accord ou en désaccord avec l'affirmation suivante: Parler français ou anglais devrait être une condition pour immigrer au Canada."
    (agree-disagree :req-lang-immigration))
   no-back-button-msg)
 
@@ -174,108 +174,108 @@
 
 
   (directions
-   "Please read the following statements and for each one, tell us how strongly you agree or disagree.")
+   "Pour chaque affirmation suivante, dites-nous l'intensité de votre accord ou de votre désaccord.")
 ;;;
 ;;;Q 30, 31. Q32, Q33, Q34, Q35
   (doall
    (map
     (fn [[k p]] (question p (agree-disagree k)))
     {:melting-pot
-     "It is better for Canada if different racial and ethnic groups maintain their distinct cultures in a cultural mosaic rather than blend together."
+     "Cela est mieux pour le Canada que les différents groupes ethniques maintiennent leurs cultures distinctes, formant ainsi une mosaïque culturelle plutôt qu'un mélange."
 
      :happier-with-other-groups
-     "People are generally happier when they live and socialize with others of different racial and ethnic backgrounds."
+     "Les gens sont généralement plus heureux quand ils vivent et socialisent avec d'autres d'origines ethniques et raciales différentes."
 
      :special-favors
-     "Irish, Italian, Jewish and many other minorities overcame prejudice and worked their way up. Other minorities should do the same without any special favors."
+     "Les Irlandais, Italiens, Juifs et de nombreuses autres minorités ont surmonté les préjudices auxquels ils ont fait face et se sont élevées dans l’échelle sociale. D’autres minorités devraient faire la même chose, et ce sans traitement de faveur."
 
      :try-harder
-     "It's really a matter of some people not trying hard enough; if racial and ethnic minorities would only try harder they could be just as well off as whites."
+     "C’est vraiment une question de manque d’effort. Si les minorités ethniques essayaient davantage, elles seraient aussi riches que le sont les Blancs."
 
      :gov-attention
-     "Government officials usually pay less attention to a request or complaint from someone who is a racial or ethnic minority than from someone who is white."}))
+     "Les représentants du gouvernement accordent généralement moins d’attention aux demandes ou plaintes des membres de minorités visibles qu’à celles de personnes de race blanche."}))
 
 ;;;Q36. Question:
   (question
-   (<< "How would it make you feel if a close relative of yours were planning to marry a person of a different ~{(:outgroup-marry subject)} from yours?")
+   (<< "Comment vous sentireriez-vous si un proche parent planifiait de marier une personne ayant des ~{(:outgroup-marry subject)} différentes des vôtres?")
    (bf/radio-group :marry-ethnic
-                   {:very-uneasy "Very uneasy"
-                    :somewhat-uneasy "Somewhat uneasy"
-                    :not-uneasy "Not uneasy at all"}))
+                   {:very-uneasy "Très mal à l'aise"
+                    :somewhat-uneasy "Un peu mal à l'aise"
+                    :not-uneasy "Pas mal à l'aise du tout"}))
 
 ;;;Q37. Question:
   (question
-   "How would it make you feel if a close relative of yours were planning to marry a person who had strong political beliefs different from your own?"
+   "Comment vous sentireriez-vous si un proche parent planifiait de marier une personne ayant de fortes opinions politiques différentes des vôtres?"
    (bf/radio-group :marry-political
-                   {:very-uneasy "Very uneasy"
-                    :somewhat-uneasy "Somewhat uneasy"
-                    :not-uneasy "Not uneasy at all"}))
+                   {:very-uneasy "Très mal à l'aise"
+                    :somewhat-uneasy "Un peu mal à l'aise"
+                    :not-uneasy "Pas mal à l'aise du tout"}))
   no-back-button-msg)
 
 (defscreen racial-conflict [subject]
   (question
-   "On the whole, do you like or dislike your neighbourhood as a place to live."
+   "En général, aimez-vous ou non le quartier dans lequel vous habitez?"
    (bf/radio-group :like-neighbourhood
-                   {:like-alot "Like it a lot"
-                    :like "Like it"
-                    :dislike "Dislike it"
-                    :dislike-alot "Dislike it a lot"}))
+                   {:like-alot "Aime beaucoup"
+                    :like "Aime"
+                    :dislike "N'aime pas"
+                    :dislike-alot "N'aime pas du tout"}))
   (question
-   "How worried are you about your safety in your neighbourhood?"
+   "À quel point êtes-vous inquiet à propos de la sécurité dans votre quartier?"
    (bf/radio-group :safe-neighbourhood
-                   {:worried "Worried"
-                    :somewhat-worried "Somewhat worried"
-                    :not-very-worried "Not very worried"
-                    :not-at-all-worried "Not at all worried"}))
+                   {:worried "Inquiet"
+                    :somewhat-worried "Un peu inquiet"
+                    :not-very-worried "Pas très inquiet"
+                    :not-at-all-worried "Pas du tout inquiet"}))
 
   (question
-   "If you could find housing that you liked, would you rather live with neighbours who mostly share your political beliefs and values, or who hold a wide range of political beliefs and values, or is it not important to you?"
+   "Si vous pouviez trouver un logement que vous aimez, préféreriez-vous vivre dans un quartier où vos voisins partagent vos opinions et valeurs poltiques, ou qu'il possède un large éventail d'opinions et de valeurs poltiiques, ou cela n'a aucune importance pour vous?"
    (bf/radio-group
     :housing-political
-    {:share "Mostly share my political beliefs and values"
-     :diversity "Mostly hold a wide range of political beliefs and values"
-     :not-important "This is not important to me"}))
+    {:share "La plupart partage mes opinions et valeurs politiques"
+     :diversity "La plupart possède un large éventail d'opinions et de valeurs politiques"
+     :not-important "Ceci n'est pas important pour moi"}))
 
   (question
-   "What about when it comes to the race and ethnicity of your neighbours? If you could find housing that you liked, would you rather live with neighbours who share your racial and ethnic background, or who represent a mix of racial and ethnic backgrounds, or is it not important to you?"
+   "Quand est-il des groupes ethniques dans votre quartier? Si vous pouviez trouver un logement que vous aimez, préféreriez-vous vivre dans un quartier qui vous ressemble en termes ethnique et racial, ou plutôt où on trouve un mélange d'origines ethniques et raciales, ou cela n'a aucune importance pour vous?"
    (bf/radio-group
     :housing-ethnic
-    {:same "Mostly share my racial and ethnic background"
-     :diversity "Mostly a mix of racial and ethnic backgrounds"
-     :not-important "This is not important to me"}))
+    {:same "Partage en grande partie mes origines ethniques et raciales"
+     :diversity "Surtout un mélange d'origines ethniques et raciales"
+     :not-important "Ceci n'est pas important pour moi"}))
 
   (directions
-   "Please read the following statements and for each one, tell us how strongly you agree or disagree.")
+   "Voici quelques affirmations. Pour chacune d'entre elles, dites-nous à quel point vous êtes en accord ou en désaccord.")
 
   (doall
    (map
     (fn [[key prompt]] (question prompt (agree-disagree key)))
     {:taxes-increased
-     (<< "Taxes should be increased in ~{(:taxes-increased subject)} to help improve public transport and roads.")
+     (<< "Les taxes devraient être augmentées ~{(:taxes-increased subject)} pour améliorer le transport public et les routes.")
 
      :french-language
-     (<< "~{(:french-language subject)} should treat French like any other minority language.")
+     (<< "~{(:french-language subject)} devrait traiter le français comme toutes les autre langues minoritaires.")
 
      :anti-racism
-     (<< "Schools in ~{(:anti-racism-unit subject)} should be required to have initiatives ~{(:anti-racism-cirriculum subject)}.")}))
+     (<< "Les écoles dans ~{(:anti-racism-unit subject)} devraient se voir obliger d'élaborer des programmes ~{(:anti-racism-cirriculum subject)}.")}))
   
-  (single-choice {:id "employed-student"} :employed
-                 "Are you currently employed or enrolled as a student?"
-                 {:employed "I am employed"
-                  :student "I am a student"
-                  :retired "I am retired"
-                  :unemployed "I am not employed"})
+  (single-choice {:id "étudiant/e ayant un emploi"} :employed
+                 "Êtes-vous présentement travailleur/euse ou encore étudiant/e"
+                 {:employed "Je travaille"
+                  :student "Je suis un/e étudiant/e"
+                  :retired "Je suis un/e retraité/e"
+                  :unemployed "Je suis sans emploi"})
   [:div#employment-follow-up
    (question
-    "Would you please tell us where you work or study? Please provide the postal code, or if you don't know the postal code, please provide an intersection or address."
+    "Pourriez-vous nous dire où vous travaillez ou étudiez? Fournissez svp un code postal ou, si vous ne le connaissez pas, une intersection ou une adresse."
     (f/text-field :work-study-address))
 
 ;;;Q20. Question:
    (question
-    "Are the people at your work (or school) mostly white, mostly racial or ethnic minorities, about half and half, or some other mixture?"
+    "Vos collègues de travail (ou d’études) sont-ils surtout Blancs, issus de minorités ethniques, répartis de façon égale entre les deux ou d’une autre configuration?"
     (bf/radio-group :work-ethnicity
-                    {:white "Mostly white"
-                     :ethnic [:span "Mostly racial or ethnic minorities. Please explain: " (f/text-field :ethnic-description)]
-                     :half "About half and half"
-                     :other [:span "Some other mixture. Please explain:" (f/text-field :other-description)]}))]
+                    {:white "Surtout de race blanche"
+                     :ethnic [:span "Surtout des minorités raciales et ethniques. Expliquez pour chaque groupe svp:" (f/text-field :ethnic-description)]
+                     :half "Environ moitié moitié"
+                     :other [:span "Une autre configuration. Expliquez svp:" (f/text-field :other-description)]}))]
   no-back-button-msg)
