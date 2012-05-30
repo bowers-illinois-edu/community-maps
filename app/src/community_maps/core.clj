@@ -187,7 +187,7 @@
    (GET "/data/comments" [] comments-page)
    (GET "/data/upgrade-subjects" [] upgrade-old-subjects)
    app
-   (GET "*" [] (fn [_] {:status 404 :headers {"ContentType" "text/plain"} :body "Pas trouvée"}))))
+   (GET "*" [] (fn [_] {:status 404 :headers {"ContentType" "text/plain"} :body "not found"}))))
 
 
 
