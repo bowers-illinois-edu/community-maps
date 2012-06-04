@@ -15,7 +15,7 @@
      (list
       [:span.required "Dessinez svp ce que vous pensez être votre communauté locale sur la carte."]
       [:ul (map #(vector :li %)
-                ["quez \"Start Drawing\" pour commencer le dessin de votre communauté. (Il n'y a pas de \"bonne\" réponse et nous voulons que vous traciez ce qui vous vient en tête quand vous visualer votre \"local community.\" Nous ne voulons surtout pas fournir une définition car nous voulons savoir ce qui est important et pertinent pour vous.)"
+                ["Cliquez \"Commencer à dessiner\" pour commencer le dessin de votre communauté. (Il n'y a pas de \"bonne\" réponse et nous voulons que vous traciez ce qui vous vient en tête quand vous visualer votre communauté. Nous ne voulons surtout pas fournir une définition car nous voulons savoir ce qui est important et pertinent pour vous.)"
                  "Garder votre doigt sur le bouton de la souris pour tracer une ligne. Les formes ouvertes seront fermées si vous levez votre doigt pour quelques secondes."
                  "Vous pouvez faire autant de formes que vous le voulez."
                  "Même si nous avons centré la carte autour de votre code postal, sentez-vous libre d'utiliser le zoom ou de vous déplacer sur la carte si celle-ci ne contient pas tout le territoire que vous considérez comme partie de votre communauté locale. "
