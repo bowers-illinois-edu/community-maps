@@ -81,7 +81,7 @@
           (assoc-in mc [2 1]
                     (concat
                      (second (first (get-in mc [2 1])))
-                     [(f/with-group "autre asiatique" (bf/labeled-checkbox "Autres asiatiques (Coréen, Japonais, Philippins, etc.)"))]))))))
+                     [(f/with-group "autre asiatique" (bf/labeled-checkbox "other-asian" "Autres asiatiques (Coréen, Japonais, Philippins, etc.)"))]))))))
 
    (question
      "Sur des questions touchant les enjeux sociaux et politiques, certaines personnes se voient principalement comme Blanches, Chinoises ou Noires. Cela a un impact important sur la façon dont ils se perçoivent. D’autres ne partagent pas cette perception. Sur des questions touchant les enjeux sociaux et politiques, quelle importance occupe votre appartenance ethnique dans votre perception de vous-même?"
