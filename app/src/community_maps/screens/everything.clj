@@ -48,8 +48,9 @@
            :dislike-alot "N'aime pas du tout"}))
 
       ;;;Q17.   Question:
-        (yes-no :census-feel-community
-                (<< "En général, pensez-vous que les gens qui vivent dans votre ~{prompt} partage un sentiment de communauté?"))
+        (question
+         (<< "En général, pensez-vous que les gens qui vivent dans votre ~{prompt} partage un sentiment de communauté?")
+         (yes-no-dk :census-feel-community))
 
         (question
          (<< "Au cours des 5 dernières années, pensez-vous que ~{prompt} est devenu plus diversifié ethniquement, moins diversifié ou encore est demeuré le même.")
@@ -101,7 +102,7 @@
 
    [:div.election-choice.national-election-choice
     (add-class
-     (yes-no :national-election "Avez-vous voté à l'élection fédérale de mai 2011?")
+     (question "Avez-vous voté à l'élection fédérale de mai 2011?" (yes-no-dk :national-election ))
      :did-vote)
     (add-class
      (question
@@ -114,7 +115,7 @@
 
    [:div.election-choice.provincial-election-choice
     (add-class
-     (yes-no :provincial-election "Avez-vous voté à la récente élection provinciale?")
+     (question "Avez-vous voté à la récente élection provinciale?" (yes-no-dk :provincial-election ))
      :did-vote)
     (add-class
      (question
