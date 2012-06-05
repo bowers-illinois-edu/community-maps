@@ -44,7 +44,7 @@
 
 (defn createwithid [req]
   (let [key (dbsave (-> (randomizer)
-                        (assoc :vcid (get-in req [:params :vcid]))
+                        (assoc :pid (get-in req [:params :pid]))
                         (assoc :tags (get-in req [:params :tags]))))]
     (dbload (ds/key-id key))))
 
@@ -123,7 +123,9 @@
      [:img#rulogo {:src "RU_logo.gif" :alt "Ryerson Univeristy Logo"}]
      [:br {:style "clear:both"}]
      [:h1 "Welcome"])
-    (screen-form-simple screen subject))))
+    (if (:pid subject)
+      (screen-form-simple screen subject)
+      [:p "Sorry, but this survey is just for people who completed Phase I of the Mapping Communities survey. If you think you are seeing this message in error, please check your email for the link you were sent."]))))
 
 (def thank-text (load-and-process-txt "thank.txt"))
 
