@@ -5,7 +5,7 @@
         [burp.ring :only [wrap-burp]]
         [burp.jquery :only [jquery-link jquery-ui-link]]
         ring.middleware.file
-        [community-maps.screens address draw everything own-community minorities-community follow-up-survey]
+        [community-maps.screens draw]
         [clojure.string :only [split]]
         community-maps.output
         [community-maps.mail :only [add-mail-urls mail-comments]]
@@ -142,14 +142,7 @@
     (screen subject))))
 
 (def screens [consent
-              address
               draw
-              own-community
-              randomized-district
-              racial-ethnic
-              minorities-community
-              racial-conflict
-              follow-up-survey
               thank-you])
 
 (defmethod layout :default [subject screen]
