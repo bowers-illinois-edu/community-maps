@@ -1,5 +1,6 @@
 (ns community-maps.screens.draw
   (:use community-maps.tags
+        community-maps.previous-survey
         shanks.core
         [clojure.string :only [split join]])
   (:require
@@ -8,9 +9,7 @@
 
 (defscreen draw
   [subject]
-  (let [[lat lng] (split
-                   (get subject :address-address-finder-latlng)
-                   #",")]
+  (let [[vcid zoom lat lng] (drawing-data-pid (:pid subject))]
     (question
      (list
       [:span.required "Please draw what you think of as your Local Community on the map. "]
@@ -27,4 +26,4 @@
         [:ul
          [:li "Some trackpads use a single tap to indicate mouse down and then automatically keep the mouse button, as if you had your finger on the button. To release the drawing, tap the trackpad again to signal that you are done drawing."]
          [:li "After releasing the mouse button, you have 5 seconds to start drawing again from that position. If 5 seconds elapse, or you move the mouse, the region automatically close."]]]])
-     (scribble-map :community lat lng (:drawing-zoom subject)))))
+     (scribble-map :community lat lng zoom))))

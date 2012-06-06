@@ -4,6 +4,7 @@
                  [org.clojure/clojure-contrib "1.2.0"]
                  [shanks "0.1.6"]
                  [burp "0.1.3"]
-                 [hiccup "0.3.6"]]
+                 [hiccup "0.3.6"]
+                 [clojure-csv/clojure-csv "1.3.2"]]
   :dev-dependencies [[appengine-magic "0.4.7"]])
 
