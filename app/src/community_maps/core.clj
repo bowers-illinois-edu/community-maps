@@ -5,7 +5,7 @@
         [burp.ring :only [wrap-burp]]
         [burp.jquery :only [jquery-link jquery-ui-link]]
         ring.middleware.file
-        [community-maps.screens draw]
+        [community-maps.screens draw election-district]
         [clojure.string :only [split]]
         community-maps.output
         [community-maps.mail :only [add-mail-urls mail-comments]]
@@ -22,25 +22,8 @@
 
 (defn randomizer []
   (randomize-subject
-   {:feel-close-to ["control" "neighbourhood" "city" "province" "Canada"]
-    :get-welfare ["ethnic minorities" "people"]
-    :minority-projection ["none" "25" "35" "50"]
-    :minority-population-share ["increase" "decrease"]
-    :ethnic-shop ["ethnic minorities" "other members of their same ethnic background"]
-    :outgroup-marry ["race" "ethnic background"]
-    :display-district ["pr" "csd" "canada" "fsa" "fed" "da"]
-    :drawing-zoom [10 12 14 16 17]
-    ; the next randomization is kind of a hack to get 1/10 subjects
-    ; assigned to the "on your mind question" (as the system draws
-    ; with eq prob from the options
-    :on-your-mind-question (conj (repeat 9 false) true)
-    ; the next randomizations for 3 questions on the racial-conflict
-    ; screen (of the same name)
-    :taxes-increased ["your local community" "your city" "your province"]
-    :french-language ["Your city government" "Your provincial government" "The Canadian government"]
-    :anti-racism-unit ["your local community" "your city" "your province" "Canada"]
-    :anti-racism-cirriculum ["in antiracism and Native studies" "emphasizing the European origins of Canada's history and traditions"]
-    }))
+   {:election-district-type ["sortition" "election"]
+    :election-district-draw-see ["draw" "see"]}))
 
 (defn createwithid [req]
   (let [key (dbsave (-> (randomizer)
@@ -145,6 +128,7 @@
 
 (def screens [consent
               draw
+              election-district-drawing
               thank-you])
 
 (defmethod layout :default [subject screen]
