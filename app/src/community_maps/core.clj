@@ -129,6 +129,7 @@
 (def screens [consent
               draw
               election-district-drawing
+              election-district-answers
               thank-you])
 
 (defmethod layout :default [subject screen]

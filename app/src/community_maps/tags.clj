@@ -38,20 +38,26 @@
        "action reset")]
      map-canvas]))
 
-(defelem agree-disagree
+(defelem ordered-choice
+  "Display a set of radio buttons in order, no randomziation"
+  [id prompt options]
+  (question prompt
+            (bf/radio-group id options)))
+
+(defn agree-disagree
   "Strongly agree => strongly disagree"
-  [id]
-  (bf/radio-group id
+  [id prompt]
+  (ordered-choice id prompt
                   {:strongly-agree "Strongly agree"
                    :agree "Agree"
                    :neither "Neither agree nor disagree"
                    :disagree "Disagree"
                    :strongly-disagree "Strongly disagree"}))
 
-(defelem likelihood
+(defn likelihood
   "Very likely => very unlikely"
-  [id]
-  (bf/radio-group id
+  [id prompt]
+  (ordered-choice id prompt
                   {:very-likely "Very likely"
                    :likely "Likely"
                    :fifty-fity "Equally likely and unlikely (\"50/50\")"
@@ -154,15 +160,15 @@
   [:div.directions (doall (map #(vector :p %) body))])
 
 (defn- subject->coords
-  [subject]
+  [subject tag]
   (map
    (fn [path] (partition 2 (map #(Double/parseDouble %) (split path #","))))
-   (split (get subject :draw-community-data) #";")))
+   (split (get subject tag) #";")))
 
 (defn static-map-communities
   "Given a subject has completed the map drawing question, create a static representation"
-  [subject]
-  (let [coords (subject->coords subject)]
+  [subject tag]
+  (let [coords (subject->coords subject tag)]
     [:div.static-map
      (map
       (fn [path] [:input {:type "hidden"
@@ -191,3 +197,5 @@
   (vector
    :div.no-back-button
    "Please consider your answers carefully. After you click the continue button you will not be able to return to change your answers. Do not use your browser's back button."))
+
+
