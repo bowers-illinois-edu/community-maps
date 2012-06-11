@@ -30,16 +30,13 @@
 
 (defn get-subject-district-id
   "Look up the subject's district id, which can then be used to get a KML file"
-  [subject district]
-  (let [[lat lng] (cstr/split
-                   (get subject :address-address-finder-latlng)
-                   #",")]
-    (String. (:content
-              (url/fetch
-               (str "http://" *gisurl* "/district.php?"
-                    "table=" district
-                    "&lat=" lat
-                    "&lon=" lng))))))
+  [lat lng district]
+  (String. (:content
+            (url/fetch
+             (str "http://" *gisurl* "/district.php?"
+                  "table=" district
+                  "&lat=" lat
+                  "&lon=" lng)))))
 
 (defn kml-url
   "Get the KML url for a given district type and number"

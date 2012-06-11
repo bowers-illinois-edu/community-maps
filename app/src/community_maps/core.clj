@@ -130,6 +130,7 @@
               draw
               election-district-drawing
               election-district-answers
+              election-district-real-fed
               thank-you])
 
 (defmethod layout :default [subject screen]
