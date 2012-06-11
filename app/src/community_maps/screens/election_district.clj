@@ -47,8 +47,8 @@
   (let [[vcid zoom lat lng] (drawing-data-pid (:pid subject))]
     (list
      (directions
-      "Here is your real federal election district. We would now like to ask you the same questions as they relate to this district."
-      "Imagine that an election has been recently held, and a new person has been elected to the House of Commons to represent this district. Like before, imagine what kind of person would be elected to represent your district when answering the following questions.")
+      "Here is your real federal election district. We would now like to ask you some questions as they relate to this district."
+      "Imagine that an election has been recently held, and a new person has been elected to the House of Commons to represent this district. Imagine what kind of person would be elected to represent your district when answering the following questions.")
      (kml-map (kml-url "fed" (get-subject-district-id lat lng "fed")))
      district-questions)))
 

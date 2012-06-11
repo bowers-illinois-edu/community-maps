@@ -23,7 +23,7 @@
 (defn randomizer []
   (randomize-subject
    {:election-district-type ["sortition" "election"]
-    :election-district-draw-see ["draw" "see"]}))
+    :election-district-display ["hide" "show"]}))
 
 (defn createwithid [req]
   (let [key (dbsave (-> (randomizer)
@@ -128,9 +128,9 @@
 
 (def screens [consent
               draw
+              election-district-real-fed
               election-district-drawing
               election-district-answers
-              election-district-real-fed
               thank-you])
 
 (defmethod layout :default [subject screen]
