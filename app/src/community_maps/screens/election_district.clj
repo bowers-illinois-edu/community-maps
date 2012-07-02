@@ -24,7 +24,7 @@
 
    (ordered-choice
     :hops-to-rep
-    "If you had to pass a letter to the representative, and you could only deliver to another person, and he or she then also had to deliver to another person, and so on until it reached the representative, how many people would it have to pass through before it reached the representative?"
+    "Imagine you had to pass a letter to the representative. It could only be delivered by hand to another person, and he or she then also had to deliver it by hand to another person, and so on until it reached the representative. How many people would it have to pass through before it reached the representative?"
     {:one "I could give it directly to the representative"
      :two "A friend could give it to the representative"
      :three "A friend of a friend could give it to the representative"
