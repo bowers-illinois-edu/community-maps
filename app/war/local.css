@@ -173,3 +173,9 @@ a#resume { float:right; margin-left: 1em; }
 #rulogo { margin-top: 30px; }
 
 div.no-back-button { margin: 1em 0; font-style: oblique; }
+
+div.slider-question div.low, div.slider-question div.slider, div.slider-question div.high
+{ display: inline; float: left;}
+
+div.slider { width: 80%; }
+br.clear { clear:both; }

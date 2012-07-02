@@ -5,7 +5,7 @@
         [burp.ring :only [wrap-burp]]
         [burp.jquery :only [jquery-link jquery-ui-link]]
         ring.middleware.file
-        [community-maps.screens draw election-district lottery demographics]
+        [community-maps.screens draw election-district lottery demographics vismin]
         [clojure.string :only [split]]
         community-maps.output
         [community-maps.mail :only [add-mail-urls mail-comments]]
@@ -128,6 +128,7 @@
 
 (def screens [consent
               demographics
+              vismin
               draw
               election-district-real-fed
               election-district-drawing

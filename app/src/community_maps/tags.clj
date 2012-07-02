@@ -143,7 +143,7 @@
   "Rate from 1 to 7"
   [id low high prompt]
   (question prompt
-            [:span low] (bj/slider id) [:span high]))
+            [:div.slider-question [:div.low low] (bj/slider id) [:div.high high] [:br.clear]]))
                                         ;(add-class
                                         ; (question
                                         ;  prompt
