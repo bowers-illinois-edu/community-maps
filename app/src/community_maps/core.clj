@@ -5,7 +5,8 @@
         [burp.ring :only [wrap-burp]]
         [burp.jquery :only [jquery-link jquery-ui-link]]
         ring.middleware.file
-        [community-maps.screens draw election-district lottery demographics vismin]
+        [community-maps.screens draw election-district lottery
+         demographics vismin vmexperiment]
         [clojure.string :only [split]]
         community-maps.output
         [community-maps.mail :only [add-mail-urls mail-comments]]
@@ -23,7 +24,8 @@
 (defn randomizer []
   (randomize-subject
    {:election-district-type ["sortition" "election"]
-    :election-district-display ["hide" "show"]}))
+    :election-district-display ["hide" "show"]
+    :vismin-experiment ["threat" "control"]}))
 
 (defn createwithid [req]
   (let [key (dbsave (-> (randomizer)
@@ -129,6 +131,7 @@
 (def screens [consent
               demographics
               vismin
+              vmexperiment
               draw
               election-district-real-fed
               election-district-drawing
