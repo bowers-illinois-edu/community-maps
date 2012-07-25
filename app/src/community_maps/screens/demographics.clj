@@ -6,10 +6,14 @@
    [burp.forms :as bf]
    [hiccup.form-helpers :as f]))
 
-(directions "In order to make sense of our results and to make fair comparisons, we need to ask you to provide some more basic information about yourself.")
 
 (defscreen demographics
   [subject]
+
+           (directions 
+             "In order to make sense of our results and to make fair comparisons, we need to ask you to provide some more basic information about yourself."
+             )
+
   (question
    "What is your highest level of educational attainment?"
    (bf/radio-group
