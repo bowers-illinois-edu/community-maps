@@ -36,6 +36,22 @@ The `Makefile` includes two convenient tasks for local development:
   deployment.
 
 
+Note: We are using somewhat older versions of lein and cake (before they were combined). So, to install lein, one could follow the advice here (http://stackoverflow.com/questions/3987683/homebrew-install-specific-version-of-formula)
+
+```
+cd /usr/local
+brew versions leiningen
+git checkout [whatever the 1.6.2 line in the output says]
+brew install leiningen
+```
+
+Then, since the Makefile refers to lein2 and not lein, one should make a symlink between lein and lein2 (they are the same, as far as I can tell).
+
+To install the appengine dev kit, one must have stuff on the path. So, one way to do this is to put it all in /usr/local/bin/appengine-java-sdk; make symlinks to the .sh files in the appengine-java-sdk/bin direction to /usr/local/bin.
+
+
+To use swank effectively with emacs, you'll need to install clojure-mode for emacs.
+
 ### GIS development
 
 The `gis` directory contains all the build scripts to generate the Postgis based district look up server and the static KML files used for display respondent districts. These tasks are designed to run on a stock Ubuntu 11.10 installation, such as the Amazon EC2 platform, though they can also run in a virtual machine.
