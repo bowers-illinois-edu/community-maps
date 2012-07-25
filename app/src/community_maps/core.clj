@@ -129,10 +129,10 @@
     (screen subject))))
 
 (def screens [consent
+              draw
               demographics
               vismin
               vmexperiment
-              draw
               election-district-real-fed
               election-district-drawing
               election-district-answers

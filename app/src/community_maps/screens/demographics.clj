@@ -6,8 +6,14 @@
    [burp.forms :as bf]
    [hiccup.form-helpers :as f]))
 
+
 (defscreen demographics
   [subject]
+
+           (directions 
+             "In order to make sense of our results and to make fair comparisons, we need to ask you to provide some more basic information about yourself."
+             )
+
   (question
    "What is your highest level of educational attainment?"
    (bf/radio-group
@@ -29,8 +35,7 @@
      :more200 "More than $200,000"}))
 
   (question
-   "The 2011 Canadian Census asks the following question in order to collect information in accordance with the Employment Equity Act and its Regulations and Guidelines to support programs that promote equal opportunity for everyone to share in the social, cultural, and economic life of Canada.<br/><br/>
-You can mark more than one or specify, if applicable. Are you:"
+   "Are you (You can mark more than one or specify, if applicable.):"
 
    (bf/radio-group
     :race

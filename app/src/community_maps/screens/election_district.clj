@@ -35,7 +35,7 @@
 (defscreen election-district-answers
   [subject]
   (directions
-   (<< "Here is the map you drew of your ideal district. We will now ask you some questions about it. Remember that this district decides who will represent you in the House of Commons, and that person is determined by ~{(if (= \"sortition\" (:election-district-type subject)) \"a lottery\" \"an election\")}." )
+   (<< "Here is the map you drew of your ideal district. We would like to know what you think about it. Remember that this district decides who would represent you in the House of Commons, and that person would be chosen by ~{(if (= \"sortition\" (:election-district-type subject)) \"a lottery\" \"an election\")}." )
    (<< "While there is not an actual person representing this district, please imagine what type of person you think would be  ~{(if (= \"sortition\" (:election-district-type subject)) \"randomly selected\" \"elected\")}."))
 
   (static-map-communities subject :election-district-drawing-outcome-data)
