@@ -1,4 +1,6 @@
-# Community Maps
+# Community Maps: The Followup
+
+This is the source for the followup for the Canada community mapping survey.
 
 This survery/experiment targets respondents in Canada, soliciting
 information on subjective communities via online map creation and asks
