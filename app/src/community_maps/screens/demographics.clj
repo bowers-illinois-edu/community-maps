@@ -10,9 +10,23 @@
 (defscreen demographics
   [subject]
 
-           (directions 
-             "In order to make sense of our results and to make fair comparisons, we need to ask you to provide some more basic information about yourself."
-             )
+  (multiple-choice
+   :on-your-mind
+   "What were you thinking about as you were drawing your \"local community\"? Check all that apply:"
+   {:weekly "People or places you see on a weekly basis"
+    :people-like-you "People like you"
+    :local-places "Your grocery store, library, post office, church, or other places you visit on a regular basis"
+    :family "Family and friends"
+    :voting "People or places you think about when you go vote in an election"
+    :neighbourhood "Your neighbourhood"
+    :newspapers "What you read about in newspapers"
+    :tv "What you see on television or the internet"})
+  (f/with-group :on-your-mind
+    (bf/labeled-checkbox
+     :other [:span "Other, please specify: " (f/text-field :other-explanation)]))
+
+  (directions 
+   "In order to make sense of our results and to make fair comparisons, we need to ask you to provide some more basic information about yourself.")
 
   (question
    "What is your highest level of educational attainment?"
