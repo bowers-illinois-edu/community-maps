@@ -8,5 +8,5 @@
 
 (defscreen vismin
   [subject]
-  (seven-point-scale :vmcanada 0 100 "What do you think the percentage of visible minorities in Canada is?")
-  (seven-point-scale :vmcommunity 0 100 "What do you think the percentage of visible minorities in your community is?"))
+  (seven-point-scale :vmcanada 0 100 "What do you think is the percentage of visible minorities in Canada?")
+  (seven-point-scale :vmcommunity 0 100 "What do you think is the percentage of visible minorities in your community?"))
