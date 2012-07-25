@@ -127,8 +127,8 @@
     (screen subject))))
 
 (def screens [consent
-              demographics
               draw
+              demographics
               election-district-real-fed
               election-district-drawing
               election-district-answers
