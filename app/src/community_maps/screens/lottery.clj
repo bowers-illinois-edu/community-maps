@@ -8,5 +8,5 @@
 (defscreen lottery
   [subject]
   (directions
-   "Thank you for completing this survey. As a thank you to our participants, we are giving away 3 Apple iPads (3rd generation). Please let us know if you would like to be entered in the drawing.")
+   "Thank you for completing this survey. As a thank you to our participants, we are giving away 3 Apple iPads (3rd generation). The winners will be randomly selected, via a lottery. Please let us know if you would like to be entered in the drawing.")
   (yes-no :enter "I would like to be entered in the drawing."))
