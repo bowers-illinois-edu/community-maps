@@ -48,20 +48,20 @@
      :100-200 "$100,000 to $199,999"
      :more200 "More than $200,000"}))
 
-  (question
+  (multiple-choice
+   :race
    "Are you (You can mark more than one or specify, if applicable.):"
-
-   (bf/radio-group
-    :race
-    [[:white "White"]
-     [:southasian "South Asian (e.g., East Indian, Pakistani, Sri Lankan, etc.)"]
-     [:chinese "Chinese"]
-     [:black "Black"]
-     [:filipino "Filipino"]
-     [:latinam "Latin American"]
-     [:arab "Arab"]
-     [:southeastasian "Southeast Asian (e.g., Vietnamese, Cambodian, Malaysian, Laotian, etc.)"]
-     [:westasian "West Asian (e.g., Iranian, Afghan, etc.)"]
-     [:korean "Korean"]
-     [:japanese "Japanese"]
-     [:other [:span  "Other. Please specify: " (f/text-field :other-description)]]])))
+   (into {} [[:white "White"]
+             [:southasian "South Asian (e.g., East Indian, Pakistani, Sri Lankan, etc.)"]
+             [:chinese "Chinese"]
+             [:black "Black"]
+             [:filipino "Filipino"]
+             [:latinam "Latin American"]
+             [:arab "Arab"]
+             [:southeastasian "Southeast Asian (e.g., Vietnamese, Cambodian, Malaysian, Laotian, etc.)"]
+             [:westasian "West Asian (e.g., Iranian, Afghan, etc.)"]
+             [:korean "Korean"]
+             [:japanese "Japanese"]]))
+  (f/with-group :race
+    (bf/labeled-checkbox
+     :other [:span "Other, please specify: " (f/text-field :other-explanation)])))
