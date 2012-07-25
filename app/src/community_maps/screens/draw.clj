@@ -7,11 +7,9 @@
    [burp.forms :as bf]
    [hiccup.form-helpers :as f]))
 
-(defscreen map-directions
-  [subject]
   (directions
     "You may remember, in the last survey we asked you to draw your local community on a map. We'd like to ask you to draw again what you think of as your local community on the map below. We know that some people will draw the same map because it has't changed, while others may draw a different map."
-    ))
+    )
 
 
 (defscreen draw
