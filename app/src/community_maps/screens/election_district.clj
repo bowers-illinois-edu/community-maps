@@ -20,7 +20,7 @@
   (list
    (likelihood :know-rep "How likely would it be that you would personally know the person representing the district?")
 
-   (likelihood :take-call "If you called the representative on the phone, or sent an email, how likely would he or she be to take your call or return your email?")
+   (likelihood :take-call "If you called the representative on the phone, or sent an email, how likely would it be for the representative or a staff member to recognize you or your name?")
 
    (ordered-choice
     :hops-to-rep
