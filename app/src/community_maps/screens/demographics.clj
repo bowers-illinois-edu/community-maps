@@ -26,7 +26,7 @@
      :other [:span "Other, please specify: " (f/text-field :other-explanation)]))
 
   (directions 
-   "In order to make sense of our results and to make fair comparisons, we need to ask you to provide some more basic information about yourself.")
+   "In order to make sense of our results and to make comparisons, we need to ask you to provide some more basic information about yourself.")
 
   (question
    "What is your highest level of educational attainment?"
@@ -55,3 +55,18 @@
   (f/with-group :race
     (bf/labeled-checkbox
      :other [:span "Other, please specify: " (f/text-field :other-explanation)])))
+
+  (question
+    "During a typical week, how many days do you access news via TV, radio, the Internet, or printed newspaper?"
+   (bf/radio-group
+    :edu
+    {:zero "Never"
+     :one "Once"
+     :two "Twice"
+     :three "Three days"
+     :four "Four days"
+     :five "Five days"
+     :six "Six days"
+     :seven "Every day"})
+    )
+
