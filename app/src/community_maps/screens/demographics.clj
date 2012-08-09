@@ -37,16 +37,6 @@
      :some-college "Some college/university education"
      :college-diploma "College/University diploma"
      :graduate-education "Partial or complete graduate degree"}))
-  (question
-   "What is your yearly household income?"
-   (bf/radio-group
-    :income
-    {:under20 "Less than $20,000"
-     :20-40 "$20,000 to $39,999"
-     :40-60 "$40,000 to $59,999"
-     :60-100 "$60,000 to $99,999"
-     :100-200 "$100,000 to $199,999"
-     :more200 "More than $200,000"}))
 
   (multiple-choice
    :race
