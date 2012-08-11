@@ -25,7 +25,9 @@
   (randomize-subject
    {:election-district-type ["sortition" "election"]
     :election-district-display ["hide" "show"]
-    :vismin-experiment ["threat" "control"]}))
+    :vismin-experiment ["threat" "control"]
+    :zoom-type ["random" "start" "end"]
+    :zoom-level [10 12 14 16 17]}))
 
 (defn createwithid [req]
   (let [key (dbsave (-> (randomizer)

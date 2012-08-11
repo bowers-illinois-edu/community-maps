@@ -16,7 +16,7 @@
     "You may remember, in the last survey we asked you to draw your local community on a map. We'd like to ask you to draw again what you think of as your local community on the map below. We know that some people will draw the same map because it has't changed, while others may draw a different map."
     )
 
-  (let [[vcid zoom lat lng] (drawing-data-pid (:pid subject))]
+  (let [[vcid previous-random lat lng last-zoom-level] (drawing-data-pid (:pid subject))]
     (question
      (list
       [:span.required "Please draw what you think of as your Local Community on the map. "]
@@ -33,4 +33,8 @@
         [:ul
          [:li "Some trackpads use a single tap to indicate mouse down and then automatically keep the mouse button, as if you had your finger on the button. To release the drawing, tap the trackpad again to signal that you are done drawing."]
          [:li "After releasing the mouse button, you have 5 seconds to start drawing again from that position. If 5 seconds elapse, or you move the mouse, the region automatically close."]]]])
-     (scribble-map :community lat lng zoom))))
+     (scribble-map :community lat lng
+                   (case (:zoom-type subject)
+                         "random" (:zoom-level subject)
+                         "start" previous-random
+                         "end" (if (= "NA" last-zoom-level) previous-random last-zoom-level))))))
