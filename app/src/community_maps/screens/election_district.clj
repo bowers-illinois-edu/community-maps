@@ -2,7 +2,9 @@
   (:use shanks.core
         [community-maps tags util gis]
         community-maps.previous-survey
-        clojure.contrib.strint))
+        clojure.contrib.strint)
+  (:require
+   [hiccup.form-helpers :as f]))
 
 (defscreen election-district-drawing
   [subject]
@@ -35,12 +37,25 @@
 (defscreen election-district-answers
   [subject]
   (directions
-   (<< "Here is the map you drew of your ideal district. We would like to know what you think about it. Remember that this district decides who would represent you in the House of Commons, and that person would be chosen by ~{(if (= \"sortition\" (:election-district-type subject)) \"a lottery\" \"an election\")}." )
+   (<< "Here is the map you drew of your ideal district. Remember that this district decides who would represent you in the House of Commons, and that person would be chosen by ~{(if (= \"sortition\" (:election-district-type subject)) \"a lottery\" \"an election\")}." )
    (<< "While there is not an actual person representing this district, please imagine what type of person you think would be  ~{(if (= \"sortition\" (:election-district-type subject)) \"randomly selected\" \"elected\")}."))
 
   (static-map-communities subject :election-district-drawing-outcome-data)
 
-  district-questions)
+  (question
+   "If you could write a letter that you knew the representative would read, what would you tell this person? What important information should the representative know? You may write as much as you like in the box below."
+   (f/text-area :letter))
+
+  (yes-no :contact-about-meetings "If we learned about meetings about local issues taking place in the region you drew, would you like us to contact you with information?")
+
+  (question
+   "If the representative for this district made a decision you did not like, who would you talk to about the decision? When talking about politics, who do you talk to? Please list up to five people with whom you talk about important issues. You can provide initials or first names."
+   (list
+    (f/text-field :snowball-1) [:br]
+    (f/text-field :snowball-2) [:br]
+    (f/text-field :snowball-3) [:br]
+    (f/text-field :snowball-4) [:br]
+    (f/text-field :snowball-5))))
 
 (defscreen election-district-real-fed
   [subject]
