@@ -64,6 +64,8 @@ password for the GIS files. Contact Jake or Mark to get it.
 
 # Testing
 
-Currently, you can test the deployed version of the survey using: http://www.mappingcommunities.ca/?tags=ignore
+Currently, you can test the deployed version of this follow up survey using: http://followup.mappingcommunities.ca/?pid=290012&tags[]=ignore
+
+
 
 
