@@ -26,7 +26,7 @@
      :other [:span "Other, please specify: " (f/text-field :other-explanation)]))
 
   (directions
-   "In order to make sense of our results and to make comparisons, we need to ask you to provide some more basic information about yourself.")
+    "In order to make better sense of our results and make comparisons, we would like to ask you to provide some more basic information about yourself.")
 
   (ordered-choice
    :sex
