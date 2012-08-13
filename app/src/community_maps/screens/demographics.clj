@@ -60,13 +60,31 @@
     "During a typical week, how many days do you access news via TV, radio, the Internet, or printed newspaper?"
    (bf/radio-group
     :edu
-    {:zero "0"
+    {:zero "0 (never read news)"
      :one "1"
      :two "2"
      :three "3"
      :four "4"
      :five "5"
      :six "6"
-     :seven "7"})
+     :seven "7 (read news everyday)"})
+    )
+
+  (question
+    "Using a scale from 1 to 10, where 1 means no interest at all and 10 means a great deal of interest, how interested are you in politics in general?"
+   (bf/radio-group
+    :edu
+    {:zero "0 (no interest)"
+     :one "1"
+     :two "2"
+     :three "3"
+     :four "4"
+     :five "5"
+     :six "6"
+     :seven "7"
+     :eight "8"
+     :nine "9"
+     :ten "10 (very interested)"
+     })
     )
 
