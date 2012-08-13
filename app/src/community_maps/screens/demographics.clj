@@ -60,13 +60,13 @@
     "During a typical week, how many days do you access news via TV, radio, the Internet, or printed newspaper?"
    (bf/radio-group
     :edu
-    {:zero "Never"
-     :one "Once"
-     :two "Twice"
-     :three "Three days"
-     :four "Four days"
-     :five "Five days"
-     :six "Six days"
-     :seven "Every day"})
+    {:zero "0"
+     :one "1"
+     :two "2"
+     :three "3"
+     :four "4"
+     :five "5"
+     :six "6"
+     :seven "7"})
     )
 
