@@ -27,10 +27,10 @@
    (ordered-choice
     :hops-to-rep
     "Imagine you had to pass a letter to the representative. It could only be delivered by hand to another person, and he or she then also had to deliver it by hand to another person, and so on until it reached the representative. How many people would it have to pass through before it reached the representative?"
-    {:one "I could give it directly to the representative"
-     :two "A friend could give it to the representative"
-     :three "A friend of a friend could give it to the representative"
-     :more "At least three people would have to touch it before it reached the representative"})
+    (keypairs :one "I could give it directly to the representative"
+               :two "A friend could give it to the representative"
+               :three "A friend of a friend could give it to the representative"
+               :more "At least three people would have to touch it before it reached the representative"))
 
    (yes-no :know-media "Do you know anyone who works in a media organization serving this area (example media: television, radio, newspaper, widely read website)?")))
 

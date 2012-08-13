@@ -31,23 +31,24 @@
   (ordered-choice
    :sex
    "Are you male or female?"
-   {:male "Male"
-    :female "Female"})
+   (keypairs
+    :male "Male"
+    :female "Female"))
 
   (ordered-choice
    :edu
    "What is your highest level of educational attainment?"
-    {:no-schooling                               "no schooling"
-     :some-primary                               "some elementary school"
-     :completed-primary                          "completed elementary school"
-     :some-secondary                             "some secondary / high school"
-     :completed-secondary                        "completed secondary / high school"
-     :some-technical                             "some technical, community college, CEGEP, College Classique"
-     :completed-technical                        "completed technical, community college, CEGEP,College Classique"
-     :some-university                            "some university"
-     :completed-bachelor-degree                  "bachelor's degree"
-     :completed-master-degree                    "master's degree"
-     :completed-professional-degree-or-doctorate "professional degree or doctorate"})
+   (keypairs :no-schooling                               "no schooling"
+              :some-primary                               "some elementary school"
+              :completed-primary                          "completed elementary school"
+              :some-secondary                             "some secondary / high school"
+              :completed-secondary                        "completed secondary / high school"
+              :some-technical                             "some technical, community college, CEGEP, College Classique"
+              :completed-technical                        "completed technical, community college, CEGEP,College Classique"
+              :some-university                            "some university"
+              :completed-bachelor-degree                  "bachelor's degree"
+              :completed-master-degree                    "master's degree"
+              :completed-professional-degree-or-doctorate "professional degree or doctorate"))
 
   (multiple-choice
    :race
@@ -70,29 +71,26 @@
   (ordered-choice
    :news
    "During a typical week, how many days do you access news via TV, radio, the Internet, or printed newspaper?"
-   {:zero  "0 (never access news)"
-    :one   "1"
-    :two   "2"
-    :three "3"
-    :four  "4"
-    :five  "5"
-    :six   "6"
-    :seven "7 (access news everyday)"})
+   (keypairs :zero  "0 (never access news)"
+              :one   "1"
+              :two   "2"
+              :three "3"
+              :four  "4"
+              :five  "5"
+              :six   "6"
+              :seven "7 (access news everyday)"))
 
   (ordered-choice
    :polint
    "Using a scale from 1 to 10, where 1 means no interest at all and 10 means a great deal of interest, how interested are you in politics in general?"
-   {:zero  "0 (no interest)"
-    :one   "1"
-    :two   "2"
-    :three "3"
-    :four  "4"
-    :five  "5"
-    :six   "6"
-    :seven "7"
-    :eight "8"
-    :nine  "9"
-    :ten   "10 (very interested)"})
-
-
-  )
+   (keypairs :zero  "0 (no interest)"
+              :one   "1"
+              :two   "2"
+              :three "3"
+              :four  "4"
+              :five  "5"
+              :six   "6"
+              :seven "7"
+              :eight "8"
+              :nine  "9"
+              :ten   "10 (very interested)")))
