@@ -7,7 +7,8 @@
    [hiccup.form-helpers :as f]))
 
 (defscreen vismin
-  [subject]
-  (seven-point-scale :vmcanada 0 100 "What do you think is the percentage of visible minorities in Canada?")
-  (seven-point-scale :francophones 0 100 "What do you think is the percentage of Francophones in Canada?")
-  (seven-point-scale :vmcommunity 0 100 "Thinking about the local community you just drew, what percentage of the population do you think are visible minorities?"))
+           [subject]
+           (seven-point-scale :vmcanada 0 100 "What do you think is the percentage of visible minorities in Canada?")
+           (seven-point-scale :francophones 0 100 "What do you think is the percentage of Francophones in Canada?")
+           (seven-point-scale :vmcommunity 0 100 "What do you think is the percentage of visible minorities in the local community you just drew?")
+           )
