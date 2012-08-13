@@ -28,9 +28,15 @@
   (directions
    "In order to make sense of our results and to make comparisons, we need to ask you to provide some more basic information about yourself.")
 
-  (question
+  (ordered-choice
+   :sex
+   "Are you male or female?"
+   {:male "Male"
+    :female "Female"})
+
+  (ordered-choice
+   :edu
    "What is your highest level of educational attainment?"
-   (bf/radio-group :edu
     {:no-schooling                               "no schooling"
      :some-primary                               "some elementary school"
      :completed-primary                          "completed elementary school"
@@ -41,7 +47,7 @@
      :some-university                            "some university"
      :completed-bachelor-degree                  "bachelor's degree"
      :completed-master-degree                    "master's degree"
-     :completed-professional-degree-or-doctorate "professional degree or doctorate"}))
+     :completed-professional-degree-or-doctorate "professional degree or doctorate"})
 
   (multiple-choice
    :race
@@ -61,36 +67,32 @@
     (bf/labeled-checkbox
      :other [:span "Other, please specify: " (f/text-field :other-explanation)]))
 
-  (question
-    "During a typical week, how many days do you access news via TV, radio, the Internet, or printed newspaper?"
-   (bf/radio-group
-    :edu
-    {:zero  "0 (never read news)"
-     :one   "1"
-     :two   "2"
-     :three "3"
-     :four  "4"
-     :five  "5"
-     :six   "6"
-     :seven "7 (read news everyday)"})
-    )
+  (ordered-choice
+   :news
+   "During a typical week, how many days do you access news via TV, radio, the Internet, or printed newspaper?"
+   {:zero  "0 (never access news)"
+    :one   "1"
+    :two   "2"
+    :three "3"
+    :four  "4"
+    :five  "5"
+    :six   "6"
+    :seven "7 (access news everyday)"})
 
-  (question
-    "Using a scale from 1 to 10, where 1 means no interest at all and 10 means a great deal of interest, how interested are you in politics in general?"
-   (bf/radio-group
-    :polint
-    {:zero  "0 (no interest)"
-     :one   "1"
-     :two   "2"
-     :three "3"
-     :four  "4"
-     :five  "5"
-     :six   "6"
-     :seven "7"
-     :eight "8"
-     :nine  "9"
-     :ten   "10 (very interested)"
-     })
-   )
+  (ordered-choice
+   :polint
+   "Using a scale from 1 to 10, where 1 means no interest at all and 10 means a great deal of interest, how interested are you in politics in general?"
+   {:zero  "0 (no interest)"
+    :one   "1"
+    :two   "2"
+    :three "3"
+    :four  "4"
+    :five  "5"
+    :six   "6"
+    :seven "7"
+    :eight "8"
+    :nine  "9"
+    :ten   "10 (very interested)"})
+
 
   )
