@@ -8,9 +8,10 @@
    (slurp
     (ae/resource-url "survey.one.redraw.csv"))))
 
-;; index the drawing data by the previous ID for quick lookup
-(def drawing-data-pid
+;; index the drawing data by the VCID for quick lookup
+;; The columns are pid, vcid, old zoom, lat, lon, final zoom
+(def drawing-data-vcid
   (reduce
-   (fn [a i] (assoc a (first i) (rest i)))
+   (fn [a i] (assoc a (second i) (cons (first i) (drop 2 i))))
    {}
    drawing-data))

@@ -8,7 +8,7 @@
 
 (defscreen election-district-drawing
   [subject]
-  (let [[vcid zoom lat lng] (drawing-data-pid (:pid subject))]
+  (let [[pid zoom lat lng lastzoom] (drawing-data-vcid (:vcid subject))]
     (list
      (directions
       "Imagine you are in charge of drawing the district boundaries for your riding. This district will define who is eligible to represent your community in the House of Commons."
@@ -59,7 +59,7 @@
 
 (defscreen election-district-real-fed
   [subject]
-  (let [[vcid zoom lat lng] (drawing-data-pid (:pid subject))]
+  (let [[pid zoom lat lng lastzoom] (drawing-data-vcid (:vcid subject))]
     (list
      (directions
       "Here is your federal electoral district. We would now like to ask you some questions as they relate to this district."
