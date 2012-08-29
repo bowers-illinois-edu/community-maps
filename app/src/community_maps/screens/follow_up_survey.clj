@@ -13,7 +13,7 @@
 
      "We want to remind you again that all of your responses will remain confidential and will only be used for academic research purposes."
 
-     "Finally, we would like to invite you to complete a short, 5-7 minute, follow up survey in a few weeks. Everyone who completes the follow up will be entered in a drawing to win one of four iPad3 tablets."]))
+     "Finally, we would like to invite you to complete a short, 5-7 minute, follow up survey in a few weeks. Everyone who completes the follow up will be entered in a drawing to win one of three iPad3 tablets."]))
   (question
    "If you agree to be contacted again, please check the box below:"
    (bf/labeled-checkbox :agree-to-followup "I would like to participate in another survey."))) 
