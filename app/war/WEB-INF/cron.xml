@@ -1,8 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<cronentries>
-  <cron>
-    <url>/data/cron</url>
-    <description>Generate the most current DataYAML object used by /data/data.YAML</description>
-    <schedule>every 6 hours</schedule>
-  </cron>
-</cronentries>
+<cronentries/>
